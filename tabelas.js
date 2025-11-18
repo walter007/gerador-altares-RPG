@@ -58,7 +58,7 @@ const encontrosPorBioma = {
   ],
   montanha: [
     ["Elemental de Fogo", "2 Harpias e 1 Abutre", "2 Harpias e 1 Quimera Grotesca"],
-    ["1 Yeti", "2 Canidracos", "1 Elemental de Fogo e 1 Serpe"],
+    ["1 Yeti", "2 Canidraco Comun", "1 Elemental de Fogo e 1 Serpe"],
     ["1 Serpe", "4 Yetilins", "2 Yetis"],
     ["3 Bodes", "1 Yeti e 1 Yetilin", "2 Serpes"]
   ],
@@ -4709,6 +4709,2148 @@ const criptaAssombrada = {
     obstaculo: "O Chefe realiza seu ritual aqui"
   }
 };
+
+const tabelaCidade = [
+  { tipo: "Aldeia", p1: "Olden", p2: "lann" },
+  { tipo: "Aldeia", p1: "Ulin", p2: "nash" },
+  { tipo: "Vilarejo", p1: "Naig", p2: "bur" },
+  { tipo: "Vilarejo", p1: "Soler", p2: "brid" },
+  { tipo: "Vilarejo", p1: "Casti", p2: "valis" },
+  { tipo: "Vilarejo", p1: "Morin", p2: "beine" },
+  { tipo: "Vilarejo", p1: "Ester", p2: "don" },
+  { tipo: "Forte", p1: "Arch", p2: "mor" },
+  { tipo: "Forte", p1: "Vlan", p2: "cree" },
+  { tipo: "Forte", p1: "Teran", p2: "lond" },
+  { tipo: "Porto", p1: "Lang", p2: "bar" },
+  { tipo: "Porto", p1: "Dakk", p2: "nor" },
+  { tipo: "Porto", p1: "Notum", p2: "held" },
+  { tipo: "Burgo", p1: "Morden", p2: "gar" },
+  { tipo: "Burgo", p1: "Krud", p2: "dorf" },
+  { tipo: "Burgo", p1: "Rosdar", p2: "velon" },
+  { tipo: "Grande", p1: "Glon", p2: "krum" },
+  { tipo: "Metrópole", p1: "Crak", p2: "ia" }
+];
+
+const estabelecimentosPorTipo = {
+  "Aldeia": [
+    "Taverna",
+    "Fazenda"
+  ],
+  "Vilarejo": [
+    "Taverna",
+    { simples: 2 }
+  ],
+  "Forte": [
+    "Taverna",
+    "Estábulo",
+    "Quartel",
+    { simples: 2 },
+    { decente: 1 }
+  ],
+  "Porto": [
+    "Taverna",
+    "Cais",
+    "Estaleiro",
+    { simples: 1 },
+    { decente: 2 }
+  ],
+  "Burgo": [
+    "Palácio",
+    "Hospedaria",
+    { simples: 1 },
+    { decente: 1 },
+    { nobre: 1 }
+  ],
+  "Grande": [
+    "Palácio",
+    "Hospedaria",
+    { simples: 2 },
+    { decente: 2 },
+    { nobre: 2 }
+  ],
+  "Metrópole": [
+    "Taverna", "Fazenda", "Estábulo", "Cais", "Estaleiro", "Palácio", "Hospedaria",
+    "Mercearia", "Ferreiro", "Alfaiate", "Templo", "Quartel", "Guilda", "Bazar",
+    "Luteiro", "Torre", "Apotecário", "Arena", "Laboratório", "Biblioteca", "Academia"
+  ]
+};
+
+const tabelaEstabelecimentos = [
+  { simples: "Taverna", decente: "Hospedaria", nobre: "Apotecário" },
+  { simples: "Mercearia", decente: "Quartel", nobre: "Arena" },
+  { simples: "Ferreiro", decente: "Guilda", nobre: "Laboratório" },
+  { simples: "Alfaiate", decente: "Bazar", nobre: "Biblioteca" },
+  { simples: "Estábulo", decente: "Luteiro", nobre: "Palácio" },
+  { simples: "Templo", decente: "Torre", nobre: "Academia" }
+];
+
+const tabelaFormatos = {
+  1: "Corredor longo (1x6) com duas portas.",
+  2: "Sala média (4x4) com duas portas.",
+  3: "Corredor (1x5) com três portas.",
+  4: "Sala pequena (3x3) com uma porta.",
+  5: "Sala larga (3x5) com duas portas.",
+  6: "Corredor (1x5) com uma porta.",
+  7: "Sala média (4x4) sem portas.",
+  8: "Corredor curto (1x4) com uma porta.",
+  9: "Sala grande (5x5) sem portas.",
+  10: "Sala média (4x4) com uma porta.",
+  11: "Corredor longo (1x6) com duas portas.",
+  12: "Salão (5x7) sem portas."
+};
+
+const imagensMonstros = {
+  "goblin bucha": "assets/monstros/goblin_bucha.png",
+  "bruxo": "assets/monstros/bruxo.png",
+  "ogro mercenario": "assets/monstros/ogro_mercenario.png",
+  "ogro brigao": "assets/monstros/ogro_brigao.png",
+  "kaprotauro guerreiro": "assets/monstros/kaprotauro_guerreiro.png",
+  "kaprotauro lanceiro": "assets/monstros/kaprotauro_lanceiro.png",
+  "curandeiro": "assets/monstros/curandeiro.png",
+  "troll capenga": "assets/monstros/troll_capenga.png",
+  "naga soldado": "assets/monstros/naga_soldado.png",
+  "mistica": "assets/monstros/mistica.png"
+};
+
+const tabelasPI = {
+    planicie: { monstruoso: piPlanicieMons, geografico: piPlanicieGeo, npc: piPlanicieNPC },
+    floresta: { monstruoso: piFlorestaMons, geografico: piFlorestaGeo, npc: piFlorestaNPC },
+    selva:    { monstruoso: piSelvaMons,    geografico: piSelvaGeo,    npc: piSelvaNPC },
+    colina:   { monstruoso: piColinaMons,   geografico: piColinaGeo,   npc: piColinaNPC },
+    montanha: { monstruoso: piMontanhaMons, geografico: piMontanhaGeo, npc: piMontanhaNPC },
+    pantano:  { monstruoso: piPantanoMons,  geografico: piPantanoGeo,  npc: piPantanoNPC },
+    costeiro: { monstruoso: piCosteiroMons, geografico: piCosteiroGeo, npc: piCosteiroNPC },
+    marinho:  { monstruoso: piMarinhoMons,  geografico: piMarinhoGeo,  npc: piMarinhoNPC },
+    tundra:   { monstruoso: piTundraMons,   geografico: piTundraGeo,   npc: piTundraNPC },
+    deserto:  { monstruoso: piDesertoMons,  geografico: piDesertoGeo,  npc: piDesertoNPC }
+  };
+
+  const direcoes = ["norte", "nordeste", "leste", "sudeste", "sul", "sudoeste", "oeste", "noroeste"];
+
+const lugaresGeograficos = [
+  "uma ponte de pedra quebrada",
+  "um lago onde a água reflete memórias",
+  "um campo de pedras alinhadas",
+  "um vale onde o vento murmura nomes",
+  "uma árvore colossal caída e oca",
+  "um rochedo que brilha ao luar"
+];
+
+const rumoresPessoas = [
+  "um eremita que fala com espíritos",
+  "uma curandeira que troca favores por segredos",
+  "um andarilho carregando um mapa antigo",
+  "um caçador desaparecido há semanas",
+  "um velho que afirma ter visto um milagre"
+];
+
+const tensaoCriaturas = [
+  "gado desaparecendo nos arredores",
+  "pegadas enormes surgindo perto das trilhas",
+  "urros graves durante a madrugada",
+  "pássaros não cantam lá há meses",
+  "carcaças deixadas como aviso"
+];
+
+const boatosDungeon = [
+  "ruínas cobertas por raízes profundas",
+  "um templo subterrâneo esquecido",
+  "um forte caído tomado por musgo",
+  "uma cripta com portões lacrados",
+  "uma escadaria que desce sob a terra",
+  "uma cidade perdida semi-enterrada"
+];
+
+const boatosCaverna = [
+  "uma caverna onde o vento soa como vozes",
+  "uma fenda que exala fumaça azul",
+  "uma gruta com luzes sem fonte aparente",
+  "uma passagem estreita com eco atrasado",
+  "uma caverna inundada com um altar submerso",
+  "uma boca escura onde animais evitam entrar"
+];
+
+const cidadesRumores = [
+  "uma vila com medo ao cair da noite",
+  "uma aldeia que perdeu seu líder",
+  "uma caravana que não voltou",
+  "um festival estranho em um vilarejo"
+];
+
+const destinoTabela = {
+  "certeza": {
+    1:  [10, 50, 91],
+    2:  [13, 65, 94],
+    3:  [15, 75, 96],
+    4:  [17, 85, 98],
+    5:  [18, 90, 99],
+    6:  [19, 95, 100],
+    7:  [20, 99, 100],
+    8:  [20, 99, 100],
+    9:  [20, 99, 100]
+  },
+
+  "quase_certeza": {
+    1:  [7, 35, 88],
+    2:  [10, 50, 91],
+    3:  [13, 65, 94],
+    4:  [15, 75, 96],
+    5:  [17, 85, 98],
+    6:  [18, 90, 99],
+    7:  [19, 95, 100],
+    8:  [20, 99, 100],
+    9:  [20, 99, 100]
+  },
+
+  "muito_provavel": {
+    1:  [5, 25, 96],
+    2:  [7, 35, 88],
+    3:  [10, 50, 91],
+    4:  [13, 65, 94],
+    5:  [15, 75, 96],
+    6:  [17, 85, 98],
+    7:  [18, 90, 99],
+    8:  [19, 95, 100],
+    9:  [20, 99, 100]
+  },
+
+  "provavel": {
+    1:  [3, 15, 84],
+    2:  [5, 25, 86],
+    3:  [7, 35, 88],
+    4:  [10, 50, 91],
+    5:  [13, 65, 94],
+    6:  [15, 75, 96],
+    7:  [17, 85, 98],
+    8:  [18, 90, 99],
+    9:  [19, 95, 100]
+  },
+
+  "50_50": {
+    1:  [2, 10, 83],
+    2:  [3, 15, 84],
+    3:  [5, 25, 86],
+    4:  [7, 35, 88],
+    5:  [10, 50, 91],
+    6:  [13, 65, 94],
+    7:  [15, 75, 96],
+    8:  [17, 85, 98],
+    9:  [18, 90, 99]
+  },
+
+  "improvavel": {
+    1:  [1, 5, 82],
+    2:  [2, 10, 83],
+    3:  [3, 15, 84],
+    4:  [5, 25, 86],
+    5:  [7, 35, 88],
+    6:  [10, 50, 91],
+    7:  [13, 65, 94],
+    8:  [15, 75, 96],
+    9:  [17, 85, 98]
+  },
+
+  "muito_improvavel": {
+    1:  [1, 1, 91],
+    2:  [1, 5, 82],
+    3:  [2, 10, 83],
+    4:  [3, 15, 84],
+    5:  [5, 25, 86],
+    6:  [7, 35, 88],
+    7:  [10, 50, 91],
+    8:  [13, 65, 94],
+    9:  [15, 75, 96]
+  },
+
+  "quase_impossivel": {
+    1:  [1, 1, 81],
+    2:  [1, 1, 81],
+    3:  [1, 5, 82],
+    4:  [2, 10, 83],
+    5:  [3, 15, 84],
+    6:  [5, 25, 86],
+    7:  [7, 35, 88],
+    8:  [10, 50, 91],
+    9:  [13, 65, 94]
+  },
+
+  "impossivel": {
+    1:  [1, 1, 81],
+    2:  [1, 1, 81],
+    3:  [1, 1, 81],
+    4:  [1, 5, 82],
+    5:  [2, 10, 83],
+    6:  [3, 15, 84],
+    7:  [5, 25, 86],
+    8:  [7, 35, 88],
+    9:  [10, 50, 91]
+  }
+};
+
+const tabelasDungeon = {
+  temploProfanado,
+  cidadelaAbandonada,
+  antigoLaboratorio,
+  calaboucoArruinado,
+  criptaAssombrada,
+  cavernaComum
+};
+
+const destinoProbabilidades = {
+  "50_50": "50/50",
+  "provavel": "Provável",
+  "muito_provavel": "Muito Provável",
+  "quase_certeza": "Quase Certeza",
+  "certeza": "Certeza",
+  "improvavel": "Improvável",
+  "muito_improvavel": "Muito Improvável",
+  "quase_impossivel": "Quase Impossível",
+  "impossivel": "Impossível"
+};
+
+const pnjOcupacao = [
+  "Alfaiate", "Fazendeiro", "Mercador", "Artista", "Ferreiro",
+  "Mineirador", "Carpinteiro", "Guarda", "Ourives", "Coveiro",
+  "Ladrão", "Pedreiro", "Curandeiro", "Marinheiro", "Pescador",
+  "Escudeiro", "Menestrel", "Taverneiro", "Vendedor Ambulante", "Cozinheiro"
+];
+
+const conhecimentoPorOcupacao = {
+  "Curandeiro": ["Anatomia", "Plantas"],
+  "Coveiro": ["Anatomia"],
+  "Fazendeiro": ["Animais", "Plantas"],
+  "Tratador": ["Animais"],
+  "Pedreiro": ["Arquitetura"],
+  "Carpinteiro": ["Artesanato"],
+  "Alfaiate": ["Artesanato"],
+  "Mercador": ["Comércio"],
+  "Vendedor Ambulante": ["Comércio"],
+  "Taverneiro": ["Culinária"],
+  "Cozinheiro": ["Culinária"],
+  "Artista": ["Dança", "Teatro"],
+  "Bobo da vila": ["Dança"],
+  "Ferreiro": ["Forja"],
+  "Ourives": ["Minérios"],
+  "Mineirador": ["Minérios"],
+  "Menestrel": ["Música"],
+  "Marinheiro": ["Navegação"],
+  "Pescador": ["Navegação"],
+  "Escudeiro": ["Nobreza"],
+  "Guarda": ["Nobreza"],
+};
+
+const pnjConhecimentosGerais = [
+  "Anatomia", "Alquimia", "Animais", "Crime", "Dança", "Estudos",
+  "Forja", "Guerra", "História", "Magia", "Mecanismos",
+  "Música", "Nobreza", "Plantas", "Sobrevivência"
+];
+
+const pnjTemperamento = [
+  "Fanático", "Agressivo", "Trapaceiro", "Moderado", "Pacífico", "Bondoso"
+];
+
+const pnjEspecie = [
+  "Ruma (10 PV)", "Pequenino (8 PV)", "Duarvo (13 PV)", "Kururuh (7 PV)",
+  "Elfo (9 PV)", "Silfo (5 PV)", "Akridiano (9 PV)", "Diabrante (9 PV)",
+  "Arbóreo (8 PV)", "Felicato (10 PV)", "Javalique (14 PV)", "Komodo (11 PV)"
+];
+
+const pnjNomes = [
+  "Benn","Dunel","Johan","Kurt","Leon","Fynn","Andrea","Angelika","Anna","Klara",
+  "Tinna","Elke","Igor","Luke","Felix","Lucca","Max","Emma","Erika","Gisele",
+  "Henry","Karin","Liam","Laila","Martina","Nadine","Anton","Wolfgan","Otto","Petra",
+  "Mia","Leah","Emily","Ingrid","Frank","Katrinna","Vera","Isolde","Gustav","Roderick",
+  "Hilda","Sabrina","Nikolai","Dieter","Ulrica","Maren","Solveig","Helga","Astrid","Runa"
+];
+
+const pnjAparencia = [
+  "Grande","Pequeno","Largo/Gordo","Fino/Magro","Careca","Peludo",
+  "Atlético","Cor Diferente","Excêntrico","Mancha na pele","Tapa-olho",
+  "Voz grave","Voz aguda","Voz rouca","Vestes elegantes","Atraente",
+  "Perna de pau","Nariz torto","Olhos grandes","Sem dentes","Veste chamativa",
+  "Desleixado","Piercings","Tatuagem","Fala baixo","Corte no rosto",
+  "Cicatrizes","Corcunda Amável","Mão trêmula","Sardas/Manchas",
+  "Sem mão","Sem dedo","Musculoso","Pançudo","Aparenta velho",
+  "Aparenta novo","Olhos brilhantes","Cabelos brancos","Roupa suja",
+  "Roupa esfarrapada","Roupa impecável","Cheiro forte","Cheiro floral",
+  "Mãos ásperas","Mãos macias","Postura elegante","Postura encurvada",
+  "Riso estranho","Sombra marcante"
+];
+
+const pnjPerfil = [
+  "Alegre","Ranzinza","Desconfiado","Arrogante","Insistente","Impaciente",
+  "Teimoso","Frio","Medroso","Curioso","Sarcástico","Perfeccionista",
+  "Tímido","Sensível","Educado","Rancoroso","Rebelde","Sonhador","Brincalhão",
+  "Correto","Debochado","Barulhento","Impulsivo","Inconveniente","Otimista",
+  "Neurótico","Emotivo","Ingênuo","Quieto","Lento","Sério","Sedutor",
+  "Carismático","Velho Respeitoso","Misterioso","Cético","Afável","Solitário",
+  "Honrado","Esquentado","Calculista","Fiel","Desesperado","Perdido",
+  "Inovador","Preguiçoso","Orgulhoso","Inteligente","Observador"
+];
+
+const pnjDesejo = [
+  "Cuidar da família e garantir comida.","Reunir-se com um parente distante.",
+  "Expandir sua loja ou comércio.","Ganhar admiração de alguém que ama.",
+  "Procurar cura de uma doença ou maldição.","Ganhar a confiança de um líder local.",
+  "Recuperar um animal de estimação perdido.","Ensinar algo útil para os mais jovens.",
+  "Pagar uma dívida antiga.","Organizar um festival local.","Curar uma doença de alguém próximo.",
+  "Proteger um local importante.","Trazer justiça aos injustiçados.","Ajudar um amigo em sua missão.",
+  "Buscar uma verdade oculta.","Buscar paz em um conflito.","Acumular riquezas.",
+  "Tornar-se um líder local.","Eliminar um rival.","Provar sua superioridade.",
+  "Adquirir conhecimento proibido.","Servir a uma ideologia.","Cumprir uma profecia antiga.",
+  "Proteger um artefato sagrado.","Romper uma maldição familiar.","Eliminar uma pessoa odiosa.",
+  "Redimir-se de um erro.","Superar seus medos.","Explorar o desconhecido.",
+      "Ajudar a comunidade local.","Proteger sua família.","Recuperar item sentimental.",
+  "Ganhar respeito local.","Fugir do passado.","Encontrar amor perdido.",
+  "Buscar vingança.","Alcançar iluminação espiritual.","Descobrir sua origem real.",
+  "Provar inocência.","Reconstruir sua vida.","Dominar uma arte.",
+  "Alcançar fama.","Proteger um amigo.","Fazer fortuna.",
+  "Fugir de uma ameaça.","Derrotar uma criatura.","Salvar alguém importante.",
+  "Obter um objeto lendário.","Resolver um mistério antigo."
+];
+
+const especiePVPE = {
+  Ruma:       { pv: 10, pe: 10 },
+  Pequenino:  { pv: 8,  pe: 12 },
+  Duarvo:     { pv: 13, pe: 7  },
+  Kururuh:    { pv: 7,  pe: 13 },
+  Elfo:       { pv: 9,  pe: 11 },
+  Silfo:      { pv: 5,  pe: 13 },
+  Akridiano:  { pv: 9,  pe: 10 },
+  Diabrante:  { pv: 12, pe: 8  },
+  Arbóreo:    { pv: 8,  pe: 12 },
+  Felicato:   { pv: 10, pe: 11 },
+  Javalique:  { pv: 14, pe: 6  },
+  Komodo:     { pv: 11, pe: 9  },
+};
+
+const habilidadesPorClasse = {
+  "Arqueiro": [
+    "Múltiplas Flechas (2 PE)",
+    "Chuva de Flechas (4 PE)",
+    "Munição Explosiva (3 PE)",
+    "Tiro Certeiro (1 PE)",
+    "Munição Preparada (Passiva)",
+    "Alvo Marcado (Passiva)"
+  ],
+  "Bardo": [
+    "Canção Heroica (2 PE)",
+    "Canção Dançante (2 PE)",
+    "Canção Enganadora (2 PE)",
+    "Canção Ilusionista (1 PE)",
+    "Canção Assustadora (2 PE)",
+    "Canção Motivadora (1 PE)"
+  ],
+  "Berserker": [
+    "Grito de Fúria (3 PE)",
+    "Grito de Provocação (0 PE)",
+    "Golpe Giratório (2 PE)",
+    "Golpe Devastador (4 PE)",
+    "Impulso Sanguinário (Passiva)",
+    "Vingança Crítica (Passiva)"
+  ],
+  "Cavaleiro": [
+    "Arma Prometida (Passiva)",
+    "Justiça Final (1 PE)",
+    "Juramento Sagrado (Passiva)",
+    "Sangue Azul (Passiva)",
+    "Guerreiro de Aço (Passiva)",
+    "Montaria Fiel (Passiva)"
+  ],
+  "Duelista": [
+    "Touché (1 PE)",
+    "Tempestade de Ataques (5 PE)",
+    "Corte do Vento (1 PE)",
+    "Arma Flamejante (2 PE)",
+    "Par de Armas (0 PE)",
+    "Retalhador (Passiva)"
+  ],
+  "Druida": [
+    "Forma Animal (X PE)",
+    "Garras Animalescas (2 PE)",
+    "Raízes da Terra (1 PE)",
+    "Toque de Cura (1 PE)",
+    "Armadura Arbórea (2 PE)",
+    "Companheiro Animal (Passiva)"
+  ],
+  "Mago": [
+    "Escudo de Energia (2 PE)",
+    "Levitação Mágica (2 PE)",
+    "Salto Mágico (4–9 PE)",
+    "Relâmpago (3 PE)",
+    "Raio de Gelo (3 PE)",
+    "Bola de Fogo (5 PE)"
+  ],
+  "Ladrão": [
+    "Ataque Furtivo (1 PE)",
+    "Distrair Oponente (2 PE)",
+    "Golpes Rápidos (4 PE)",
+    "Corte Arterial (2 PE)",
+    "Par de Armas (0 PE)",
+    "Movimento Furtivo (Passiva)"
+  ],
+  "Patrulheiro": [
+    "Analisar Inimigo (2 PE)",
+    "Desorientar Inimigo (1 PE)",
+    "Tornado de Folhas (3 PE)",
+    "Par de Armas (0 PE)",
+    "Caçador de Inimigos (Passiva)",
+    "Companheiro Animal (Passiva)"
+  ],
+  "Necromante": [
+    "Contato Fúnebre (0 PE)",
+    "Servo Esqueleto (4 PE)",
+    "Horda de Esqueletos (6 PE)",
+    "Invocar Aparição (3 PE)",
+    "Armadura de Ossos (2 PE)",
+    "Gadanha da Morte (2 PE)"
+  ],
+  "Protetor": [
+    "Toque de Cura (1 PE)",
+    "Aura de Proteção (4 PE)",
+    "Invocar Enxame (4 PE)",
+    "Dominar Bestas (3 PE)",
+    "Correntes Etéreas (1 PE)",
+    "Parede de Energia (2 PE)"
+  ],
+  "Soldado": [
+    "Investida Mortal (3 PE)",
+    "Formação de Batalha (1 PE)",
+    "Grito de Guerra (2 PE)",
+    "Guerreiro de Aço (Passiva)",
+    "Golpe com Escudo (1 PE)",
+    "Mestre do Escudo (Passiva)"
+  ]
+};
+
+const tabelaClassePVPE = {
+  "Arqueiro":     { pv: 1, pe: 2 },
+  "Bardo":        { pv: 1, pe: 2 },
+  "Berserker":    { pv: 3, pe: 0 },
+  "Cavaleiro":    { pv: 1, pe: 2 },
+  "Duelista":     { pv: 2, pe: 1 },
+  "Druida":       { pv: 1, pe: 2 },
+  "Mago":         { pv: 0, pe: 3 },
+  "Ladrão":       { pv: 1, pe: 2 },
+  "Patrulheiro":  { pv: 2, pe: 1 },
+  "Necromante":   { pv: 0, pe: 3 },
+  "Protetor":     { pv: 0, pe: 3 },
+  "Soldado":      { pv: 2, pe: 1 }
+};
+
+const armasLista = [
+  { Nome: "Soco", Tipo: "-", Dano: 1, Critico: 2, Especial: "", Acesso: "" },
+  { Nome: "Faca", Tipo: "Leve", Dano: 1, Critico: 4, Especial: "", Acesso: "Banal" },
+  { Nome: "Adaga", Tipo: "Leve", Dano: 1, Critico: 4, Especial: "Arremesso", Acesso: "Ferreiro" },
+  { Nome: "Sabre", Tipo: "Leve", Dano: 2, Critico: 3, Especial: "", Acesso: "Militar" },
+  { Nome: "Rapieira", Tipo: "Leve", Dano: 0, Critico: 5, Especial: "", Acesso: "Especial" },
+  { Nome: "Foice", Tipo: "Leve", Dano: 2, Critico: 3, Especial: "Rude", Acesso: "Fazenda" },
+  { Nome: "Clava", Tipo: "Média", Dano: 2, Critico: 4, Especial: "", Acesso: "Banal" },
+  { Nome: "Machado de Mão", Tipo: "Média", Dano: 3, Critico: 4, Especial: "", Acesso: "Ferreiro" },
+  { Nome: "Maça", Tipo: "Média", Dano: 2, Critico: 5, Especial: "", Acesso: "Militar" },
+  { Nome: "Picareta", Tipo: "Média", Dano: 0, Critico: 6, Especial: "Rude", Acesso: "Fazenda" },
+  { Nome: "Mangual", Tipo: "Média", Dano: 3, Critico: 5, Especial: "Rude", Acesso: "Especial" },
+  { Nome: "Lança Curta", Tipo: "Média", Dano: 2, Critico: 4, Especial: "Arremesso; Investida", Acesso: "Militar" },
+  { Nome: "Martelo de Guerra", Tipo: "Média", Dano: 2, Critico: 4, Especial: "Quebrador", Acesso: "Especial" },
+  { Nome: "Espada Longa", Tipo: "Média", Dano: 2, Critico: 4, Especial: "Versátil", Acesso: "Ferreiro" },
+  { Nome: "Forcado", Tipo: "Média", Dano: 2, Critico: 5, Especial: "Duas Mãos", Acesso: "Fazenda" },
+  { Nome: "Cajado", Tipo: "Pesada", Dano: 2, Critico: 3, Especial: "Duas Mãos; Haste", Acesso: "Banal" },
+  { Nome: "Cajado Arcano", Tipo: "Pesada", Dano: 2, Critico: 3, Especial: "Duas Mãos; Haste", Acesso: "Academia" },
+  { Nome: "Clava Pesada", Tipo: "Pesada", Dano: 4, Critico: 5, Especial: "Duas Mãos; Lenta", Acesso: "Banal" },
+  { Nome: "Montante", Tipo: "Pesada", Dano: 4, Critico: 5, Especial: "Duas Mãos", Acesso: "Especial" },
+  { Nome: "Machado Pesado", Tipo: "Pesada", Dano: 3, Critico: 6, Especial: "Duas Mãos", Acesso: "Especial" },
+  { Nome: "Lança Longa", Tipo: "Pesada", Dano: 1, Critico: 7, Especial: "Duas Mãos; Haste; Investida", Acesso: "Militar" },
+  { Nome: "Tridente", Tipo: "Pesada", Dano: 2, Critico: 6, Especial: "Duas Mãos; Investida", Acesso: "Especial" },
+  { Nome: "Marreta", Tipo: "Pesada", Dano: 3, Critico: 5, Especial: "Duas Mãos; Quebrador", Acesso: "Especial" },
+  { Nome: "Gadanha", Tipo: "Pesada", Dano: 0, Critico: 8, Especial: "Duas Mãos; Rude", Acesso: "Fazenda" },
+  { Nome: "Alabarda", Tipo: "Pesada", Dano: 3, Critico: 5, Especial: "Duas Mãos; Haste", Acesso: "Militar" },
+  { Nome: "Funda", Tipo: "Distância", Dano: 0, Critico: 3, Especial: "Duas Mãos", Acesso: "Banal" },
+  { Nome: "Arco Simples", Tipo: "Distância", Dano: 1, Critico: 3, Especial: "Duas Mãos", Acesso: "Banal" },
+  { Nome: "Arco de Guerra", Tipo: "Distância", Dano: 2, Critico: 3, Especial: "Duas Mãos", Acesso: "Militar" },
+  { Nome: "Arco de Caça", Tipo: "Distância", Dano: 1, Critico: 4, Especial: "Duas Mãos", Acesso: "Fazenda" },
+  { Nome: "Arco Longo", Tipo: "Distância", Dano: 0, Critico: 5, Especial: "Duas Mãos", Acesso: "Especial" },
+  { Nome: "Besta de Mão", Tipo: "Distância", Dano: 0, Critico: 6, Especial: "Recarga", Acesso: "Especial" },
+  { Nome: "Besta Pesada", Tipo: "Distância", Dano: 0, Critico: 8, Especial: "Duas Mãos; Recarga", Acesso: "Militar" },
+  { Nome: "Varinha do Fogo", Tipo: "Distância", Dano: 0, Critico: 0, Especial: "Fogo", Acesso: "Academia" },
+  { Nome: "Varinha do Gelo", Tipo: "Distância", Dano: 0, Critico: 0, Especial: "Gelo", Acesso: "Academia" }
+];
+
+const descritoresAm = [
+  { nome: "Absoluta", efeito: "Esta arma é muito fria. Causa Crítico +5 de frio." },
+  { nome: "Águas", efeito: "Causa Dano +2 contra criaturas aquáticas ou Dano +1 contra anfíbios." },
+  { nome: "Ambiciosa", efeito: "Sempre que esta arma matar uma criatura grande ou maior, ela aumentará o dano crítico em +1. O valor de crítico volta ao normal apenas se outra pessoa empunhar esta arma." },
+  { nome: "Árvores Falantes", efeito: "Esta arma possui vimes em sua volta e empunhadura. Causa Crítico +1 se estiver dentro de uma floresta." },
+  { nome: "Assustadora", efeito: "Se causar Crítico com esta arma, role um dado. Se cair 4, 5 ou 6 o inimigo que recebeu o Crítico fica Atordoado." },
+  { nome: "Avatar", efeito: "Causa Dano +1 de fogo, +1 de frio e +1 de eletricidade." },
+  { nome: "Bosques Élficos", efeito: "Causa Dano +2 contra criaturas que tenham resistência a fogo." },
+  { nome: "Brilhante", efeito: "Ao empunhar esta arma, ela emana uma luz forte que pode ser usada para iluminar lugares escuros." },
+  { nome: "Canções", efeito: "Esta arma emite uma canção aleatória quando o usuário desejar (não consome ação ou PE)." },
+  { nome: "Centelha Cósmica", efeito: "Esta arma causa Dano +2 em criaturas vivas." },
+  { nome: "Chamas", efeito: "Causa Crítico +3 de fogo." },
+  { nome: "Chocante", efeito: "Essa arma é circundada por uma energia. Causa Dano +2 de eletricidade." },
+  { nome: "Confusão", efeito: "Quem for atacado por esta arma ficará confuso. Sempre que for atacar, role um dado. Se cair 3 ou menos atacará um aliado." },
+  { nome: "Dançante", efeito: "Após atacar alguém, esta arma flutua e segue atacando o alvo até o fim do combate." },
+  { nome: "Decapitação", efeito: "Se o alvo tiver cabeça, causa Crítico +5 e se tirar todos os PV, a criatura é decapitada perfeitamente." },
+  { nome: "Deserto Escaldante", efeito: "Esta arma parece feita de areia do deserto. Causa Dano +1 de fogo." },
+  { nome: "Dolorida", efeito: "Quando empunhar esta arma, você recebe Dano 1d6 direto." },
+  { nome: "Encolhedora", efeito: "Esta arma pode encolher até o tamanho de uma maçã sob comando do usuário." },
+  { nome: "Eterna", efeito: "Esta arma é praticamente indestrutível. Só quebra quando tocada por um dragão." },
+  { nome: "Eterno Caçador", efeito: "No início de cada aventura, role um dado. Se cair 1, um vilão aparece na primeira cena." },
+  { nome: "Falante", efeito: "O item fala assim que é empunhado. O jogador à esquerda o interpreta." },
+  { nome: "Fedorenta", efeito: "Este item fede demais, deixando todos por perto enojados." },
+  { nome: "Flamejante", efeito: "Emana chamas da lâmina. Causa Dano +2 de fogo." },
+  { nome: "Gélida", efeito: "Arma fria coberta por cristais de gelo. Causa Dano +2 de frio." },
+  { nome: "Gigantes", efeito: "Arma maior que o normal. Causa Dano +3 e modifica o tipo de empunhadura de acordo com o tamanho." },
+  { nome: "Goblin Inflamável", efeito: "Ao causar Crítico cria uma explosão causando Dano 2 de fogo no alvo e quem estiver ao alcance." },
+  { nome: "Gritalhona", efeito: "Causa Dano +1 se você tiver gritado (habilidade) no turno anterior." },
+  { nome: "Guarda Real", efeito: "Inscrições nobres. Causa Dano +1 e é reconhecida por quem tem Conhecimento Nobreza." },
+  { nome: "Guerra dos Duarvos", efeito: "Causa Dano +3 contra criaturas feitas de pedra ou metal. Pode quebrar pedras e portas." },
+  { nome: "Harmônica", efeito: "Se você cantar empunhando esta arma, ela acompanha como instrumento musical." },
+  { nome: "Hora", efeito: "Perfeitamente polida e afiada. Dano +1." },
+  { nome: "Imortal", efeito: "Causa Dano +1. Se o usuário morrer, a alma fica presa na arma." },
+  { nome: "Incansável", efeito: "Se você tiver 2 PE ou menos e causar Crítico, recupera todos os PEs." },
+  { nome: "Indestrutível", efeito: "Esta arma é indestrutível e suas runas brilham." },
+  { nome: "Infernal", efeito: "Muito quente. Causa Crítico +5 de fogo." },
+  { nome: "Javali", efeito: "Possui presas decorativas. Causa Crítico +2." },
+  { nome: "Lagoa Fria", efeito: "Se banhada em rio ou lagoa, ganha Dano +2 até o fim da cena." },
+  {
+    nome: "Mago Louco",
+    efeito: "Sempre que derrotar uma criatura, role um dado: 1: alvo recupera todos PV e causa Dano +2; 2: vira borboleta; 3: vira pedra; 4: desaparece em purpurina; 5: vira Tesouro; 6: você recupera todos PV e PE."
+  },
+  { nome: "Maldita", efeito: "Se prende ao usuário e não se solta (Maldição)." },
+  { nome: "Matadora de Bestas", efeito: "Causa Dano +3 contra criaturas de temperamento Selvagem." },
+  { nome: "Matadora de Dragões", efeito: "Causa Crítico +10 contra dragões." },
+  { nome: "Matadora de Goblins", efeito: "Arma pegajosa. Ao matar um goblin, pode fazer outra ação para atacar outro goblin." },
+  { nome: "Matadora de Kaprotauros", efeito: "Causa Dano +4 contra Kaprotauros." },
+  { nome: "Matadora de Nagas", efeito: "Causa Dano +4 contra Nagas e impede Constrição." },
+  { nome: "Matadora de Ogros", efeito: "Causa Crítico +8 contra ogros e gigantes." },
+  { nome: "Mórbida", efeito: "Plantas murcham ao seu redor enquanto empunha." },
+  { nome: "Moribunda", efeito: "Se cair 1 no ataque, a arma vira pó." },
+  { nome: "Neves", efeito: "Causa Crítico +3 de frio." },
+  { nome: "Névoa Fantasma", efeito: "Gera névoa. Causa Dano +2 contra fantasmas e espectros." },
+  { nome: "Poderosa", efeito: "Causa Crítico +4." },
+  { nome: "Preciosa", efeito: "Você se torna obcecado e não permite que ninguém toque nela." },
+  { nome: "Protetora", efeito: "Enquanto empunhando, todo ataque contra você tem Dano -1." },
+  { nome: "Perigo", efeito: "Você pode rolar dois dados em testes de Investigar." },
+  { nome: "Perfumada", efeito: "Emana perfume floral. Causa Dano +1 e deixa a vítima Atordoada." },
+  { nome: "Retornável", efeito: "Sempre retorna magicamente para sua mão." },
+  { nome: "Risada", efeito: "Você ri involuntariamente, atraindo atenção de inimigos." },
+  { nome: "Rosas Vermelhas", efeito: "Feridas fazem brotar rosas. Oponentes derrotados viram arbustos de rosas." },
+  { nome: "Sábia", efeito: "Pode usar um conhecimento que não possua uma vez por cena." },
+  { nome: "Segredo Escondido", efeito: "Pode ser transformada em um anel e voltar a qualquer momento." },
+  { nome: "Serrada", efeito: "Coberta por pontas. Causa Crítico +2." },
+  { nome: "Sincera", efeito: "Você é incapaz de mentir enquanto empunhando." },
+  { nome: "Sombria", efeito: "Causa Dano +1 se não estiver exposta ao sol." },
+  { nome: "Trovão", efeito: "Causa Crítico +3 de eletricidade." },
+  { nome: "Último Suspiro", efeito: "Ao chegar a 0 PV, pode continuar lutando e ganha Dano +4; após combate cai Morrendo." },
+  { nome: "Vampírica", efeito: "Recupera 1 PV a cada Dano Crítico causado." },
+  { nome: "Velocidade", efeito: "Pode fazer dois ataques normais por turno." },
+  { nome: "Venenosa", efeito: "Quem receber dano fica Envenenado." },
+  { nome: "Vigorosa", efeito: "Causa Dano +1." },
+  { nome: "Vingadora", efeito: "Causa Dano +3 contra quem já atacou o usuário." },
+  { nome: "Voraz", efeito: "Causa Dano +2." },
+  { nome: "Vorpal", efeito: "Causa Crítico +10." },
+  { nome: "Zallthor", efeito: "Feita de material avermelhado e ônix. Causa Dano +2." },
+  { nome: "Arremesso", efeito: "Pode atacar à distância." },
+  { nome: "Duas Mãos", efeito: "Precisa usar as duas mãos." },
+  { nome: "Haste", efeito: "Pode atacar por de trás de um aliado ou barreira." },
+  { nome: "Investida", efeito: "Causa Dano +1 se teve que se mover até o oponente neste turno." },
+  { nome: "Lenta", efeito: "Custa o dobro de PE para aumentar o valor do dado para causar Crítico." },
+  { nome: "Quebrador", efeito: "Causa Dano +1 em inimigos com carapaça, construtos ou mortos-vivos." },
+  { nome: "Recarga", efeito: "Precisa usar um turno para recarregar." },
+  { nome: "Rude", efeito: "No crítico, fica presa no alvo. Faça teste para retirar. Se falhar, perde o próximo turno." },
+  { nome: "Versátil", efeito: "Causa Dano +1 se usada com as duas mãos." },
+  {nome: "Arcano", efeito: "Igual ao Cajado, mas se tiver o conhecimento Magia, pode mudar o Crítico para fogo ou frio (você escolhe)."},
+  {nome: "Fogo", efeito: "Se tiver o conhecimento Magia, usando seu turno poderá fazer um ataque à distância que causa Dano 1 de fogo e Crítico 4 de fogo."},
+  {nome: "Gelo", efeito: "Se tiver o conhecimento Magia, usando seu turno poderá fazer um ataque à distância que causa Dano 2 de frio e Crítico 3 de frio."}
+];
+
+const amParte1 = [
+  "Adaga",
+  "Sabre",
+  "Rapieira",
+  "Clava",
+  "Machado",
+  "Maça",
+  "Lança Curta",
+  "Martelo",
+  "Espada Longa",
+  "Cajado",
+  "Montante",
+  "Machado Pesado",
+  "Lança Longa",
+  "Gadanha",
+  "Alabarda",
+  "Funda",
+  "Arco Simples",
+  "Arco Guerra",
+  "Arco Caça",
+  "Besta Mão",
+  "Besta Pesada",
+  "Mangual",
+  "Clava Pesada",
+  "Tridente",
+  "Arco Longo",
+  "Arco Caça",
+  "Arco Guerra",
+  "Arco Caça",
+  "Arco Guerra",
+  "Arco Caça",
+  "Foice",
+  "Marreta",
+  "Espada Longa",
+  "Cajado",
+  "Machado",
+  "Arco Caça"
+];
+
+const amParte2 = [
+  "Maldita",
+  "Preciosa",
+  "Dolorida",
+  "Moribunda",
+  "Fedorenta",
+  "Harmônica",
+  "Falante",
+  "Absoluta",
+  "Sábia",
+  "Protetora",
+  "Incansável",
+  "Assustadora",
+  "Mórbida",
+  "Infernal",
+  "Encolhedora",
+  "Perfumada",
+  "Retornável",
+  "Poderosa",
+  "Gélida",
+  "Flamejante",
+  "Chocante",
+  "Vingadora",
+  "Serrada",
+  "Venenosa",
+  "Brilhante",
+  "Sombria",
+  "Dançante",
+  "Gritalhona",
+  "Eterna",
+  "Vigorosa",
+  "Sincera",
+  "Ambiciosa",
+  "Voraz",
+  "Vampírica",
+  "Indestrutível",
+  "Vorpal"
+];
+
+const amParte3 = [
+  "do Eterno Caçador",
+  "da Guarda Real",
+  "dos Gigantes",
+  "da Névoa Fantasma",
+  "da Centelha Cósmica",
+  "do Último Suspiro",
+  "da Risada",
+  "do Mago Louco",
+  "do Goblin Inflamável",
+  "das Águas",
+  "do Deserto Escaldante",
+  "da Confusão",
+  "do Perigo",
+  "da Lagoa Fria",
+  "do Javali",
+  "das Árvores Falantes",
+  "da Guerra dos Duarvos",
+  "dos Bosques Élficos",
+  "das Neves",
+  "das Chamas",
+  "do Trovão",
+  "da Velocidade",
+  "da Hora",
+  "do Avatar",
+  "da Decapitação",
+  "do Segredo Escondido",
+  "das Canções",
+  "das Rosas Vermelhas",
+  "do Imortal",
+  "de Zallthor",
+  "Matadora de Goblins",
+  "Matadora de Nagas",
+  "Matadora de Kaprotauros",
+  "Matadora de Ogros",
+  "Matadora de Bestas",
+  "Matadora de Dragões"
+];
+
+const armaMagicaMap = {
+    "Lança Curta": "Lança Curta",
+    "Espada Longa": "Espada Longa",
+    "Machado Pesado": "Machado Pesado",
+    "Cajado": "Cajado",
+    "Adaga": "Adaga",
+    "Sabre": "Sabre",
+    "Rapieira": "Rapieira",
+    "Clava": "Clava",
+    "Maça": "Maça",
+    "Martelo": "Martelo de Guerra",
+    "Montante": "Montante",
+    "Gadanha": "Gadanha",
+    "Alabarda": "Alabarda",
+    "Funda": "Funda",
+    "Arco Simples": "Arco Simples",
+    "Arco Guerra": "Arco de Guerra",
+    "Arco Caça": "Arco de Caça",
+    "Arco Longo": "Arco Longo",
+    "Besta Mão": "Besta de Mão",
+    "Besta Pesada": "Besta Pesada",
+    "Mangual": "Mangual",
+    "Clava Pesada": "Clava Pesada",
+    "Tridente": "Tridente",
+    "Foice": "Foice",
+    "Marreta": "Marreta"
+};
+
+const escudos = [
+  {
+    nome: "Broquel",
+    bloqueio: 4,
+    custoPE: 1,
+    especial: "Bloqueio Leve",
+    acesso: "Ferreiro"
+  },
+  {
+    nome: "Escudo simples",
+    bloqueio: 6,
+    custoPE: 1,
+    especial: "Nada",
+    acesso: "Ferreiro/Militar"
+  },
+  {
+    nome: "Escudo pesado",
+    bloqueio: 8,
+    custoPE: 2,
+    especial: "Limitado",
+    acesso: "Especial"
+  }
+];
+
+const vestimentas = [
+  {
+    nome: "Roupa Simples",
+    tipo: "Roupa",
+    pv: 0,
+    pe: 0,
+    especial: "",
+    acesso: "Banal"
+  },
+  {
+    nome: "Roupa Grossa",
+    tipo: "Roupa",
+    pv: 0,
+    pe: 0,
+    especial: "Térmico",
+    acesso: "Alfaiate"
+  },
+  {
+    nome: "Roupa Elegante",
+    tipo: "Roupa",
+    pv: 0,
+    pe: 0,
+    especial: "Respeito",
+    acesso: "Alfaiate"
+  },
+  {
+    nome: "Roupa Ajustada",
+    tipo: "Roupa",
+    pv: 0,
+    pe: 1,
+    especial: "",
+    acesso: "Especial"
+  },
+  {
+    nome: "Túnica Arcana",
+    tipo: "Armadura",
+    pv: 0,
+    pe: 1,
+    especial: "",
+    acesso: "Academia"
+  },
+  {
+    nome: "Armadura Simples",
+    tipo: "Armadura",
+    pv: 1,
+    pe: -1,
+    especial: "",
+    acesso: "Ferreiro"
+  },
+  {
+    nome: "Cota de Talas",
+    tipo: "Armadura",
+    pv: 2,
+    pe: -2,
+    especial: "",
+    acesso: "Militar"
+  },
+  {
+    nome: "Cota de Malha",
+    tipo: "Armadura",
+    pv: 3,
+    pe: -2,
+    especial: "",
+    acesso: "Especial"
+  },
+  {
+    nome: "Peitoral",
+    tipo: "Armadura",
+    pv: 5,
+    pe: -3,
+    especial: "",
+    acesso: "Especial"
+  },
+  {
+    nome: "Armadura de Placas",
+    tipo: "Armadura",
+    pv: 6,
+    pe: -4,
+    especial: "Trabalhoso",
+    acesso: "Especial"
+  },
+  {
+    nome: "Chapéu",
+    tipo: "Cabeça",
+    pv: 0,
+    pe: 0,
+    especial: "Protetor",
+    acesso: "Alfaiate"
+  },
+  {
+    nome: "Capuz/Máscara",
+    tipo: "Cabeça",
+    pv: 0,
+    pe: 0,
+    especial: "Escondido",
+    acesso: "Alfaiate"
+  },
+  {
+    nome: "Turbante",
+    tipo: "Cabeça",
+    pv: 0,
+    pe: 0,
+    especial: "Térmico",
+    acesso: "Alfaiate"
+  },
+  {
+    nome: "Elmo Simples",
+    tipo: "Cabeça",
+    pv: 1,
+    pe: -1,
+    especial: "",
+    acesso: "Ferreiro"
+  },
+  {
+    nome: "Elmo Fechado",
+    tipo: "Cabeça",
+    pv: 2,
+    pe: -1,
+    especial: "",
+    acesso: "Especial"
+  },
+  {
+    nome: "Capa/Poncho",
+    tipo: "Acessório",
+    pv: 0,
+    pe: 0,
+    especial: "",
+    acesso: "Alfaiate"
+  },
+  {
+    nome: "Anel",
+    tipo: "Acessório",
+    pv: 0,
+    pe: 0,
+    especial: "",
+    acesso: ""
+  }
+  ,
+  {
+    nome: "Colar",
+    tipo: "Acessório",
+    pv: 0,
+    pe: 0,
+    especial: "",
+    acesso: ""
+  },
+  {
+    nome: "Pulseira",
+    tipo: "Acessório",
+    pv: 0,
+    pe: 0,
+    especial: "",
+    acesso: ""
+  },
+  {
+    nome: "Brincos",
+    tipo: "Acessório",
+    pv: 0,
+    pe: 0,
+    especial: "",
+    acesso: ""
+  },
+  {
+    nome: "Sapatos",
+    tipo: "Acessório",
+    pv: 0,
+    pe: 0,
+    especial: "",
+    acesso: ""
+  },
+  {
+    nome: "Coroa",
+    tipo: "Acessório",
+    pv: 0,
+    pe: 0,
+    especial: "",
+    acesso: ""
+  },
+  {
+    nome: "Botas",
+    tipo: "Acessório",
+    pv: 0,
+    pe: 0,
+    especial: "",
+    acesso: ""
+  }
+];
+
+const descritoresVestimenta = [
+  {
+    nome: "Aura Mágica",
+    descricao: "Todos aliados ao alcance corporal do usuário causarão Dano +1, exceto o usuário."
+  },
+  {
+    nome: "Bestial",
+    descricao: "O usuário fica completamente peludo. Se já for peludo, o pelo fica muito mais longo."
+  },
+  {
+    nome: "Bobo da Corte",
+    descricao: "Vestimenta colorida com sinos. Você não pode se mover em silêncio com ela."
+  },
+  {
+    nome: "Chocante",
+    descricao: "Todos ao alcance corporal do usuário recebem Dano 1 de eletricidade por turno."
+  },
+  {
+    nome: "Comunicação",
+    descricao: "O usuário rola um dado a mais em Testes ligados à comunicação."
+  },
+  {
+    nome: "Dolorida",
+    descricao: "Quando vestir, você recebe Dano 1d6 direto."
+  },
+  {
+    nome: "Eco Ridículo",
+    descricao: "Amplifica qualquer som feito pelo usuário, com tom cômico como risadas ou miados."
+  },
+  {
+    nome: "Falante",
+    descricao: "O item começa a falar ao ser vestido. O jogador da esquerda interpreta sua personalidade."
+  },
+  {
+    nome: "Faminta",
+    descricao: "A vestimenta tem -2 PE. Se for derramado sangue nela, ganha +2 PV até o final da cena."
+  },
+  {
+    nome: "Fedorenta",
+    descricao: "Este item fede demais; todos ao redor ficam enojados."
+  },
+  {
+    nome: "Fim Heroico",
+    descricao: "Se o usuário estiver entre 1 e 3 PV, causa Dano +2 em qualquer ataque."
+  },
+  {
+    nome: "Flamejante",
+    descricao: "Todos ao alcance corporal recebem Dano 1 de fogo por turno."
+  },
+  {
+    nome: "Força",
+    descricao: "O usuário rola um dado a mais em Testes ligados à força."
+  },
+  {
+    nome: "Fumaça Pesada",
+    descricao: "A vestimenta solta fumaça escura, podendo ser usada para se esconder."
+  },
+  {
+    nome: "Gélida",
+    descricao: "Todos ao alcance corporal recebem Dano 1 de frio por turno."
+  },
+  {
+    nome: "Glamurosa",
+    descricao: "O usuário pode mudar o visual da vestimenta apenas imaginando."
+  },
+  {
+    nome: "Goblin Sacana",
+    descricao: "A vestimenta tem +2 PE, mas pega fogo se for atacada por um goblin (1d6 de dano de fogo no usuário)."
+  },
+  {
+    nome: "Herói sem Nome",
+    descricao: "Possui +2 PV e +2 PE, mas tem aparência comum exceto por uma pedra azul brilhante."
+  },
+  {
+    nome: "Inabalável",
+    descricao: "Tem +4 PV e é coberta por runas brilhantes."
+  },
+  {
+    nome: "Infernal",
+    descricao: "O usuário recupera 1 PE para cada ataque de fogo que receber."
+  },
+  {
+    nome: "Invisibilidade",
+    descricao: "Enquanto vestir, o usuário está invisível (ainda emite sons e pode ser tocado)."
+  },
+  {
+    nome: "Maldita",
+    descricao: "Se prende ao usuário e não pode ser removida (Maldição)."
+  },
+  {
+    nome: "Misteriosa",
+    descricao: "Não revela efeito inicialmente. Deve-se usar Conhecimentos para desbloquear. Após descobrir, role novamente na tabela."
+  },
+  {
+    nome: "Nascer do Sol",
+    descricao: "Protege o usuário de qualquer efeito causado por vampiros."
+  },
+  {
+    nome: "Preciosa",
+    descricao: "O usuário fica obcecado; não permite que toquem ou afastem o item."
+  },
+  {
+    nome: "Rapidez",
+    descricao: "O usuário rola um dado a mais em Testes de rapidez."
+  },
+  {
+    nome: "Saúde",
+    descricao: "O usuário rola um dado a mais em Testes ligados à saúde."
+  },
+  {
+    nome: "Sombras",
+    descricao: "O usuário pode desaparecer nas sombras. Se a sombra for iluminada, recebe 1d6 de dano."
+  },
+  {
+    nome: "Soturna",
+    descricao: "Vestimenta escura com símbolo lunar. O usuário recupera 1 PE a cada ataque de frio recebido."
+  },
+  {
+    nome: "Sutileza",
+    descricao: "O usuário rola um dado a mais em Testes ligados à sutileza."
+  },
+  {
+    nome: "Transmutação",
+    descricao: "Ao vestir, o usuário se transforma em uma criatura (mosca, sapo, galinha, capivara, jacaré ou elefante). Volta ao normal no fim da cena."
+  },
+  {
+    nome: "Úmida",
+    descricao: "A vestimenta tem +2 PE e está sempre molhada. O usuário pode respirar debaixo d'água."
+  },
+  {
+    nome: "Valente",
+    descricao: "Tem +3 PV e possui desenhos de leões."
+  },
+  {
+    nome: "Violenta",
+    descricao: "O usuário causa Dano +1 em todos os ataques corporais."
+  },
+  {
+    nome: "Visão Mágica",
+    descricao: "Permite enxergar no escuro e ver criaturas invisíveis ou ilusões."
+  },
+  {
+    nome: "Escondido",
+    descricao: "Pode adicionar um dado em Testes para passar sem ser visto."
+  },
+  {
+    nome: "Protetor",
+    descricao: "Pode ignorar efeitos negativos de clima difíceis (sol forte, chuva, nevasca, etc)."
+  },
+  {
+    nome: "Respeito",
+    descricao: "Gasta 1 PE a menos em Testes para interagir com PNJs que tenham Nobreza."
+  },
+  {
+    nome: "Térmico",
+    descricao: "Gasta 1 PE a menos em Testes para resistir a temperaturas extremas."
+  },
+  {
+    nome: "Trabalhoso",
+    descricao: "Demora para vestir ou retirar. Só pode ser feito isso em um Descanso Longo."
+  },
+  {
+    nome: "Bloqueio Leve",
+    descricao: "Se estiver com uma arma leve na outra mão, você bloqueia sem gastar PE."
+  },
+  {
+    nome: "Limitado",
+    descricao: "Carregando este item, você pode ter dificuldade para nadar, passar por lugares estreitos ou se esconder."
+  },
+  {
+    nome: "Zallthor",
+    descricao: "Vestimenta vermelha com prata e ônix. Concede +3 PV e +1 PE."
+  }
+];
+
+
+const vmParte1 = [
+  "Anel",
+  "Colar",
+  "Brincos",
+  "Pulseira",
+  "Sapatos",
+  "Chapéu",
+  "Capa/Poncho",
+  "Coroa",
+  "Elmo Fechado",
+  "Elmo Simples",
+  "Botas",
+  "Broquel",
+  "Escudo Simples",
+  "Escudo Grande",
+  "Roupa Elegante",
+  "Armadura Simples",
+  "Cota de Malha",
+  "Peitoral",
+  "Armadura de Placas"
+];
+
+const vmParte2 = [
+  "Maldita",
+  "Preciosa",
+  "Dolorida",
+  "Fedorenta",
+  "Faminta",
+  "Misteriosa",
+  "Falante",
+  "Bestial",
+  "Glamurosa",
+  "Infernal",
+  "Soturna",
+  "Violenta",
+  "Gélida",
+  "Flamejante",
+  "Chocante",
+  "Úmida",
+  "Valente",
+  "Inabalável"
+];
+
+const vmParte3 = [
+  "do Bobo da Corte",
+  "do Eco Ridículo",
+  "do Goblin Sacana",
+  "das Sombras",
+  "da Fumaça Pesada",
+  "do Nascer do Sol",
+  "da Força",
+  "da Saúde",
+  "da Rapidez",
+  "da Sutileza",
+  "da Comunicação",
+  "de Zallthor",
+  "do Herói sem Nome",
+  "da Aura Mágica",
+  "da Transmutação",
+  "da Invisibilidade",
+  "da Visão Mágica",
+  "do Fim Heroico"
+];
+
+
+const habilidadesClasse = {
+  Arqueiro: [
+    {
+      habilidade: "Múltiplas Flechas",
+      PE: 2,
+      descricao: "Faça até dois ataques normais com um arco em alvos diferentes."
+    },
+    {
+      habilidade: "Chuva de Flechas",
+      PE: 4,
+      descricao: "Dispare múltiplos tiros para cima. O alvo e todos ao alcance corporal dele recebem 3 de dano."
+    },
+    {
+      habilidade: "Munição Explosiva",
+      PE: 3,
+      descricao: "Ataque à distância com Dano +2 de Fogo. Em crítico, causa dano de fogo em todos ao alcance corporal."
+    },
+    {
+      habilidade: "Tiro Certeiro",
+      PE: 1,
+      descricao: "Ataque à distância rolando 3 dados e descartando os dois menores."
+    },
+    {
+      habilidade: "Munição Preparada",
+      PE: 0,
+      descricao: "Todos seus ataques à distância causam Crítico +1."
+    },
+    {
+      habilidade: "Alvo Marcado",
+      PE: 0,
+      descricao: "Ao acertar um alvo à distância, seus próximos ataques nele causam Dano +1. Apenas um alvo marcado por combate."
+    }
+  ],
+
+  Bardo: [
+    {
+      habilidade: "Canção Heroica",
+      PE: 2,
+      descricao: "Aliados que escutarem causam Dano +1 até o fim do combate (+2 se você cantar em dois turnos seguidos)."
+    },
+    {
+      habilidade: "Canção Dançante",
+      PE: 2,
+      descricao: "Criaturas com 4 PV ou menos dançam e não agem no próximo turno."
+    },
+    {
+      habilidade: "Canção Enganadora",
+      PE: 2,
+      descricao: "Role um dado; com 4+, faça um inimigo atacar outro inimigo. Uma vez por alvo."
+    },
+    {
+      habilidade: "Canção Ilusionista",
+      PE: 1,
+      descricao: "Cria ilusão em um objeto pequeno. Inimigos podem detectar com resultado 6."
+    },
+    {
+      habilidade: "Canção Assustadora",
+      PE: 2,
+      descricao: "Inimigos pensantes ficam Atordoados por 1 turno. Uma vez por criatura."
+    },
+    {
+      habilidade: "Canção Motivadora",
+      PE: 1,
+      descricao: "Aliados rolam +1 dado e mantêm o maior valor no próximo teste/ataque."
+    }
+  ],
+
+  Berserker: [
+    {
+      habilidade: "Grito de Fúria",
+      PE: 3,
+      descricao: "Reduz dano recebido pela metade (para cima) e causa Dano +1 corpo a corpo até o fim do combate."
+    },
+    {
+      habilidade: "Grito de Provocação",
+      PE: 0,
+      descricao: "Escolha um inimigo; ele terá você como alvo pelo resto do combate."
+    },
+    {
+      habilidade: "Golpe Giratório",
+      PE: 2,
+      descricao: "Ataque corpo a corpo contra cada alvo em alcance."
+    },
+    {
+      habilidade: "Golpe Devastador",
+      PE: 4,
+      descricao: "Ataque com arma média ou pesada causando o dobro de dano."
+    },
+    {
+      habilidade: "Impulso Sanguinário",
+      PE: 0,
+      descricao: "Ao matar um inimigo, faça um ataque extra contra outro adjacente."
+    },
+    {
+      habilidade: "Vingança Crítica",
+      PE: 0,
+      descricao: "Armas pesadas causam Crítico +2 em inimigos que tenham te ferido neste combate."
+    }
+  ],
+
+  Cavaleiro: [
+    {
+      habilidade: "Arma Prometida",
+      PE: 0,
+      descricao: "Arma se torna indestrutível enquanto você cumprir o juramento."
+    },
+    {
+      habilidade: "Justiça Final",
+      PE: 1,
+      descricao: "Ataque com Arma Prometida com Dano +2."
+    },
+    {
+      habilidade: "Juramento Sagrado",
+      PE: 0,
+      descricao: "Enquanto cumprir o juramento: PE +4. Se quebrar: PE -4 para sempre."
+    },
+    {
+      habilidade: "Sangue Azul",
+      PE: 0,
+      descricao: "Role +1 dado em testes sociais com nobres ou quem reconheça sua linhagem."
+    },
+    {
+      habilidade: "Guerreiro de Aço",
+      PE: 0,
+      descricao: "Ignora redução de PE de armaduras (exceto escudos)."
+    },
+    {
+      habilidade: "Montaria Fiel",
+      PE: 0,
+      descricao: "Controle sua montaria após teste; montado em animal domesticado causa Dano +1 com armas médias/pesadas."
+    }
+  ],
+
+  Duelista: [
+    {
+      habilidade: "Touché",
+      PE: 1,
+      descricao: "Ataque com arma leve rolando 3 dados; descarte os dois menores."
+    },
+    {
+      habilidade: "Tempestade de Ataques",
+      PE: 5,
+      descricao: "Role 1 dado; o resultado é o número de ataques com arma leve no mesmo alvo."
+    },
+    {
+      habilidade: "Corte do Vento",
+      PE: 1,
+      descricao: "Ataque com arma leve que cria ataque à distância."
+    },
+    {
+      habilidade: "Arma Flamejante",
+      PE: 2,
+      descricao: "Toque em uma arma; ela causa Dano +1 de Fogo até o fim do combate."
+    },
+    {
+      habilidade: "Par de Armas",
+      PE: 0,
+      descricao: "Ataque uma vez com cada arma leve empunhada."
+    },
+    {
+      habilidade: "Retalhador",
+      PE: 0,
+      descricao: "Ao causar crítico natural, faça um ataque extra no mesmo alvo."
+    }
+  ],
+
+  Druida: [
+    {
+      habilidade: "Forma Animal",
+      PE: "X",
+      descricao: "Transforme-se em um animal; custo = metade dos PV do animal."
+    },
+    {
+      habilidade: "Garras Animalescas",
+      PE: 2,
+      descricao: "Mãos viram garras (Dano 2; Crítico 6)."
+    },
+    {
+      habilidade: "Raízes da Terra",
+      PE: 1,
+      descricao: "Prende até 3 criaturas tocando o chão por 1 turno."
+    },
+    {
+      habilidade: "Toque de Cura",
+      PE: 1,
+      descricao: "Cura até 5 pontos de dano desde o último turno."
+    },
+    {
+      habilidade: "Armadura Arbórea",
+      PE: 2,
+      descricao: "+3 PV para alvo tocado; precisa tocar árvore."
+    },
+    {
+      habilidade: "Companheiro Animal",
+      PE: 0,
+      descricao: "Ganha controle sobre um animal com quem tem laço."
+    }
+  ],
+
+  Mago: [
+    {
+      habilidade: "Escudo de Energia",
+      PE: 2,
+      descricao: "Protege alvo contra 5 de dano à distância."
+    },
+    {
+      habilidade: "Levitação Mágica",
+      PE: 2,
+      descricao: "Você ou aliado flutua até 1 metro até o fim da cena."
+    },
+    {
+      habilidade: "Salto Mágico",
+      PE: 4,
+      descricao: "Teleporte de até 10 metros (não visível custa +5 PE)."
+    },
+    {
+      habilidade: "Relâmpago",
+      PE: 3,
+      descricao: "Causa Dano 4 de eletricidade; até 3 alvos extras se estiverem na água."
+    },
+    {
+      habilidade: "Raio de Gelo",
+      PE: 3,
+      descricao: "Dano 2 de frio e Crítico 6; crítico imobiliza ou atordoa."
+    },
+    {
+      habilidade: "Bola de Fogo",
+      PE: 5,
+      descricao: "Ataque com Dano 5 de Fogo e explosão causando Dano 2 de Fogo ao redor."
+    }
+  ],
+
+  Ladrão: [
+    {
+      habilidade: "Ataque Furtivo",
+      PE: 1,
+      descricao: "Se alvo não te vê, ataque causa Dano +3 com arma leve."
+    },
+    {
+      habilidade: "Distrair Oponente",
+      PE: 2,
+      descricao: "Inimigo fica com Guarda Aberta e você pode se esconder."
+    },
+    {
+      habilidade: "Golpes Rápidos",
+      PE: 4,
+      descricao: "Faça três ataques com arma leve."
+    },
+    {
+      habilidade: "Corte Arterial",
+      PE: 2,
+      descricao: "Alvo perde Dano 1 a cada ação até fim do combate."
+    },
+    {
+      habilidade: "Par de Armas",
+      PE: 0,
+      descricao: "Ataque com cada arma leve empunhada."
+    },
+    {
+      habilidade: "Movimento Furtivo",
+      PE: 0,
+      descricao: "Role +1 dado em furtividade e mantenha o maior."
+    }
+  ],
+
+  Patrulheiro: [
+    {
+      habilidade: "Analisar Inimigo",
+      PE: 2,
+      descricao: "No turno seguinte, causa triplo de dano com armas leves ou à distância."
+    },
+    {
+      habilidade: "Desorientar Inimigo",
+      PE: 1,
+      descricao: "Ataque que, se causar dano, deixa alvo com Guarda Aberta."
+    },
+    {
+      habilidade: "Tornado de Folhas",
+      PE: 3,
+      descricao: "Reduz pela metade o dano à distância em um aliado até fim da batalha."
+    },
+    {
+      habilidade: "Par de Armas",
+      PE: 0,
+      descricao: "Ataque com cada arma leve empunhada."
+    },
+    {
+      habilidade: "Caçador de Inimigo",
+      PE: 0,
+      descricao: "Escolha um tipo de criatura: causa Dano +1 nela."
+    },
+    {
+      habilidade: "Companheiro Animal",
+      PE: 0,
+      descricao: "Controle um animal com laço; selvagens podem não aparecer."
+    }
+  ],
+
+  Necromante: [
+    {
+      habilidade: "Contato Fúnebre",
+      PE: 0,
+      descricao: "Comunique-se com espíritos do local ou restos mortais."
+    },
+    {
+      habilidade: "Servo Esqueleto",
+      PE: 4,
+      descricao: "Cria um esqueleto que serve até o fim da aventura."
+    },
+    {
+      habilidade: "Horda de Esqueletos",
+      PE: 6,
+      descricao: "Invoca 1d6 esqueletos (+2 se houver ossos)."
+    },
+    {
+      habilidade: "Invocar Aparição",
+      PE: 3,
+      descricao: "Invoca espírito maligno que luta por você."
+    },
+    {
+      habilidade: "Armadura de Ossos",
+      PE: 2,
+      descricao: "+3 PV em si ou aliado; precisa de ossos."
+    },
+    {
+      habilidade: "Gadanha da Morte",
+      PE: 2,
+      descricao: "Conjura gadanha pesada feita de ossos."
+    }
+  ],
+
+  Protetor: [
+    {
+      habilidade: "Toque de Cura",
+      PE: 1,
+      descricao: "Cura até 5 PV desde o último turno."
+    },
+    {
+      habilidade: "Aura de Proteção",
+      PE: 4,
+      descricao: "Aliados reduzem 2 de dano de qualquer ataque até próxima rodada."
+    },
+    {
+      habilidade: "Invocar Enxame",
+      PE: 4,
+      descricao: "Bloqueia ataque à distância ou causa Dano 4 no próximo turno."
+    },
+    {
+      habilidade: "Dominar Bestas",
+      PE: 3,
+      descricao: "Paralisa uma besta/animal visível. Uma vez por criatura."
+    },
+    {
+      habilidade: "Correntes Etéreas",
+      PE: 1,
+      descricao: "Imobiliza Espectros e Mortos-Vivos por 1d6 turnos."
+    },
+    {
+      habilidade: "Parede de Energia",
+      PE: 2,
+      descricao: "Cria parede de energia que aguenta 6 de dano ou dura 1d6 turnos."
+    }
+  ],
+
+  Soldado: [
+    {
+      habilidade: "Investida Mortal",
+      PE: 3,
+      descricao: "Mover-se em linha reta até um alvo e atacar causando o dobro de dano."
+    },
+    {
+      habilidade: "Formação de Batalha",
+      PE: 1,
+      descricao: "Aliados se movem mais uma vez; caídos levantam; imobilizados tentam sair."
+    },
+    {
+      habilidade: "Grito de Guerra",
+      PE: 2,
+      descricao: "Aliados gastam 2 PE a menos em habilidades neste turno."
+    },
+    {
+      habilidade: "Guerreiro de Aço",
+      PE: 0,
+      descricao: "Ignora penalidade de PE de armaduras (não escudos)."
+    },
+    {
+      habilidade: "Golpe com Escudo",
+      PE: 1,
+      descricao: "Ataque com escudo (Dano 2; Crítico 4) e ataque extra com outra arma."
+    },
+    {
+      habilidade: "Mestre do Escudo",
+      PE: 0,
+      descricao: "Pode bloquear mais de um ataque por rodada."
+    }
+  ]
+};
+
+const habilidadesGerais = {
+  Animais: [
+    {
+      habilidade: "Companheiro Animal",
+      PE: 0,
+      descricao: "Escolha um animal com quem tenha laço. Ele se torna seu Companheiro e você pode controlá-lo. Se for Selvagem, no início da cena role 1; se cair 1 ele não aparece."
+    },
+    {
+      habilidade: "Montaria Fiel",
+      PE: 0,
+      descricao: "Montado em seu animal de montaria, pode tentar controlar suas ações com um Teste (perdendo sua próxima ação)."
+    }
+  ],
+
+  Dança: [
+    {
+      habilidade: "Acrobata",
+      PE: 0,
+      descricao: "Ao testar equilíbrio/escalar, role +1 dado e mantenha o maior."
+    },
+    {
+      habilidade: "Corredor",
+      PE: 0,
+      descricao: "Ao testar Rapidez para correr/perseguir, role +1 dado e mantenha o maior."
+    },
+    {
+      habilidade: "Dançando com a Música",
+      PE: 1,
+      descricao: "Se um aliado usar Canção neste turno, ele gasta -1 PE e você recupera 1 PV."
+    }
+  ],
+
+  Crime: [
+    {
+      habilidade: "Acrobata",
+      PE: 0,
+      descricao: "Ao testar equilíbrio/escalar, role +1 dado e mantenha o maior."
+    },
+    {
+      habilidade: "Ataque Furtivo",
+      PE: 1,
+      descricao: "Se o alvo não te vê, ataque com arma leve causa Dano +3."
+    },
+    {
+      habilidade: "Corte Arterial",
+      PE: 2,
+      descricao: "Ataque com arma leve ou distância; se o alvo levar dano, perde 1 PV sempre que agir até o fim do combate."
+    },
+    {
+      habilidade: "Distrair Oponente",
+      PE: 1,
+      descricao: "Deixa inimigo com Guarda Aberta e você pode se esconder dele."
+    },
+    {
+      habilidade: "Mestre em Aparar",
+      PE: 1,
+      descricao: "Use arma leve/média como escudo, bloqueio = 1 + dano da arma. Pode usar arma normalmente no próximo turno."
+    },
+    {
+      habilidade: "Movimento Furtivo",
+      PE: 0,
+      descricao: "Ao testar furtividade, role +1 dado e mantenha o maior."
+    }
+  ],
+
+  Culinária: [
+    {
+      habilidade: "Cozinha Exótica",
+      PE: 0,
+      descricao: "Você sabe cozinhar usando partes de quase qualquer criatura."
+    },
+    {
+      habilidade: "Lanche Revigorante",
+      PE: 0,
+      descricao: "Durante Descanso Longo prepara refeição que dá +1 PV extra no dia seguinte além da recuperação total."
+    }
+  ],
+
+  Estudos: [
+    {
+      habilidade: "Educação Rígida",
+      PE: 0,
+      descricao: "Uma vez por dia escolhe um Conhecimento que não possui e trata como se tivesse até o fim da cena."
+    },
+    {
+      habilidade: "Matemática de Batalha",
+      PE: 0,
+      descricao: "Se for alvo de 3+ inimigos no combate, causa Dano +1 em todos ataques."
+    }
+  ],
+
+  Guerra: [
+    {
+      habilidade: "Alvo Marcado",
+      PE: 0,
+      descricao: "Ao acertar alvo com arma de distância, próximos ataques causam Dano +1. Um alvo por combate."
+    },
+    {
+      habilidade: "Chuva de Flechas",
+      PE: 4,
+      descricao: "Dispara flechas para cima. O alvo e todos ao alcance corporal recebem 3 de dano."
+    },
+    {
+      habilidade: "Formação de Batalha",
+      PE: 1,
+      descricao: "Aliados se movem mais uma vez; caídos levantam; imobilizados tentam sair."
+    },
+    {
+      habilidade: "Golpe com Escudo",
+      PE: 1,
+      descricao: "Ataque com escudo (Dano 2; Crítico 4) e ataque extra com a outra arma."
+    },
+    {
+      habilidade: "Golpe Devastador",
+      PE: 4,
+      descricao: "Ataque com arma média/pesada com dano dobrado."
+    },
+    {
+      habilidade: "Golpe Giratório",
+      PE: 2,
+      descricao: "Ataque corporal contra todos em alcance."
+    },
+    {
+      habilidade: "Gritalhão",
+      PE: 0,
+      descricao: "Pode usar Grito sem gastar ação (mas ainda consome PE)."
+    },
+    {
+      habilidade: "Grito de Fúria",
+      PE: 3,
+      descricao: "Reduz dano recebido pela metade e causa Dano +1 corpo a corpo até o fim do combate."
+    },
+    {
+      habilidade: "Grito de Guerra",
+      PE: 2,
+      descricao: "Aliados gastam -2 PE em qualquer habilidade neste turno."
+    },
+    {
+      habilidade: "Grito de Provocação",
+      PE: 0,
+      descricao: "Escolha um inimigo; ele te atacará pelo resto do combate."
+    },
+    {
+      habilidade: "Guerreiro de Aço",
+      PE: 0,
+      descricao: "Ignora redução de PE por vestimentas (exceto escudos)."
+    },
+    {
+      habilidade: "Impulso Sanguinário",
+      PE: 0,
+      descricao: "Ao matar inimigo, ataque extra contra outro adjacente."
+    },
+    {
+      habilidade: "Investida Mortal",
+      PE: 3,
+      descricao: "Corra até o alvo em linha reta e ataque com arma média/pesada causando dano dobrado."
+    },
+    {
+      habilidade: "Mestre do Escudo",
+      PE: 0,
+      descricao: "Pode bloquear mais de um ataque por rodada."
+    },
+    {
+      habilidade: "Mestre em Aparar",
+      PE: 1,
+      descricao: "Use arma leve/média como escudo com bloqueio aumentado."
+    },
+    {
+      habilidade: "Múltiplas Flechas",
+      PE: 2,
+      descricao: "Faça até três ataques com arco em alvos diferentes."
+    },
+    {
+      habilidade: "Munição Preparada",
+      PE: 0,
+      descricao: "Ataques à distância ganham Crítico +1."
+    },
+    {
+      habilidade: "Par de Armas",
+      PE: 0,
+      descricao: "Ataque com cada arma leve em mãos. Pode ser em alvos diferentes."
+    },
+    {
+      habilidade: "Retalhador",
+      PE: 0,
+      descricao: "Em crítico natural com arma leve/média, ataque extra no mesmo alvo."
+    },
+    {
+      habilidade: "Tempestade de Ataques",
+      PE: 5,
+      descricao: "Role 1 dado: número de ataques com arma leve no mesmo alvo."
+    },
+    {
+      habilidade: "Tiro Certeiro",
+      PE: 1,
+      descricao: "Ataque à distância rolando 3 dados; descarte os dois menores."
+    },
+    {
+      habilidade: "Touché",
+      PE: 1,
+      descricao: "Ataque com arma leve rolando 3 dados; descarte os dois menores."
+    },
+    {
+      habilidade: "Vingança Crítica",
+      PE: 0,
+      descricao: "Armas pesadas têm Crítico +2 contra inimigos que te causaram dano no combate."
+    }
+  ],
+
+  Magia: [
+    // MAGIAS ORIGINAIS
+    {
+      habilidade: "Arcano",
+      PE: 0,
+      descricao: "Enquanto estiver com PV cheio, toda magia custa -1 PE (mínimo 1)."
+    },
+    {
+      habilidade: "Familiar",
+      PE: 0,
+      descricao: "Possui familiar diminuto e pode ver através dele com concentração."
+    },
+
+    // ---- TODAS AS MAGIAS ADICIONADAS ----
+    { habilidade: "Ameaça Elemental", PE: 4, descricao: "Alvo ganha Fraqueza a fogo, frio ou eletricidade; dano dobrado (triplicado se já tiver fraqueza)." },
+    { habilidade: "Arma Congelante", PE: 2, descricao: "Encanta arma com Dano +1 de Frio. Dura até o fim do combate." },
+    { habilidade: "Arma Energizada", PE: 2, descricao: "Encanta arma com Dano +1 de Eletricidade. Dura até o fim do combate." },
+    { habilidade: "Arma Flamejante", PE: 2, descricao: "Encanta arma com Dano +1 de Fogo. Dura até o fim do combate." },
+    { habilidade: "Armadura Arbórea", PE: 2, descricao: "Armadura de casca de árvore (+3 PV). Requer tocar árvore. Dura até o fim da cena." },
+    { habilidade: "Armadura de Ossos", PE: 2, descricao: "Armadura de ossos (+3 PV). Requer ossos. Dura até o fim da cena." },
+    { habilidade: "Aura de Proteção", PE: 4, descricao: "Aliados visíveis reduzem 2 de dano até a próxima rodada." },
+    { habilidade: "Aura Gélida", PE: 2, descricao: "Você fica imune a frio e causa Dano 1 de frio em alcance corporal." },
+    { habilidade: "Bola de Fogo", PE: 5, descricao: "Dano 5 de Fogo e Crítico 10; explosão causa Dano 2 ao redor." },
+    { habilidade: "Contato Fúnebre", PE: 0, descricao: "Conversa com espírito presente ou de restos mortais segurados." },
+    { habilidade: "Corte do Vento", PE: 1, descricao: "Ataque com arma leve que acerta alvo à distância." },
+    { habilidade: "Dominar Bestas", PE: 3, descricao: "Animal/Besta visível fica Paralisada. Uma vez por criatura." },
+    { habilidade: "Escudo de Energia", PE: 2, descricao: "Escudo absorve 5 dano à distância. Dura até fim da batalha." },
+    { habilidade: "Forma Animal", PE: "X", descricao: "Transforma-se em animal local. Custo = metade dos PV do animal." },
+    { habilidade: "Gadanha da Morte", PE: 2, descricao: "Cria gadanha de ossos (Dano 2; Crítico 7)." },
+    { habilidade: "Garras Animalescas", PE: 2, descricao: "Garras (Dano 2; Crítico 6). Dura até fim da cena." },
+    { habilidade: "Horda de Esqueletos", PE: 6, descricao: "Invoca 1d6 (+2) esqueletos. Uma vez por cena." },
+    { habilidade: "Invocar Aparição", PE: 3, descricao: "Invoca aparição que luta por você até fim da cena." },
+    { habilidade: "Invocar Enxame", PE: 4, descricao: "Enxame bloqueia ataque ou causa Dano 4." },
+    { habilidade: "Levitação Mágica", PE: 2, descricao: "Flutua até 1m. Até fim da cena." },
+    { habilidade: "Manto da Escuridão", PE: 1, descricao: "Fica oculto como alvo por 1d6 turnos." },
+    { habilidade: "Manto de Penas", PE: 2, descricao: "Capa vira asas; flutua 1m." },
+    { habilidade: "Marca da Morte", PE: 1, descricao: "Acompanha localização e morte de alvo." },
+    { habilidade: "Muralha de Chamas", PE: 2, descricao: "Criatura que atravessa recebe Dano 3 de fogo." },
+    { habilidade: "Munição Explosiva", PE: 3, descricao: "Ataque distância +2 Fogo. Crítico explode." },
+    { habilidade: "Parede de Energia", PE: 2, descricao: "Parede 2x2m; dura 1d6 turnos ou 6 dano." },
+    { habilidade: "Raio de Gelo", PE: 3, descricao: "Dano 2 de Frio; Crítico 6; congela água." },
+    { habilidade: "Raízes da Terra", PE: 1, descricao: "Até 3 criaturas ficam imobilizadas por 1 turno." },
+    { habilidade: "Relâmpago", PE: 3, descricao: "Dano 4 de Eletricidade; propaga pela água." },
+    { habilidade: "Salto Mágico", PE: 4, descricao: "Teleporta até 3 pessoas a 10m. +5 PE se não visível." },
+    { habilidade: "Servo Esqueleto", PE: 4, descricao: "Reanima esqueleto para servi-lo até fim do dia." },
+    { habilidade: "Sifão de Almas", PE: 3, descricao: "Mata criaturas com 1–2 PV e recupera PV." },
+    { habilidade: "Tempestade Elétrica", PE: 5, descricao: "Chuva pesada; cada turno atinge inimigos com Dano 2 Eletricidade." },
+    { habilidade: "Tiro de Energia", PE: 1, descricao: "Dano 3; Crítico 5." },
+    { habilidade: "Titereiro Sombrio", PE: 2, descricao: "Controla ação de criatura com Marca da Morte." },
+    { habilidade: "Toque de Cura", PE: 1, descricao: "Recupera até 5 PV perdidos desde o último turno." },
+    { habilidade: "Toque de Vida", PE: 5, descricao: "Ressuscita planta/animal recém morto com 1 PV." },
+    { habilidade: "Tornado de Folhas", PE: 3, descricao: "Reduz dano à distância pela metade." },
+    { habilidade: "Transmutação", PE: 6, descricao: "Transforma alvo em criatura aleatória por 1d6 turnos." }
+  ],
+
+  Música: [
+    {
+      habilidade: "Canção Assustadora",
+      PE: 2,
+      descricao: "Inimigos pensantes ficam atordoados por 1 turno. Uma vez por criatura."
+    },
+    {
+      habilidade: "Canção Dançante",
+      PE: 2,
+      descricao: "Criaturas com 4 PV ou menos dançam e perdem o próximo turno."
+    },
+    {
+      habilidade: "Canção Enganadora",
+      PE: 2,
+      descricao: "Role 1 dado; com 4+, inimigo ataca outro. Uma vez por alvo."
+    },
+    {
+      habilidade: "Canção Heroica",
+      PE: 2,
+      descricao: "Aliados que escutarem causam Dano +1 (+2 se cantou no turno anterior)."
+    },
+    {
+      habilidade: "Canção Ilusionista",
+      PE: 1,
+      descricao: "Objeto pequeno recebe ilusão completa; inimigos detectam com 6."
+    },
+    {
+      habilidade: "Canção Motivadora",
+      PE: 1,
+      descricao: "Aliados rolam +1 dado no próximo ataque ou teste."
+    },
+    {
+      habilidade: "Dança Evasiva",
+      PE: 0,
+      descricao: "Após usar Canção, recebe -1 dano de todos os ataques no turno inimigo."
+    },
+    {
+      habilidade: "Descanso Relaxante",
+      PE: 0,
+      descricao: "Durante descanso curto, todos recuperam 2 PVs. Uma vez por dia."
+    },
+    {
+      habilidade: "Virtuoso",
+      PE: 0,
+      descricao: "Primeira Canção em uma cena custa -1 PE."
+    }
+  ],
+
+  Sobrevivência: [
+    {
+      habilidade: "Analisar Inimigo",
+      PE: 2,
+      descricao: "No turno seguinte, causa triplo de dano com armas leves ou à distância."
+    },
+    {
+      habilidade: "Caçador de [Inimigo]",
+      PE: 0,
+      descricao: "Escolha um tipo de inimigo; causa Dano +1 nele. Pode pegar múltiplas vezes."
+    },
+    {
+      habilidade: "Desorientar Inimigo",
+      PE: 1,
+      descricao: "Ataque que, se causar dano, deixa inimigo com Guarda Aberta."
+    },
+    {
+      habilidade: "Resistência Extrema",
+      PE: 0,
+      descricao: "Ao testar Saúde contra frio, calor ou falta de ar, role +1 dado e mantenha o maior."
+    }
+  ]
+};
+
+const habilidadeEspecies = {
+    Ruma: {
+      nome: "Humano Normal",
+      PE: 0,
+      descricao: "Apenas um humano normal!"
+    },
+    Duarvo: {
+      nome: "Resistência Duarva",
+      PE: 0,
+      descricao: "Você é muito resistente e pode comer qualquer coisa sem passar mal, inclusive toxinas e venenos que forem ingeridos"
+    },
+    Elfo: {
+      nome: "Sentidos Élficos",
+      PE: 0,
+      descricao: "Você pode enxergar em ambientes com pouca luz ou neblina e distinguir com precisão os sons do ambiente"
+    },
+    Akridiano: {
+      nome: "Braços Extras",
+      PE: 0,
+      descricao: "Você possui um par de braços extras. Esses braços não são tão fortes ou ágeis e não podem efetuar ações como atacar ou usar escudos. Contudo, podem ser usados para ações simples, como beber poções, segurar objetos, grimórios, instrumentos musicais, usar varinhas, etc."
+    },
+    Silfo: {
+      nome: "Asas Faéricas",
+      PE: 0,
+      descricao: "Podem ficar voando, e até ficar parados no ar, até 2m do chão. São pequenos e por isso não são capazes de voar erguendo mais de 15kg. Não podem usar armaduras, armas médias ou pesadas enquanto estiverem voando. Você não consegue mais voar se estiver com zero PE."
+    },
+    Pequenino: {
+      nome: "Corpo Pequenino",
+      PE: 0,
+      descricao: "Podem se esconder em quase qualquer lugar e, quando imóveis, podem ficar horas respirando baixinho, sem se mover ou emitir som algum."
+    },
+    Felicato: {
+      nome: "Corpo Felino",
+      PE: 0,
+      descricao: "Se estiverem sem armadura, podem rolar um dado a mais para se equilibrar. Pode usar suas garras como armas leves (Dano 1; Crít 3)."
+    },
+    Arbóreo: {
+      nome: "Corpo de Madeira",
+      PE: 0,
+      descricao: "Você não precisa se alimentar ou dormir, basta que se exponha ao sol pelo menos 2 horas por dia. Devido ao seu corpo de madeira, recebe o dobro de dano de Fogo, mas recebe a metade de dano de Frio."
+    },
+    Diabrante: {
+      nome: "Resistência Infernal",
+      PE: 0,
+      descricao: "Você recebe metade de dano por fogo, mas recebe o dobro de dano de frio. Além disso, sempre que receber uma Maldição você deve rolar um dado. Se cair 6 você pode redirecionar a Maldição para outro alvo visível."
+    },
+    Komodo: {
+      nome: "Regeneração Réptil",
+      PE: 0,
+      descricao: "Sua pele possui um poder de regeneração capaz de recuperar até mesmo membros perdidos. São imunes a dano de Ácido"
+    },
+    Javalique: {
+      nome: "Faro de Javali",
+      PE: 0,
+      descricao: "Você possui o faro apurado e pode identificar comidas e espécies apenas pelo cheiro. Podem identificar indivíduos e até pertences de alguém que ele já tenha conhecido. Além de identificar quando algo comestível está estragado ou envenenado."
+    },
+    Kururuh: {
+      nome: "Língua Elástica",
+      PE: 0,
+      descricao: "Você possui uma língua longa e flexível que pode cuspir longe. A ponta da língua é pegajosa e pode agarrar coisas leves à distância. Porém, não podem atacar ou desarmar usando a língua."
+    }
+  };
+
+
+  const outrosEquip = [
+  {
+    nome: "Aljava",
+    descricao: "Contém flechas ou dardos (para arcos ou bestas).",
+    acesso: "Banal"
+  },
+  {
+    nome: "Elixir Universal",
+    descricao: "Se beber, recupera todos os PVs e PEs perdidos.",
+    acesso: "Especial"
+  },
+  {
+    nome: "Ervas Medicinais",
+    descricao: "Remove Morrendo (deixando com 1 PV) e Envenenado. Possui 3 usos.",
+    acesso: "Fazenda"
+  },
+  {
+    nome: "Frasco vazio",
+    descricao: "Frasco vazio para guardar líquidos ou ingredientes.",
+    acesso: "Apotecário"
+  },
+  {
+    nome: "Grimório",
+    descricao: "Possui espaço para escrever 8 Rituais. Veja no Manual Avançado.",
+    acesso: "Biblioteca"
+  },
+  {
+    nome: "Instrumento Musical",
+    descricao: "Harpa, Bandolim, Alaúde, Flauta ou Violino.",
+    acesso: "Luteiro"
+  },
+  {
+    nome: "Kit Acampamento",
+    descricao: "Tenda, coberta, canivete, panela, cantil e material para fazer fogo.",
+    acesso: "Fazenda"
+  },
+  {
+    nome: "Kit Escalada",
+    descricao: "Corda (15 metros), gancho, martelinho e pinos de alpinismo.",
+    acesso: "Ferreiro"
+  },
+  {
+    nome: "Kit Ladrão",
+    descricao: "Conjunto de pinças, pequenos ganchos e agulhas variadas.",
+    acesso: "Especial"
+  },
+  {
+    nome: "Lamparina",
+    descricao: "Ilumina lugares escuros.",
+    acesso: "Fazenda"
+  },
+  {
+    nome: "Poção Aquática",
+    descricao: "Se beber, pode respirar debaixo d’água por 24 horas.",
+    acesso: "Apotecário"
+  },
+  {
+    nome: "Poção da Força",
+    descricao: "Se beber, rola +1d6 em Testes ligados a força até o final da cena.",
+    acesso: "Apotecário"
+  },
+  {
+    nome: "Poção da Lua Nova",
+    descricao: "Se beber, pode enxergar no completo escuro até o fim da cena.",
+    acesso: "Apotecário"
+  },
+  {
+    nome: "Poção de Vitalidade",
+    descricao: "Se beber, recupera todos os PVs perdidos.",
+    acesso: "Especial"
+  },
+  {
+    nome: "Solução Explosiva",
+    descricao: "Se arremessar o frasco, causa Dano 2 de fogo e Crítico 3 de fogo.",
+    acesso: "Especial"
+  }
+];
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
