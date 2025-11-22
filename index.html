@@ -21,6 +21,11 @@
 
       const app = initializeApp(firebaseConfig);
       window.db = getFirestore(app);
+      // 🔥 Expor no escopo global para scripts externos
+      window.db = db;
+      window.doc = doc;
+      window.getDoc = getDoc;
+      window.setDoc = setDoc;
     </script>
 
 </head>
