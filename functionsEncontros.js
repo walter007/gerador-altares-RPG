@@ -4,8 +4,7 @@ let ocultarMortos = false;
 
 function gerarEncontro() {
   const bioma = document.getElementById('biomaSelect').value;
-  const s = rolarD20();
-  const r = 18
+  const r = rolarD20();
   let resultado = '';
 
   if (r <= 5) resultado = 'Nenhum encontro — Descanso Seguro.';
@@ -23,6 +22,7 @@ function gerarEncontro() {
   }
 
   const box = document.getElementById('resultadoEncontro');
+  const boxEncontro = document.getElementById('encontrosAmbientais');
   box.style.display = 'block';
   box.innerHTML = `
   <div class="card mt-3">
@@ -30,7 +30,10 @@ function gerarEncontro() {
       <h5 class="card-title">⚔️ Encontro</h5>
       <p>${resultado}</p>
       <div id="listaInimigosAtivos"></div>
-      <br>
+    </div>
+  </div>`;
+  boxEncontro.innerHTML = `
+    <br>
       <div class="d-flex mb-2">
         <button class="btn btn-primary btn-sm mb-2" onclick="abrirAdicionarInimigo()">
           Adicionar Inimigo
@@ -39,8 +42,7 @@ function gerarEncontro() {
             Ocultar Mortos
         </button>
       </div>
-    </div>
-  </div>`;
+  `
 }
 
 function gerarEncontroAmbiental(bioma) {
@@ -697,7 +699,7 @@ function mostrarFichaInimigo(id) {
     <img 
         src="${imgPath}" 
         onerror="this.src='assets/img/inimigos/placeholder.png'"
-        style="width:120px; height:120px; object-fit:cover; border-radius:10px; border:2px solid #666; margin-right:15px;"
+        style="width:120px; height:120px; object-fit:contain; border-radius:10px; border:2px solid #666; margin-right:15px;"
     >
     <div>
         <h3 class="mb-0">${ficha.nome}</h3>
@@ -828,7 +830,7 @@ function atualizarListaInimigosTela() {
                         src="${imgPath}" 
                         onerror="this.src='assets/img/inimigos/placeholder.png'" 
                         class="me-2"
-                        style="width:70px; height:70px; object-fit:cover; border-radius:6px; border:1px solid #444;"
+                        style="width:70px; height:70px; object-fit:contain; border-radius:6px; border:1px solid #444;"
                     >
 
                     <b>${i.id} - ${i.nome}</b>

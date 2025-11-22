@@ -1,6 +1,30 @@
 // ====== SISTEMA DE CAMPANHAS ======
-let campanhas = JSON.parse(localStorage.getItem("campanhasAltaris") || "{}");
-let campanhaAtual = localStorage.getItem("campanhaAtualAltaris") || null;
+//let campanhas = JSON.parse(localStorage.getItem("campanhasAltaris") || "{}");
+//let campanhaAtual = localStorage.getItem("campanhaAtualAltaris") || null;
+
+const snap = await getDoc(doc(db, "altaris", "dadosDoUsuario"));
+if (snap.exists()) {
+    campanhas = snap.data().campanhas || {};
+    campanhaAtual = snap.data().campanhaAtual || null;
+} else {
+    campanhas = {};
+    campanhaAtual = null;
+}
+
+async function carregarDados() {
+  const ref = doc(db, "altaris", "dadosDoUsuario");
+  const snap = await getDoc(ref);
+
+  if (snap.exists()) {
+    const data = snap.data();
+    campanhas = data.campanhas || {};
+    campanhaAtual = data.campanhaAtual || null;
+  } else {
+    campanhas = {};
+    campanhaAtual = null;
+  }
+}
+
 
 // Se ainda não existir nenhuma campanha → cria uma padrão
 if (!campanhaAtual || !campanhas[campanhaAtual]) {
@@ -29,9 +53,16 @@ if (!campanhaAtual || !campanhas[campanhaAtual]) {
   salvarCampanhas();
 }
 
-function salvarCampanhas() {
+function salvarCampanhasOld() {
   localStorage.setItem("campanhasAltaris", JSON.stringify(campanhas));
   localStorage.setItem("campanhaAtualAltaris", campanhaAtual);
+}
+
+async function salvarCampanhas() {
+  await setDoc(doc(db, "altaris", "dadosDoUsuario"), {
+    campanhas,
+    campanhaAtual
+  });
 }
 
 function carregarCampanha(nome) {

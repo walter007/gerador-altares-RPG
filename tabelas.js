@@ -30,7 +30,7 @@ const encontrosPorBioma = {
     ["4 Goblin Bucha", "4 Goblin Bucha e 1 Goblin Bruxo", "1 Ogro Mercenário e 1 Ogro Brigão"],
     ["1 Kaprotauro Guerreiro", "1 Kaprotauro Lanceiro e 1 Kaprotauro Curandeiro", "2 Goblin Bucha e 1 Troll Capanga"],
     ["2 Ladrão", "2 Javali", "2 Kaprotauro Lanceiro e 1 Kaprotauro Curandeiro"],
-    ["1 Ogro Brigão", "2 Soldado", "2 Nagas Soldado e 1 Naga Mística"]
+    ["1 Ogro Brigão", "2 Soldado", "2 Naga Soldado e 1 Naga Mística"]
   ],
   floresta: [
     ["2 Ninhada de Aracnídeo", "1 Aracna Gigante", "4 Boitatá"],

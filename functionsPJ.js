@@ -2125,3 +2125,30 @@ function diminuirPEAtual(pjIndex) {
     document.getElementById("peAtualDisplay").textContent = atual;
     salvarCampanhas();
 }
+
+function abrirModalDetalhePjs() {
+  const select = document.getElementById("selectPJ");
+  select.innerHTML = "";
+
+    console.log("DEBUG listarPJs -> campanhaAtual:", campanhaAtual);
+    console.log("DEBUG listarPJs -> campanhas:", campanhas);
+
+  campanhas[campanhaAtual].pjs.forEach((pj, i) => {
+    select.innerHTML += `<option value="${i}">${pj.nome}</option>`;
+  });
+
+  // abre o modal
+  const modal = new bootstrap.Modal(document.getElementById("modalSelecionarPJ"));
+  modal.show();
+}
+
+function confirmarSelecionarPJ() {
+  const select = document.getElementById("selectPJ");
+  const indice = select.value;
+
+  detalharPJ(indice);
+
+  // fechar modal
+  const modal = bootstrap.Modal.getInstance(document.getElementById("modalSelecionarPJ"));
+  modal.hide();
+}
