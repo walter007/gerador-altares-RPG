@@ -4,7 +4,8 @@ let ocultarMortos = false;
 
 function gerarEncontro() {
   const bioma = document.getElementById('biomaSelect').value;
-  const r = rolarD20();
+  const s = rolarD20();
+  const r = 18
   let resultado = '';
 
   if (r <= 5) resultado = 'Nenhum encontro — Descanso Seguro.';
@@ -58,9 +59,13 @@ function gerarEncontroAmbiental(bioma) {
   const obstaculoRaw = tabela[rolar2d6Key()].obstaculo;
 
   const obstaculo = obstaculoRaw.replace(/\[(.*?)\]/g, 
-    `<button class="btn btn-sm btn-danger" onclick="gerarMonstroEncontroCenas('${bioma}')">$1</button>`);
+    `
+      <button class="btn btn-sm btn-danger" onclick="gerarMonstroEncontroCenas('${bioma}')">$1</button>
+    `
+  );
 
   const box = document.getElementById('resultadoEncontro');
+  const boxEncontro = document.getElementById('encontrosAmbientais');
   box.style.display = 'block';
   box.innerHTML = `
   <div class="card mt-3"><div class="card-body">
@@ -70,6 +75,18 @@ function gerarEncontroAmbiental(bioma) {
     <b>Obstáculo:</b> ${obstaculo}<br><br>
     <button class="btn btn-sm btn-warning" onclick="gerarComplicacaoAmbiental('${bioma}')">Gerar Complicação</button>
   </div></div>`;
+  boxEncontro.innerHTML = `
+      <div id="listaInimigosAtivos"></div>
+      <br>
+      <div class="d-flex mb-2">
+        <button class="btn btn-primary btn-sm mb-2" onclick="abrirAdicionarInimigo()">
+          Adicionar Inimigo
+        </button>
+        <button class="btn btn-secondary btn-sm mb-2" onclick="alternarMortos()">
+            Ocultar Mortos
+        </button>
+      </div>
+    `
 }
 
 function gerarComplicacaoAmbiental(bioma) {
@@ -95,16 +112,6 @@ function gerarComplicacaoAmbiental(bioma) {
     <h5>⚠️ Complicação</h5>
     <b>${comp}</b><br>
     <small>${c.t1} — ${c.t2}</small>
-    <div id="listaInimigosAtivos"></div>
-      <br>
-      <div class="d-flex mb-2">
-        <button class="btn btn-primary btn-sm mb-2" onclick="abrirAdicionarInimigo()">
-          Adicionar Inimigo
-        </button>
-        <button class="btn btn-secondary btn-sm mb-2" onclick="alternarMortos()">
-            Ocultar Mortos
-        </button>
-      </div>
   </div></div>`;
 }
 
