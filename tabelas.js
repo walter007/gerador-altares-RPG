@@ -5247,6 +5247,7 @@ const armasLista = [
   { Nome: "Foice", Tipo: "Leve", Dano: 2, Critico: 3, Especial: "Rude", Acesso: "Fazenda" },
   { Nome: "Arpão", Tipo: "Média", Dano: 2, Critico: 4, Especial: "", Acesso: "Drop" },
   { Nome: "Clava", Tipo: "Média", Dano: 2, Critico: 4, Especial: "", Acesso: "Banal" },
+  { Nome: "Glaive de Vidro", Tipo: "Média", Dano: 1, Critico: 5, Especial: "Haste", Acesso: "Drop" },
   { Nome: "Machado de Mão", Tipo: "Média", Dano: 3, Critico: 4, Especial: "", Acesso: "Ferreiro" },
   { Nome: "Maça", Tipo: "Média", Dano: 2, Critico: 5, Especial: "", Acesso: "Militar" },
   { Nome: "Picareta", Tipo: "Média", Dano: 0, Critico: 6, Especial: "Rude", Acesso: "Fazenda" },
@@ -5274,6 +5275,7 @@ const armasLista = [
   { Nome: "Besta Pesada", Tipo: "Distância", Dano: 0, Critico: 8, Especial: "Duas Mãos; Recarga", Acesso: "Militar" },
   { Nome: "Varinha do Fogo", Tipo: "Distância", Dano: 0, Critico: 0, Especial: "Fogo", Acesso: "Academia" },
 ];
+
 
 const descritoresAm = [
   { nome: "Absoluta", efeito: "Esta arma é muito fria. Causa Crítico +5 de frio." },
@@ -5652,6 +5654,14 @@ const vestimentas = [
     tipo: "Cabeça",
     pv: 2,
     pe: -1,
+    especial: "",
+    acesso: "Especial"
+  },
+   {
+    nome: "Manto de Algas",
+    tipo: "Acessório",
+    pv: 0,
+    pe: +1,
     especial: "",
     acesso: "Especial"
   },
@@ -9948,6 +9958,315 @@ const inimigos = [
         "dano": "",
         "efeito": "Recupera 6 PVs",
         "alcance": ""
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Ruma Cultista de Naraka",
+    "pv": "13",
+    "pvMax": "13",
+    "tipo": "Humanoide Médio Agressivo",
+    "passivas": [],
+    "habilidades": [
+      {
+        "dado": "1 a 3",
+        "nome": "Concentração",
+        "dano": "",
+        "efeito": "Marque 1 ponto de invocação",
+        "alcance": ""
+      },
+      {
+        "dado": "4",
+        "nome": "Invocação",
+        "dano": "",
+        "efeito": "Se tiver 1 ponto, invoca 2 Diabretes",
+        "alcance": ""
+      },
+      {
+        "dado": "5",
+        "nome": "Invocação",
+        "dano": "",
+        "efeito": "Se tiver 2 pontos, invoca 1 Olho Flutuante",
+        "alcance": ""
+      },
+      {
+        "dado": "6",
+        "nome": "Invocação",
+        "dano": "",
+        "efeito": "Se tiver 3 pontos, invoca 1 Tormentador Soldado",
+        "alcance": ""
+      }
+    ],
+    "pertences": "Túnica, Manto Ritualístico amarelo e Adaga Abissal"
+  },
+  {
+    "nome": "Sereia",
+    "pv": "14",
+    "pvMax": "14",
+    "tipo": "Humanoide Médio Trapaceiro",
+    "passivas": [
+      {
+        "nome": "Fraqueza",
+        "efeito": "Recebe o dobro de dano elétrico"
+      },
+      {
+        "nome": "Aquático",
+        "efeito": "Respira em baixo d'água; Não pode ficar mais que uma cena fora da água"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Canção do Lamento",
+        "dano": "",
+        "efeito": "Se tiver 8 PV ou menos, ela vai embora; Senão, nada acontece",
+        "alcance": ""
+      },
+      {
+        "dado": "2",
+        "nome": "Sussurros das Águas",
+        "dano": "",
+        "efeito": "Surge 1 Sereia",
+        "alcance": ""
+      },
+      {
+        "dado": "3 a 4",
+        "nome": "Beijo da Perdição",
+        "dano": "",
+        "efeito": "Alvo fica Fascinado pela Sereia; Não poderá atacar ela",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "5 a 6",
+        "nome": "Cântico da Sereia",
+        "dano": "",
+        "efeito": "Todos que escutarem devem vencer um Teste ou vão caminhar para dentro da água na sua próxima ação; Um aliado que passou pode gastar sua ação para impedir",
+        "alcance": ""
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Sirizan Soldado",
+    "pv": "15",
+    "pvMax": "15",
+    "tipo": "Humanoide Médio Agressivo",
+    "passivas": [
+      {
+        "nome": "Fraqueza",
+        "efeito": "Recebe o dobro de dano de frio, fogo ou eletricidade"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 5",
+        "nome": "Glaive de Vidro",
+        "dano": "1",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Corte de Pinça",
+        "dano": "",
+        "efeito": "Quebra uma das armas na mão do alvo",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": "Glaive de Vidro (Arma Média; Dano 1; Crítico 5; Haste)"
+  },
+  {
+    "nome": "Sirizan Arcano",
+    "pv": "14",
+    "pvMax": "14",
+    "tipo": "Humanoide Médio Agressivo",
+    "passivas": [
+      {
+        "nome": "Fraqueza",
+        "efeito": "Recebe o dobro de dano de frio, fogo ou eletricidade"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 3",
+        "nome": "Raio Mágico",
+        "dano": "1",
+        "efeito": "",
+        "alcance": "Longo"
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Cura",
+        "dano": "",
+        "efeito": "Recupera 1 PV de cada aliado",
+        "alcance": ""
+      },
+      {
+        "dado": "6",
+        "nome": "Algas Mágicas",
+        "dano": "",
+        "efeito": "Todos devem vencer um Teste ou ficarão Imobilizados",
+        "alcance": ""
+      }
+    ],
+    "pertences": "Manto de Algas (Armadura; PV +0; PE +1) e Cajado de coral"
+  },
+  {
+    "nome": "Sirizan Mestre",
+    "pv": "17",
+    "pvMax": "17",
+    "tipo": "Humanoide Médio Fanático",
+    "passivas": [
+      {
+        "nome": "Fraqueza",
+        "efeito": "Recebe o dobro de dano de frio, fogo ou eletricidade"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 4",
+        "nome": "Glaive de Vidro",
+        "dano": "1",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "5 a 6",
+        "nome": "Estalos de Guerra",
+        "dano": "",
+        "efeito": "Em 1d6 turnos um Sirizan Soldado chegará de onde estiver",
+        "alcance": ""
+      }
+    ],
+    "pertences": "Glaive de Vidro (Arma Média; Dano 1; Crítico 5; Haste) e Chapéu de coral"
+  },
+  {
+    "nome": "Tentáculo das Profundezas",
+    "pv": "30",
+    "pvMax": "30",
+    "tipo": "Amorfo Grande Voraz",
+    "passivas": [
+      {
+        "nome": "Fraqueza",
+        "efeito": "Recebe dobro de dano frio e fogo"
+      },
+      {
+        "nome": "Imunidade",
+        "efeito": "Imune a ácido"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Regeneração",
+        "dano": "",
+        "efeito": "Recupera todos os PVs",
+        "alcance": ""
+      },
+      {
+        "dado": "2 a 4",
+        "nome": "Chicote",
+        "dano": "3",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "5 a 6",
+        "nome": "Envolver",
+        "dano": "1",
+        "efeito": "e Imobilizado; Se já estiver envolvido alguém no turno anterior, será levado para dentro da água",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Troll dos Pântanos",
+    "pv": "29",
+    "pvMax": "29",
+    "tipo": "Humanoide Grande Agressivo",
+    "passivas": [
+      {
+        "nome": "Fraqueza",
+        "efeito": "Recebe o dobro de dano de Fogo"
+      },
+      {
+        "nome": "Escorregadio",
+        "efeito": "É impossível escalar ou agarrar"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 2",
+        "nome": "Soco",
+        "dano": "2",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "3 a 4",
+        "nome": "Empurrão",
+        "dano": "3",
+        "efeito": "o alvo se move para trás e fica Caído",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "5",
+        "nome": "Vapor dos Poros",
+        "dano": "",
+        "efeito": "Todos devem vencer um Teste ou ficarão Cegos",
+        "alcance": ""
+      },
+      {
+        "dado": "6",
+        "nome": "Regeneração",
+        "dano": "",
+        "efeito": "Recupera todos os PV",
+        "alcance": ""
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Urubu Gigante",
+    "pv": "48",
+    "pvMax": "48",
+    "tipo": "Besta Gigante Selvagem",
+    "passivas": [
+      {
+        "nome": "Voador",
+        "efeito": "Pode se mover livremente pelo ar"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Recuo",
+        "dano": "",
+        "efeito": "Levanta voo e escolhe um alvo com menos PV para seu próximo ataque",
+        "alcance": ""
+      },
+      {
+        "dado": "2 a 4",
+        "nome": "Garras",
+        "dano": "3",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "5",
+        "nome": "Ventania",
+        "dano": "3",
+        "efeito": "Todos ao alcance corporal devem vencer um Teste ou vão voar para longe recebendo Dano 3 e Caído",
+        "alcance": ""
+      },
+      {
+        "dado": "6",
+        "nome": "Engolir",
+        "dano": "",
+        "efeito": "Alvo deve vencer um Teste ou será Engolido",
+        "alcance": "Corporal"
       }
     ],
     "pertences": ""
