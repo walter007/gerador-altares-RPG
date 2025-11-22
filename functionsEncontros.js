@@ -4,7 +4,8 @@ let ocultarMortos = false;
 
 function gerarEncontro() {
   const bioma = document.getElementById('biomaSelect').value;
-  const r = rolarD20();
+  const s = rolarD20();
+  const r = 17;
   let resultado = '';
 
   if (r <= 5) resultado = 'Nenhum encontro — Descanso Seguro.';
@@ -241,7 +242,8 @@ texto = `Detalhamento para ${tipo} será implementado na próxima etapa.`;
 }
 
 function gerarMonstroEstrada(bioma) {
-  const roll = rolarD20();
+  const rolls = rolarD20();
+  const roll = 8;
   console.log("Rolagem gerarMontros estrada= " + roll)
   let tipo = "";
   
@@ -289,16 +291,20 @@ function gerarMonstroErrante(bioma) {
 }
 
 function gerarMonstroEncontro(bioma) {
-    console.log("entrou aqui")
+    console.log("Dentro Encontro")
+    console.log(bioma)
   const tabela = encontrosPorBioma[bioma];
   const linha = rolarD4() - 1;
   const dificuldade = rolarD20();
+  console.log(dificuldade + "dado dificaldade")
 
   let categoria = 0; // Fácil
   if (dificuldade > 8 && dificuldade <= 18) categoria = 1; // Médio
   else if (dificuldade > 18) categoria = 2; // Difícil
 
   const encontro = tabela[linha][categoria];
+
+  console.log(encontro)
 
   return montarHTMLComInimigos(encontro);
 }

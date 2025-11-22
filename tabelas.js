@@ -33,33 +33,33 @@ const encontrosPorBioma = {
     ["1 Ogro Brigão", "2 Soldado", "2 Naga Soldado e 1 Naga Mística"]
   ],
   floresta: [
-    ["2 Ninhada de Aracnídeo", "1 Aracna Gigante", "4 Boitatá"],
+    ["2 Ninhada de Aracnídeos", "1 Aracna Gigante", "4 Boitatá"],
     ["2 Planta Ambulante", "2 Limo Vivo", "2 Planta Ambulante e 3 Planta Cuspidora"],
     ["2 Bolha Gelatinosa", "3 Boitatá", "2 Kaprotauro Lanceiro e 1 Kaprotauro Curandeiro"],
-    ["2 Fungo Protetor e 2 Fungo Atirador", "4 Fungo Protetor e 1 Fungo Mestre", "4 Fungo Protetor e 3 Fungo Mestre"]
+    ["2 Fungóide Protetor e 2 Fungóide Atirador", "4 Fungóide Protetor e 1 Fungóide Mestre", "4 Fungóide Protetor e 3 Fungóide Mestre"]
   ],
   selva: [
     ["1 Leão", "1 Leão e 1 Pantera", "2 Leão e 1 Pantera"],
     ["3 Serpente Constritora", "2 Naga Soldado", "2 Naga Soldado e 1 Naga Mística"],
-    ["1 Naga Soldado", "Urso Preto", "2 Goblin Bucha e 1 Troll Capanga"],
-    ["2 Javali", "Quimera Grotesca", "Urso Pardo"]
+    ["1 Naga Soldado", "1 Urso Preto", "2 Goblin Bucha e 1 Troll Capanga"],
+    ["2 Javali", "1 Quimera Grotesca", "1 Urso Pardo"]
   ],
   deserto: [
     ["3 Abutre", "4 Abutre", "1 Ogro Mercenário e 1 Ogro Brigão"],
-    ["2 Ladrão", "3 Ladrão", "Verme Devorador + 2 Abutre"],
-    ["1 Ogro Brigão", "1 Ogro Mercenário", "1 Ogro Mercenário + 3 Goblin Bucha"],
-    ["4 Goblin Bucha", "Verme Devorador", "2 soldado + 2 Ladrão"]
+    ["2 Ladrão", "3 Ladrão", "1 Verme Devorador + 2 Abutre"],
+    ["1 Ogro Brigão", "1 Ogro Mercenário", "1 Ogro Mercenário e 3 Goblin Bucha"],
+    ["4 Goblin Bucha", "1 Verme Devorador", "2 soldado e 2 Ladrão"]
   ],
   colina: [
     ["2 Harpia", "2 Harpia e 1 Abutre", "2 Harpia e 1 Quimera Grotesca"],
-    ["3 Lobo", "Urso Preto", "Urso Pardo"],
-    ["Leão", "Grifo Selvagem", "Grifo Selvagem + 3 Lobo"],
-    ["Pantera", "Quimera Grotesca", "2 Leão e 1 Pantera"]
+    ["3 Lobo", "1 Urso Preto", "1 Urso Pardo"],
+    ["1 Leão", "1 Grifo Selvagem", "1 Grifo Selvagem e 3 Lobo"],
+    ["1 Pantera", "1 Quimera Grotesca", "2 Leão e 1 Pantera"]
   ],
   montanha: [
-    ["Elemental de Fogo", "2 Harpia e 1 Abutre", "2 Harpia e 1 Quimera Grotesca"],
-    ["1 Yeti", "2 Canidraco Comun", "1 Elemental de Fogo e 1 Serpedraco"],
-    ["1 Serpedraco", "4 Yetilins", "2 Yetis"],
+    ["1 Elemental do Fogo", "2 Harpia e 1 Abutre", "2 Harpia e 1 Quimera Grotesca"],
+    ["1 Yeti", "2 Canidraco Comum", "1 Elemental do Fogo e 1 Serpedraco"],
+    ["1 Serpedraco", "4 Yetilin", "2 Yeti"],
     ["3 Bode", "1 Yeti e 1 Yetilin", "2 Serpedraco"]
   ],
   costeiro: [
@@ -71,14 +71,14 @@ const encontrosPorBioma = {
   marinho: [
     ["2 Smork Soldado", "2 Smork Soldado e 1 Smork Suporte", "3 Smork Soldado e 1 Smork Suporte"],
     ["1 Smork Soldado e 1 Smork Suporte", "3 Smork Soldado", "2 Smork Soldado e 2 Smork Suporte"],
-    ["Tubarão", "1 Crocodilo", "2 Crocodilo"],
-    ["Tubarão", "2 Tubarão", "1 Crocodilo e 2 Tubarão"]
+    ["1 Tubarão", "1 Crocodilo", "2 Crocodilo"],
+    ["1 Tubarão", "2 Tubarão", "1 Crocodilo e 2 Tubarão"]
   ],
   pantano: [
-    ["2 Enxame de Mosquito", "3 Fantasma Perdido", "4 Fantasma Perdido"],
-    ["2 Fantasma Perdido", "4 Zumbi Comun", "3 Diabrete e 3 Zumbi Comun"],
-    ["3 Zumbi Comun", "1 Crocodilo", "2 Crocodilo"],
-    ["4 Diabrete", "1 Shugoth", "1 Shugoth e 2 Fantasma Perdido"]
+    ["2 Enxame de Insetos Voadores", "3 Fantasma Perdido", "4 Fantasma Perdido"],
+    ["2 Fantasma Perdido", "4 Zumbi Comum", "3 Diabrete e 3 Zumbi Comum"],
+    ["3 Zumbi Comum", "1 Crocodilo", "2 Crocodilo"],
+    ["4 Diabrete", "1 Shoggoth", "1 Shoggoth e 2 Fantasma Perdido"]
   ]
 };
 
@@ -8269,7 +8269,21 @@ const inimigos = [
     "passivas": [],
     "habilidades": [
       { "dado": "1 a 5", "nome": "Mordida", "dano": "Dano 2", "efeito": "", "alcance": "Corporal" },
-      { "dado": "6", "nome": "Giro da Morte", "dano": "Dano 2", "efeito": "Alvo ficará no chão e não poderá agir no próximo turno", "alcance": "Opção C — Deduzir alcance pelo texto" }
+      { "dado": "6", "nome": "Giro da Morte", "dano": "Dano 2", "efeito": "Alvo ficará no chão e não poderá agir no próximo turno", "alcance": "Corporal" }
+    ],
+    "pertences": ""
+  },{
+    "nome": "Diabrete",
+    "pv": "18",
+    "pvMax": "18",
+    "tipo": "Animal Grande Selvagem",
+    "passivas": [
+      { "nome": "Imunidade", "efeito": "Imune a fogo" },
+      { "nome": "Fraqueza", "efeito": "Recebe o dobro de dano de frio" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Mordida", "dano": "Dano 1", "efeito": "", "alcance": "Corporal" },
+      { "dado": "6", "nome": "Toque Diabolico", "dano": "", "efeito": "O alvo ficará Emburecido até o final do combate, não pode usar habilidades", "alcance": "Corporal" }
     ],
     "pertences": ""
   },
@@ -8364,10 +8378,10 @@ const inimigos = [
     "pertences": ""
   },
   {
-    "nome": "Fungomestre",
+    "nome": "Fungóide Mestre",
     "pv": "6",
     "pvMax": "6",
-    "tipo": "Humanoide Pequeno Autômato",
+    "tipo": "Humanoide Médio Autômato",
     "passivas": [
       { "nome": "Pó Tóxico", "efeito": "Quando for destruído, todos ao alcance corporal devem vencer um teste ou receber 5 de dano direto" }
     ],
@@ -8785,7 +8799,7 @@ const inimigos = [
     "pertences": ""
   },
   {
-    "nome": "Planta Ambulante (Médio)",
+    "nome": "Planta Ambulante",
     "pv": "7",
     "pvMax": "7",
     "tipo": "Amorfo Médio Selvagem",
