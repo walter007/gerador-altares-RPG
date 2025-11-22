@@ -183,5 +183,19 @@ function novaDungeon() {
   contadorSalas = 0;
   atualizarDungeonAtual();
   document.getElementById("dungeonAtual").style.display = "block";
+  const div = document.getElementById("encontrosDungeon");
+  div.innerHTML += 
+  `
+    <div id="listaInimigosAtivos"></div>
+    <div class="d-flex mb-2">
+        <button class="btn btn-primary btn-sm mb-2" onclick="abrirAdicionarInimigo()">
+          Adicionar Inimigo
+        </button>
+        <button class="btn btn-secondary btn-sm mb-2" onclick="alternarMortos()">
+            Ocultar Mortos
+        </button>
+    </div>
+  `
+  
   alert(`Nova dungeon iniciada: ${nome} (${tipo})`);
 }

@@ -27,58 +27,58 @@ const local = [
 //Encontros
 const encontrosPorBioma = {
   planicie: [
-    ["4 Goblin Bucha", "4 Goblin Bucha e 1 Bruxo", "1 Ogro Mercenário e 1 Ogro Brigão"],
-    ["1 Kaprotauro Guerreiro", "1 Kaprotauro Lanceiro e 1 Curandeiro", "2 Goblin Bucha e 1 Troll Capenga"],
-    ["2 Ladrões", "2 Javalis", "2 Kaprotauro Lanceiro e 1 Curandeiro"],
-    ["1 Ogro Brigão", "2 Soldados", "2 Nagas Soldado e 1 Mística"]
+    ["4 Goblin Bucha", "4 Goblin Bucha e 1 Goblin Bruxo", "1 Ogro Mercenário e 1 Ogro Brigão"],
+    ["1 Kaprotauro Guerreiro", "1 Kaprotauro Lanceiro e 1 Kaprotauro Curandeiro", "2 Goblin Bucha e 1 Troll Capanga"],
+    ["2 Ladrão", "2 Javali", "2 Kaprotauro Lanceiro e 1 Kaprotauro Curandeiro"],
+    ["1 Ogro Brigão", "2 Soldado", "2 Nagas Soldado e 1 Naga Mística"]
   ],
   floresta: [
-    ["2 Ninhadas de Aracnídeos", "1 Aracna Gigante", "4 Boitatás"],
-    ["2 Plantas Ambulantes", "2 Limos Vivos", "2 Plantas Ambulantes e 3 Cuspidores"],
-    ["2 Bolhas Gelatinosas", "3 Boitatás", "2 Kaprotauro Lanceiro e 1 Kaprotauro Curandeiro"],
-    ["2 Fungos Protetores e 2 Atiradores", "4 Fungos Protetores e 1 Fungo Mestre", "4 Fungos Protetores e 3 Fungo Mestre"]
+    ["2 Ninhada de Aracnídeo", "1 Aracna Gigante", "4 Boitatá"],
+    ["2 Planta Ambulante", "2 Limo Vivo", "2 Planta Ambulante e 3 Planta Cuspidora"],
+    ["2 Bolha Gelatinosa", "3 Boitatá", "2 Kaprotauro Lanceiro e 1 Kaprotauro Curandeiro"],
+    ["2 Fungo Protetor e 2 Fungo Atirador", "4 Fungo Protetor e 1 Fungo Mestre", "4 Fungo Protetor e 3 Fungo Mestre"]
   ],
   selva: [
-    ["1 Leão", "1 Leão e 1 Pantera", "2 Leões e 1 Pantera"],
-    ["3 Serpentes Constritoras", "2 Nagas Soldado", "2 Nagas Soldado e 1 Mística"],
-    ["1 Naga Soldado", "Urso Preto", "2 Goblins Bucha e 1 Troll Capenga"],
-    ["2 Javalis", "Quimera Grotesca", "Urso Pardo"]
+    ["1 Leão", "1 Leão e 1 Pantera", "2 Leão e 1 Pantera"],
+    ["3 Serpente Constritora", "2 Naga Soldado", "2 Naga Soldado e 1 Naga Mística"],
+    ["1 Naga Soldado", "Urso Preto", "2 Goblin Bucha e 1 Troll Capanga"],
+    ["2 Javali", "Quimera Grotesca", "Urso Pardo"]
   ],
   deserto: [
-    ["3 Abutres", "4 Abutres", "1 Ogro Mercenário e 1 Ogro Brigão"],
-    ["2 Ladrões", "3 Ladrões", "Verme Devorador + 2 Abutres"],
-    ["1 Ogro Brigão", "1 Ogro Mercenário", "1 Ogro Mercenário + 3 Goblins Bucha"],
-    ["4 Goblin Bucha", "Verme Devorador", "2 Rumas Soldado + 2 Rumas Ladrão"]
+    ["3 Abutre", "4 Abutre", "1 Ogro Mercenário e 1 Ogro Brigão"],
+    ["2 Ladrão", "3 Ladrão", "Verme Devorador + 2 Abutre"],
+    ["1 Ogro Brigão", "1 Ogro Mercenário", "1 Ogro Mercenário + 3 Goblin Bucha"],
+    ["4 Goblin Bucha", "Verme Devorador", "2 soldado + 2 Ladrão"]
   ],
   colina: [
-    ["2 Harpias", "2 Harpias e 1 Abutre", "2 Harpias e 1 Quimera Grotesca"],
-    ["3 Lobos", "Urso Preto", "Urso Pardo"],
-    ["Leão", "Grifo Selvagem", "Grifo Selvagem + 3 Lobos"],
-    ["Pantera", "Quimera Grotesca", "2 Leões e 1 Pantera"]
+    ["2 Harpia", "2 Harpia e 1 Abutre", "2 Harpia e 1 Quimera Grotesca"],
+    ["3 Lobo", "Urso Preto", "Urso Pardo"],
+    ["Leão", "Grifo Selvagem", "Grifo Selvagem + 3 Lobo"],
+    ["Pantera", "Quimera Grotesca", "2 Leão e 1 Pantera"]
   ],
   montanha: [
-    ["Elemental de Fogo", "2 Harpias e 1 Abutre", "2 Harpias e 1 Quimera Grotesca"],
-    ["1 Yeti", "2 Canidraco Comun", "1 Elemental de Fogo e 1 Serpe"],
-    ["1 Serpe", "4 Yetilins", "2 Yetis"],
-    ["3 Bodes", "1 Yeti e 1 Yetilin", "2 Serpes"]
+    ["Elemental de Fogo", "2 Harpia e 1 Abutre", "2 Harpia e 1 Quimera Grotesca"],
+    ["1 Yeti", "2 Canidraco Comun", "1 Elemental de Fogo e 1 Serpedraco"],
+    ["1 Serpedraco", "4 Yetilins", "2 Yetis"],
+    ["3 Bode", "1 Yeti e 1 Yetilin", "2 Serpedraco"]
   ],
   costeiro: [
-    ["2 Smorks Soldado", "2 Smorks Soldado e 1 Suporte", "3 Smorks Soldado e 1 Suporte"],
-    ["1 Smork Soldado e 1 Suporte", "3 Smorks Soldado", "2 Smorks Soldado e 2 Suporte"],
-    ["2 Ladrões", "3 Ladrões", "3 Ladrões e 2 Soldado"],
-    ["2 Fantasmas Perdidos", "3 Fantasmas Perdidos", "4 Fantasmas Perdidos"]
+    ["2 Smork Soldado", "2 Smork Soldado e 1 Smork Suporte", "3 Smork Soldado e 1 Smork Suporte"],
+    ["1 Smork Soldado e 1 Smork Suporte", "3 Smork Soldado", "2 Smork Soldado e 2 Smork Suporte"],
+    ["2 Ladrão ", "3 Ladrão", "3 Ladrão e 2 Soldado"],
+    ["2 Fantasma Perdido", "3 Fantasma Perdido", "4 Fantasma Perdido"]
   ],
   marinho: [
-    ["2 Smorks Soldado", "2 Smorks Soldado e 1 Suporte", "3 Smorks Soldado e 1 Suporte"],
-    ["1 Smork Soldado e 1 Suporte", "3 Smorks Soldado", "2 Smorks Soldado e 2 Suporte"],
-    ["Tubarão", "1 Crocodilo", "2 Crocodilos"],
-    ["Tubarão", "2 Tubarões", "1 Crocodilo e 2 Tubarões"]
+    ["2 Smork Soldado", "2 Smork Soldado e 1 Smork Suporte", "3 Smork Soldado e 1 Smork Suporte"],
+    ["1 Smork Soldado e 1 Smork Suporte", "3 Smork Soldado", "2 Smork Soldado e 2 Smork Suporte"],
+    ["Tubarão", "1 Crocodilo", "2 Crocodilo"],
+    ["Tubarão", "2 Tubarão", "1 Crocodilo e 2 Tubarão"]
   ],
   pantano: [
-    ["2 Enxames de Mosquitos", "3 Fantasmas Perdidos", "4 Fantasmas Perdidos"],
-    ["2 Fantasmas Perdidos", "4 Zumbis", "3 Diabretes e 3 Zumbis"],
-    ["3 Zumbis", "1 Crocodilo", "2 Crocodilos"],
-    ["4 Diabretes", "1 Shugoth", "1 Shugoth e 2 Fantasmas Perdidos"]
+    ["2 Enxame de Mosquito", "3 Fantasma Perdido", "4 Fantasma Perdido"],
+    ["2 Fantasma Perdido", "4 Zumbi Comun", "3 Diabrete e 3 Zumbi Comun"],
+    ["3 Zumbi Comun", "1 Crocodilo", "2 Crocodilo"],
+    ["4 Diabrete", "1 Shugoth", "1 Shugoth e 2 Fantasma Perdido"]
   ]
 };
 
@@ -5245,6 +5245,7 @@ const armasLista = [
   { Nome: "Sabre", Tipo: "Leve", Dano: 2, Critico: 3, Especial: "", Acesso: "Militar" },
   { Nome: "Rapieira", Tipo: "Leve", Dano: 0, Critico: 5, Especial: "", Acesso: "Especial" },
   { Nome: "Foice", Tipo: "Leve", Dano: 2, Critico: 3, Especial: "Rude", Acesso: "Fazenda" },
+  { Nome: "Arpão", Tipo: "Média", Dano: 2, Critico: 4, Especial: "", Acesso: "Drop" },
   { Nome: "Clava", Tipo: "Média", Dano: 2, Critico: 4, Especial: "", Acesso: "Banal" },
   { Nome: "Machado de Mão", Tipo: "Média", Dano: 3, Critico: 4, Especial: "", Acesso: "Ferreiro" },
   { Nome: "Maça", Tipo: "Média", Dano: 2, Critico: 5, Especial: "", Acesso: "Militar" },
@@ -5272,7 +5273,6 @@ const armasLista = [
   { Nome: "Besta de Mão", Tipo: "Distância", Dano: 0, Critico: 6, Especial: "Recarga", Acesso: "Especial" },
   { Nome: "Besta Pesada", Tipo: "Distância", Dano: 0, Critico: 8, Especial: "Duas Mãos; Recarga", Acesso: "Militar" },
   { Nome: "Varinha do Fogo", Tipo: "Distância", Dano: 0, Critico: 0, Especial: "Fogo", Acesso: "Academia" },
-  { Nome: "Varinha do Gelo", Tipo: "Distância", Dano: 0, Critico: 0, Especial: "Gelo", Acesso: "Academia" }
 ];
 
 const descritoresAm = [
@@ -6838,6 +6838,3131 @@ const habilidadeEspecies = {
     acesso: "Especial"
   }
 ];
+
+const acao1 = [
+  { valor: 1, item: "Abandonar" },
+  { valor: 2, item: "Abrir" },
+  { valor: 3, item: "Acompanhar" },
+  { valor: 4, item: "Aliar" },
+  { valor: 5, item: "Ameaçar" },
+  { valor: 6, item: "Apoiar" },
+  { valor: 7, item: "Aprisionar" },
+  { valor: 8, item: "Arruinar" },
+  { valor: 9, item: "Atacar" },
+  { valor: 10, item: "Ativar" },
+  { valor: 11, item: "Atrair" },
+  { valor: 12, item: "Atrapalhar" },
+  { valor: 13, item: "Atrasar" },
+  { valor: 14, item: "Aumentar" },
+  { valor: 15, item: "Auxiliar" },
+  { valor: 16, item: "Barganhar" },
+  { valor: 17, item: "Bloquear" },
+  { valor: 18, item: "Capturar" },
+  { valor: 19, item: "Carregar" },
+  { valor: 20, item: "Celebrar" },
+  { valor: 21, item: "Chegar" },
+  { valor: 22, item: "Combinar" },
+  { valor: 23, item: "Começar" },
+  { valor: 24, item: "Comunicar" },
+  { valor: 25, item: "Conceder" },
+  { valor: 26, item: "Concordar" },
+  { valor: 27, item: "Confiar" },
+  { valor: 28, item: "Conseguir" },
+  { valor: 29, item: "Consertar" },
+  { valor: 30, item: "Continuar" },
+  { valor: 31, item: "Controlar" },
+  { valor: 32, item: "Criar" },
+  { valor: 33, item: "Curar" },
+  { valor: 34, item: "Defender" },
+  { valor: 35, item: "Deixar" },
+  { valor: 36, item: "Depositar" },
+  { valor: 37, item: "Derrubar" },
+  { valor: 38, item: "Desconfiar" },
+  { valor: 39, item: "Desperdiçar" },
+  { valor: 40, item: "Destruir" },
+  { valor: 41, item: "Diminuir" },
+  { valor: 42, item: "Disputa" },
+  { valor: 43, item: "Dividir" },
+  { valor: 44, item: "Emboscar" },
+  { valor: 45, item: "Energizar" },
+  { valor: 46, item: "Enganar" },
+  { valor: 47, item: "Escapar" },
+  { valor: 48, item: "Esforçar" },
+  { valor: 49, item: "Estranhar" },
+  { valor: 50, item: "Expor" },
+  { valor: 51, item: "Facilitar" },
+  { valor: 52, item: "Fechar" },
+  { valor: 53, item: "Ferir" },
+  { valor: 54, item: "Fracassar" },
+  { valor: 55, item: "Fugir" },
+  { valor: 56, item: "Guiar" },
+  { valor: 57, item: "Imitar" },
+  { valor: 58, item: "Informar" },
+  { valor: 59, item: "Inspecionar" },
+  { valor: 60, item: "Interrogar" },
+  { valor: 61, item: "Interromper" },
+  { valor: 62, item: "Invadir" },
+  { valor: 63, item: "Liberar" }, // Libertar estava no texto — aqui mantive "Libertar"
+  { valor: 64, item: "Louvar" },
+  { valor: 65, item: "Lutar" },
+  { valor: 66, item: "Mal-usar" },
+  { valor: 67, item: "Mover" },
+  { valor: 68, item: "Negar" },
+  { valor: 69, item: "Negligenciar" },
+  { valor: 70, item: "Observar" },
+  { valor: 71, item: "Ocultar" },
+  { valor: 72, item: "Opor" },
+  { valor: 73, item: "Pacificar" },
+  { valor: 74, item: "Parar" },
+  { valor: 75, item: "Partir" },
+  { valor: 76, item: "Pegar" },
+  { valor: 77, item: "Perseguir" },
+  { valor: 78, item: "Prosseguir" },
+  { valor: 79, item: "Proteger" },
+  { valor: 80, item: "Punir" },
+  { valor: 81, item: "Quebrar" },
+  { valor: 82, item: "Realizar" },
+  { valor: 83, item: "Recompensar" },
+  { valor: 84, item: "Recrutar" },
+  { valor: 85, item: "Recusar" },
+  { valor: 86, item: "Renunciar" },
+  { valor: 87, item: "Repelir" },
+  { valor: 88, item: "Retornar" },
+  { valor: 89, item: "Satisfazer" },
+  { valor: 90, item: "Separar" },
+  { valor: 91, item: "Soltar" },
+  { valor: 92, item: "Suplantar" },
+  { valor: 93, item: "Suprimir" },
+  { valor: 94, item: "Trair" },
+  { valor: 95, item: "Transformar" },
+  { valor: 96, item: "Triunfar" },
+  { valor: 97, item: "Trocar" },
+  { valor: 98, item: "Usar" },
+  { valor: 99, item: "Usurpar" },
+  { valor: 100, item: "Viajar" }
+];
+
+const acao2 = [
+  { valor: 1, item: "Acordo" },
+  { valor: 2, item: "Adversidade" },
+  { valor: 3, item: "Ambiente" },
+  { valor: 4, item: "Amizade" },
+  { valor: 5, item: "Animal" },
+  { valor: 6, item: "Arma" },
+  { valor: 7, item: "Atenção" },
+  { valor: 8, item: "Batalha" },
+  { valor: 9, item: "Benefícios" },
+  { valor: 10, item: "Burocracia" },
+  { valor: 11, item: "Caminho" },
+  { valor: 12, item: "Caos" },
+  { valor: 13, item: "Clima" },
+  { valor: 14, item: "Conclusão" },
+  { valor: 15, item: "Conflito" },
+  { valor: 16, item: "Conforto" },
+  { valor: 17, item: "Construção" },
+  { valor: 18, item: "Cooperação" },
+  { valor: 19, item: "Defesa" },
+  { valor: 20, item: "Desvantagem" },
+  { valor: 21, item: "Distração" },
+  { valor: 22, item: "Doença" },
+  { valor: 23, item: "Dor" },
+  { valor: 24, item: "Elementos" },
+  { valor: 25, item: "Emoção" },
+  { valor: 26, item: "Energia" },
+  { valor: 27, item: "Enredo" },
+  { valor: 28, item: "Equilíbrio" },
+  { valor: 29, item: "Esgotamento" },
+  { valor: 30, item: "Esperança" },
+  { valor: 31, item: "Expectativa" },
+  { valor: 32, item: "Exterior" },
+  { valor: 33, item: "Exterior" }, // repetido, mantido conforme o texto
+  { valor: 34, item: "Extravagância" },
+  { valor: 35, item: "Fama" },
+  { valor: 36, item: "Fardo" },
+  { valor: 37, item: "Ferimento" },
+  { valor: 38, item: "Físico" },
+  { valor: 39, item: "Força" },
+  { valor: 40, item: "Fracasso" },
+  { valor: 41, item: "Garantia" },
+  { valor: 42, item: "Grupo" },
+  { valor: 43, item: "Ideia" },
+  { valor: 44, item: "Ilusão" },
+  { valor: 45, item: "Indivíduo" },
+  { valor: 46, item: "Informação" },
+  { valor: 47, item: "Infortúnio" },
+  { valor: 48, item: "Inimigo" },
+  { valor: 49, item: "Inocência" },
+  { valor: 50, item: "Intelecto" },
+  { valor: 51, item: "Interior" },
+  { valor: 52, item: "Investimento" },
+  { valor: 53, item: "Judicial" },
+  { valor: 54, item: "Lar" },
+  { valor: 55, item: "Liberdade" },
+  { valor: 56, item: "Liderança" },
+  { valor: 57, item: "Localidade" },
+  { valor: 58, item: "Medo" },
+  { valor: 59, item: "Militar" },
+  { valor: 60, item: "Mundana" },
+  { valor: 61, item: "Natureza" },
+  { valor: 62, item: "Necessidades" },
+  { valor: 63, item: "Negócios" },
+  { valor: 64, item: "Normal" },
+  { valor: 65, item: "Notícias" },
+  { valor: 66, item: "Objetivo" },
+  { valor: 67, item: "Objeto" },
+  { valor: 68, item: "Obscuridade" },
+  { valor: 69, item: "Obstáculo" },
+  { valor: 70, item: "Oficial" },
+  { valor: 71, item: "Oposição" },
+  { valor: 72, item: "Paz" },
+  { valor: 73, item: "Perigo" },
+  { valor: 74, item: "Pessoal" },
+  { valor: 75, item: "Pessoas" },
+  { valor: 76, item: "Pobreza" },
+  { valor: 77, item: "Poder" },
+  { valor: 78, item: "Portal" },
+  { valor: 79, item: "Posses" },
+  { valor: 80, item: "Prisão" },
+  { valor: 81, item: "Projeto" },
+  { valor: 82, item: "Proteção" },
+  { valor: 83, item: "Provação" },
+  { valor: 84, item: "Representante" },
+  { valor: 85, item: "Riqueza" },
+  { valor: 86, item: "Saúde" },
+  { valor: 87, item: "Segurança" },
+  { valor: 88, item: "Sofrimento" },
+  { valor: 89, item: "Sucesso" },
+  { valor: 90, item: "Surpresa" },
+  { valor: 91, item: "Tática" },
+  { valor: 92, item: "Tecnologia" },
+  { valor: 93, item: "Tempo" },
+  { valor: 94, item: "Tensão" },
+  { valor: 95, item: "Trabalho" },
+  { valor: 96, item: "Valor" },
+  { valor: 97, item: "Vantagem" },
+  { valor: 98, item: "Veículo" },
+  { valor: 99, item: "Vitória" },
+  { valor: 100, item: "Vulnerabilidade" }
+];
+
+const descritor1 = [
+  { valor: 1, item: "Afortunadamente" },
+  { valor: 2, item: "Agradavelmente" },
+  { valor: 3, item: "Agressivamente" },
+  { valor: 4, item: "Alegremente" },
+  { valor: 5, item: "Amavelmente" },
+  { valor: 6, item: "Ameaçadoramente" },
+  { valor: 7, item: "Animadamente" },
+  { valor: 8, item: "Ansiosamente" },
+  { valor: 9, item: "Apressadamente" },
+  { valor: 10, item: "Ardentemente" },
+  { valor: 11, item: "Arrumadamente" },
+  { valor: 12, item: "Assustadoramente" },
+  { valor: 13, item: "Audaciosamente" },
+  { valor: 14, item: "Aventureiramente" },
+  { valor: 15, item: "Bastante" },
+  { valor: 16, item: "Bizarramente" },
+  { valor: 17, item: "Calmamente" },
+  { valor: 18, item: "Cautelosamente" },
+  { valor: 19, item: "Combativamente" },
+  { valor: 20, item: "Confrontosamente" },
+  { valor: 21, item: "Contentemente" },
+  { valor: 22, item: "Corajosamente" },
+  { valor: 23, item: "Cuidadosamente" },
+  { valor: 24, item: "Curiosamente" },
+  { valor: 25, item: "Deliberadamente" },
+  { valor: 26, item: "Delicadamente" },
+  { valor: 27, item: "Desafiadoramente" },
+  { valor: 28, item: "Desajeitadamente" },
+  { valor: 29, item: "Desamparadamente" },
+  { valor: 30, item: "Descontroladamente" },
+  { valor: 31, item: "Descuidadamente" },
+  { valor: 32, item: "Desesperadamente" },
+  { valor: 33, item: "Desoladamente" },
+  { valor: 34, item: "Divertidamente" },
+  { valor: 35, item: "Educadamente" },
+  { valor: 36, item: "Eficientemente" },
+  { valor: 37, item: "Emocionalmente" },
+  { valor: 38, item: "Empolgadamente" },
+  { valor: 39, item: "Energicamente" },
+  { valor: 40, item: "Enormemente" },
+  { valor: 41, item: "Entusiasmadamente" },
+  { valor: 42, item: "Estranhamente" },
+  { valor: 43, item: "Ferozmente" },
+  { valor: 44, item: "Freneticamente" },
+  { valor: 45, item: "Friamente" },
+  { valor: 46, item: "Frouxamente" },
+  { valor: 47, item: "Generosamente" },
+  { valor: 48, item: "Gentilmente" },
+  { valor: 49, item: "Graciosamente" },
+  { valor: 50, item: "Gratamente" },
+  { valor: 51, item: "Grosseiramente" },
+  { valor: 52, item: "Hesitantemente" },
+  { valor: 53, item: "Implacavelmente" },
+  { valor: 54, item: "Incessantemente" },
+  { valor: 55, item: "Inocentemente" },
+  { valor: 56, item: "Intensamente" },
+  { valor: 57, item: "Interessantemente" },
+  { valor: 58, item: "Irritantemente" },
+  { valor: 59, item: "Jocosamente" },
+  { valor: 60, item: "Lealmente" },
+  { valor: 61, item: "Lentamente" },
+  { valor: 62, item: "Levemente" },
+  { valor: 63, item: "Lindamente" },
+  { valor: 64, item: "Livremente" },
+  { valor: 65, item: "Loucamente" },
+  { valor: 66, item: "Majestosamente" },
+  { valor: 67, item: "Mecanicamente" },
+  { valor: 68, item: "Miseravelmente" },
+  { valor: 69, item: "Misteriosamente" },
+  { valor: 70, item: "Moderadamente" },
+  { valor: 71, item: "Naturalmente" },
+  { valor: 72, item: "Ofensivamente" },
+  { valor: 73, item: "Oficialmente" },
+  { valor: 74, item: "Pacificamente" },
+  { valor: 75, item: "Parcialmente" },
+  { valor: 76, item: "Passivamente" },
+  { valor: 77, item: "Peculiarmente" },
+  { valor: 78, item: "Perfeitamente" },
+  { valor: 79, item: "Perigosamente" },
+  { valor: 80, item: "Poderosamente" },
+  { valor: 81, item: "Polidamente" },
+  { valor: 82, item: "Positivamente" },
+  { valor: 83, item: "Preguiçosamente" },
+  { valor: 84, item: "Prestativamente" },
+  { valor: 85, item: "Rapidamente" },
+  { valor: 86, item: "Rudemente" },
+  { valor: 87, item: "Ruidosamente" },
+  { valor: 88, item: "Salutarmente" },
+  { valor: 89, item: "Satisfatoriamente" },
+  { valor: 90, item: "Significativamente" },
+  { valor: 91, item: "Silenciosamente" },
+  { valor: 92, item: "Suavemente" },
+  { valor: 93, item: "Temerosamente" },
+  { valor: 94, item: "Timidamente" },
+  { valor: 95, item: "Tolamente" },
+  { valor: 96, item: "Totalmente" },
+  { valor: 97, item: "Trabalhosamente" },
+  { valor: 98, item: "Vagamente" },
+  { valor: 99, item: "Violentamente" },
+  { valor: 100, item: "Zombeteiramente" }
+];
+
+const descritor2 = [
+  { valor: 1, item: "Amável" },
+  { valor: 2, item: "Animada" },
+  { valor: 3, item: "Anormal" },
+  { valor: 4, item: "Antiga" },
+  { valor: 5, item: "Aquosa" },
+  { valor: 6, item: "Árduo" },
+  { valor: 7, item: "Arruinada" },
+  { valor: 8, item: "Artificial" },
+  { valor: 9, item: "Assustador" },
+  { valor: 10, item: "Bagunçada" },
+  { valor: 11, item: "Bela" },
+  { valor: 12, item: "Bizarro" },
+  { valor: 13, item: "Calorosa" },
+  { valor: 14, item: "Cheio" },
+  { valor: 15, item: "Chocante" },
+  { valor: 16, item: "Clara" },
+  { valor: 17, item: "Colorida" },
+  { valor: 18, item: "Danificada" },
+  { valor: 19, item: "Débil" },
+  { valor: 20, item: "Derrotada" },
+  { valor: 21, item: "Desagradável" },
+  { valor: 22, item: "Desamparado" },
+  { valor: 23, item: "Descorada" },
+  { valor: 24, item: "Detestável" },
+  { valor: 25, item: "Divertido" },
+  { valor: 26, item: "Duro" },
+  { valor: 27, item: "Enorme" },
+  { valor: 28, item: "Esbelto" },
+  { valor: 29, item: "Escura" },
+  { valor: 30, item: "Esmaecido" },
+  { valor: 31, item: "Esquisita" },
+  { valor: 32, item: "Estilosa" },
+  { valor: 33, item: "Extraordinário" },
+  { valor: 34, item: "Extravagante" },
+  { valor: 35, item: "Familiar" },
+  { valor: 36, item: "Festiva" },
+  { valor: 37, item: "Fofa" },
+  { valor: 38, item: "Forte" },
+  { valor: 39, item: "Fraca" },
+  { valor: 40, item: "Frágil" },
+  { valor: 41, item: "Fresco" },
+  { valor: 42, item: "Fria" },
+  { valor: 43, item: "Glorioso" },
+  { valor: 44, item: "Gracioso" },
+  { valor: 45, item: "Grande" },
+  { valor: 46, item: "Grosseiro" },
+  { valor: 47, item: "Histórico" },
+  { valor: 48, item: "Horrível" },
+  { valor: 49, item: "Impecável" },
+  { valor: 50, item: "Importante" },
+  { valor: 51, item: "Incompleto" },
+  { valor: 52, item: "Interessante" },
+  { valor: 53, item: "Jovem" },
+  { valor: 54, item: "Juvenil" },
+  { valor: 55, item: "Letal" },
+  { valor: 56, item: "Limpa" },
+  { valor: 57, item: "Maçante" },
+  { valor: 58, item: "Macio" },
+  { valor: 59, item: "Maduro" },
+  { valor: 60, item: "Magnífico" },
+  { valor: 61, item: "Marcante" },
+  { valor: 62, item: "Mediano" },
+  { valor: 63, item: "Menos" },
+  { valor: 64, item: "Militar" },
+  { valor: 65, item: "Misteriosa" },
+  { valor: 66, item: "Miúdo" },
+  { valor: 67, item: "Moderna" },
+  { valor: 68, item: "Modesta" },
+  { valor: 69, item: "Mundana" },
+  { valor: 70, item: "Natural" },
+  { valor: 71, item: "Normal" },
+  { valor: 72, item: "Pacífica" },
+  { valor: 73, item: "Pálido" },
+  { valor: 74, item: "Peculiar" },
+  { valor: 75, item: "Pequena" },
+  { valor: 76, item: "Perfumada" },
+  { valor: 77, item: "Pesado" },
+  { valor: 78, item: "Pobre" },
+  { valor: 79, item: "Poderosa" },
+  { valor: 80, item: "Podre" },
+  { valor: 81, item: "Possante" },
+  { valor: 82, item: "Protetor" },
+  { valor: 83, item: "Quebrado" },
+  { valor: 84, item: "Raro" },
+  { valor: 85, item: "Reconfortante" },
+  { valor: 86, item: "Requintado" },
+  { valor: 87, item: "Rústica" },
+  { valor: 88, item: "Saudável" },
+  { valor: 89, item: "Seco" },
+  { valor: 90, item: "Simples" },
+  { valor: 91, item: "Sofisticada" },
+  { valor: 92, item: "Solitária" },
+  { valor: 93, item: "Suave" },
+  { valor: 94, item: "Suja" },
+  { valor: 95, item: "Tedioso" },
+  { valor: 96, item: "Tenebrosa" },
+  { valor: 97, item: "Tranquilizadora" },
+  { valor: 98, item: "Valioso" },
+  { valor: 99, item: "Vazia" },
+  { valor: 100, item: "Vibrante" }
+];
+
+const localidade = [
+  { valor: 1, item: "Abandonada" },
+  { valor: 2, item: "Abrir" },
+  { valor: 3, item: "Abundante" },
+  { valor: 4, item: "Afortunada" },
+  { valor: 5, item: "Agourenta" },
+  { valor: 6, item: "Alta" },
+  { valor: 7, item: "Ameaçadora" },
+  { valor: 8, item: "Amedrontadora" },
+  { valor: 9, item: "Animada" },
+  { valor: 10, item: "Antiga" },
+  { valor: 11, item: "Apinhada" },
+  { valor: 12, item: "Aquosa" },
+  { valor: 13, item: "Armazenamento" },
+  { valor: 14, item: "Arruinada" },
+  { valor: 15, item: "Artística" },
+  { valor: 16, item: "Ativa" },
+  { valor: 17, item: "Atmosfera" },
+  { valor: 18, item: "Aviso" },
+  { valor: 19, item: "Bagunçada" },
+  { valor: 20, item: "Barulhenta" },
+  { valor: 21, item: "Bela" },
+  { valor: 22, item: "Calma" },
+  { valor: 23, item: "Calorosa" },
+  { valor: 24, item: "Cercada" },
+  { valor: 25, item: "Cheia" },
+  { valor: 26, item: "Clara" },
+  { valor: 27, item: "Colorida" },
+  { valor: 28, item: "Confusa" },
+  { valor: 29, item: "Danificada" },
+  { valor: 30, item: "Desagradável" },
+  { valor: 31, item: "Descorada" },
+  { valor: 32, item: "Doméstica" },
+  { valor: 33, item: "Empresarial" },
+  { valor: 34, item: "Encantadora" },
+  { valor: 35, item: "Enorme" },
+  { valor: 36, item: "Entrada" },
+  { valor: 37, item: "Entulhada" },
+  { valor: 38, item: "Erma" },
+  { valor: 39, item: "Escura" },
+  { valor: 40, item: "Espaçosa" },
+  { valor: 41, item: "Esquisita" },
+  { valor: 42, item: "Estilosa" },
+  { valor: 43, item: "Estranhar" },
+  { valor: 44, item: "Exclusiva" },
+  { valor: 45, item: "Exposta" },
+  { valor: 46, item: "Extravagante" },
+  { valor: 47, item: "Familiar" },
+  { valor: 48, item: "Festiva" },
+  { valor: 49, item: "Fofa" },
+  { valor: 50, item: "Frenética" },
+  { valor: 51, item: "Fria" },
+  { valor: 52, item: "Horrível" },
+  { valor: 53, item: "Importante" },
+  { valor: 54, item: "Impressionante" },
+  { valor: 55, item: "Inativa" },
+  { valor: 56, item: "Incomum" },
+  { valor: 57, item: "Inesperada" },
+  { valor: 58, item: "Intencional" },
+  { valor: 59, item: "Intensa" },
+  { valor: 60, item: "Intrigante" },
+  { valor: 61, item: "Limpa" },
+  { valor: 62, item: "Longa" },
+  { valor: 63, item: "Misteriosa" },
+  { valor: 64, item: "Moderna" },
+  { valor: 65, item: "Modesta" },
+  { valor: 66, item: "Móvel" },
+  { valor: 67, item: "Mundana" },
+  { valor: 68, item: "Natural" },
+  { valor: 69, item: "Nova" },
+  { valor: 70, item: "Ocupada" },
+  { valor: 71, item: "Oficial" },
+  { valor: 72, item: "Pacífica" },
+  { valor: 73, item: "Pequena" },
+  { valor: 74, item: "Perfumada" },
+  { valor: 75, item: "Perigosa" },
+  { valor: 76, item: "Pessoal" },
+  { valor: 77, item: "Portal" },
+  { valor: 78, item: "Prazerosa" },
+  { valor: 79, item: "Prejudicial" },
+  { valor: 80, item: "Prestativa" },
+  { valor: 81, item: "Proteção" },
+  { valor: 82, item: "Protegida" },
+  { valor: 83, item: "Receptiva" },
+  { valor: 84, item: "Remota" },
+  { valor: 85, item: "Rudimentar" },
+  { valor: 86, item: "Rústica" },
+  { valor: 87, item: "Segura" },
+  { valor: 88, item: "Serviços" },
+  { valor: 89, item: "Significativa" },
+  { valor: 90, item: "Silenciosa" },
+  { valor: 91, item: "Simples" },
+  { valor: 92, item: "Sofisticada" },
+  { valor: 93, item: "Solitária" },
+  { valor: 94, item: "Suja" },
+  { valor: 95, item: "Suspeita" },
+  { valor: 96, item: "Tenebrosa" },
+  { valor: 97, item: "Tranquila" },
+  { valor: 98, item: "Tranquilizadora" },
+  { valor: 99, item: "Útil" },
+  { valor: 100, item: "Vazia" }
+];
+
+const personagem = [
+  { valor: 1, item: "Abundante" },
+  { valor: 2, item: "Acompanhada" },
+  { valor: 3, item: "Adversária" },
+  { valor: 4, item: "Afortunada" },
+  { valor: 5, item: "Agressiva" },
+  { valor: 6, item: "Alta" },
+  { valor: 7, item: "Ameaçadora" },
+  { valor: 8, item: "Amedrontada" },
+  { valor: 9, item: "Amedrontadora" },
+  { valor: 10, item: "Amizade" },
+  { valor: 11, item: "Animal" },
+  { valor: 12, item: "Ansiosa" },
+  { valor: 13, item: "Antiga" },
+  { valor: 14, item: "Armada" },
+  { valor: 15, item: "Ativa" },
+  { valor: 16, item: "Barulhenta" },
+  { valor: 17, item: "Bela" },
+  { valor: 18, item: "Brincalhona" },
+  { valor: 19, item: "Buscadora" },
+  { valor: 20, item: "Calma" },
+  { valor: 21, item: "Casual" },
+  { valor: 22, item: "Chique" },
+  { valor: 23, item: "Colorida" },
+  { valor: 24, item: "Combativa" },
+  { valor: 25, item: "Conhecedora" },
+  { valor: 26, item: "Curiosa" },
+  { valor: 27, item: "Débil" },
+  { valor: 28, item: "Derrotada" },
+  { valor: 29, item: "Desafiadora" },
+  { valor: 30, item: "Desamparada" },
+  { valor: 31, item: "Descuidada" },
+  { valor: 32, item: "Emboscar" },
+  { valor: 33, item: "Emocional" },
+  { valor: 34, item: "Empolgada" },
+  { valor: 35, item: "Enérgica" },
+  { valor: 36, item: "Enganosa" },
+  { valor: 37, item: "Equipada" },
+  { valor: 38, item: "Esperada" },
+  { valor: 39, item: "Esquisita" },
+  { valor: 40, item: "Estranhar" },
+  { valor: 41, item: "Familiar" },
+  { valor: 42, item: "Feliz" },
+  { valor: 43, item: "Feminina" },
+  { valor: 44, item: "Feroz" },
+  { valor: 45, item: "Forte" },
+  { valor: 46, item: "Fraca" },
+  { valor: 47, item: "Frenética" },
+  { valor: 48, item: "Furtiva" },
+  { valor: 49, item: "Generosa" },
+  { valor: 50, item: "Grande" },
+  { valor: 51, item: "Grata" },
+  { valor: 52, item: "Habilidosa" },
+  { valor: 53, item: "Importante" },
+  { valor: 54, item: "Inativa" },
+  { valor: 55, item: "Incomum" },
+  { valor: 56, item: "Inesperada" },
+  { valor: 57, item: "Influente" },
+  { valor: 58, item: "Inocência" },
+  { valor: 59, item: "Intensa" },
+  { valor: 60, item: "Jovem" },
+  { valor: 61, item: "Ladra" },
+  { valor: 62, item: "Leal" },
+  { valor: 63, item: "Lenta" },
+  { valor: 64, item: "Louca" },
+  { valor: 65, item: "Machucada" },
+  { valor: 66, item: "Masculina" },
+  { valor: 67, item: "Miserável" },
+  { valor: 68, item: "Misteriosa" },
+  { valor: 69, item: "Múltiplas" },
+  { valor: 70, item: "Mundana" },
+  { valor: 71, item: "Natural" },
+  { valor: 72, item: "Ocupada" },
+  { valor: 73, item: "Oficial" },
+  { valor: 74, item: "Ousada" },
+  { valor: 75, item: "Pacífica" },
+  { valor: 76, item: "Passiva" },
+  { valor: 77, item: "Pequena" },
+  { valor: 78, item: "Perfumada" },
+  { valor: 79, item: "Perigosa" },
+  { valor: 80, item: "Poderosa" },
+  { valor: 81, item: "Possante" },
+  { valor: 82, item: "Prazerosa" },
+  { valor: 83, item: "Precavida" },
+  { valor: 84, item: "Prejudicial" },
+  { valor: 85, item: "Prestativa" },
+  { valor: 86, item: "Profissional" },
+  { valor: 87, item: "Protegida" },
+  { valor: 88, item: "Protetora" },
+  { valor: 89, item: "Questionadora" },
+  { valor: 90, item: "Rápida" },
+  { valor: 91, item: "Selvagem" },
+  { valor: 92, item: "Silenciosa" },
+  { valor: 93, item: "Sobrenatural" },
+  { valor: 94, item: "Solitária" },
+  { valor: 95, item: "Tenebrosa" },
+  { valor: 96, item: "Tola" },
+  { valor: 97, item: "Tranquilizadora" },
+  { valor: 98, item: "Triunfante" },
+  { valor: 99, item: "Violenta" },
+  { valor: 100, item: "Vocal" }
+];
+
+const objetoCena = [
+  { valor: 1, item: "Afortunada" },
+  { valor: 2, item: "Almejado" },
+  { valor: 3, item: "Ameaçadora" },
+  { valor: 4, item: "Amedrontadora" },
+  { valor: 5, item: "Antiga" },
+  { valor: 6, item: "Arma" },
+  { valor: 7, item: "Arruinada" },
+  { valor: 8, item: "Artística" },
+  { valor: 9, item: "Ativa" },
+  { valor: 10, item: "Barulhenta" },
+  { valor: 11, item: "Bela" },
+  { valor: 12, item: "Bizarro" },
+  { valor: 13, item: "Calorosa" },
+  { valor: 14, item: "Clara" },
+  { valor: 15, item: "Colorido" },
+  { valor: 16, item: "Complicado" },
+  { valor: 17, item: "Comunicação" },
+  { valor: 18, item: "Confusa" },
+  { valor: 19, item: "Consumível" },
+  { valor: 20, item: "Cura" },
+  { valor: 21, item: "Danificada" },
+  { valor: 22, item: "Deliberado" },
+  { valor: 23, item: "Desagradável" },
+  { valor: 24, item: "Desativado" },
+  { valor: 25, item: "Desejado" },
+  { valor: 26, item: "Doméstica" },
+  { valor: 27, item: "Duro" },
+  { valor: 28, item: "Energia" },
+  { valor: 29, item: "Enorme" },
+  { valor: 30, item: "Equipamento" },
+  { valor: 31, item: "Esmaecido" },
+  { valor: 32, item: "Esperada" },
+  { valor: 33, item: "Esquisita" },
+  { valor: 34, item: "Estilosa" },
+  { valor: 35, item: "Estranhar" },
+  { valor: 36, item: "Extravagante" },
+  { valor: 37, item: "Familiar" },
+  { valor: 38, item: "Ferramenta" },
+  { valor: 39, item: "Flora" },
+  { valor: 40, item: "Fofa" },
+  { valor: 41, item: "Frágil" },
+  { valor: 42, item: "Fria" },
+  { valor: 43, item: "Gasto" },
+  { valor: 44, item: "Gasto" },
+  { valor: 45, item: "Grande" },
+  { valor: 46, item: "Horrível" },
+  { valor: 47, item: "Importante" },
+  { valor: 48, item: "Inativa" },
+  { valor: 49, item: "Incomum" },
+  { valor: 50, item: "Inesperada" },
+  { valor: 51, item: "Informação" },
+  { valor: 52, item: "Intrigante" },
+  { valor: 53, item: "Inútil" },
+  { valor: 54, item: "Letal" },
+  { valor: 55, item: "Leve" },
+  { valor: 56, item: "Líquido" },
+  { valor: 57, item: "Lixo" },
+  { valor: 58, item: "Macio" },
+  { valor: 59, item: "Majestoso" },
+  { valor: 60, item: "Mecânico" },
+  { valor: 61, item: "Mediano" },
+  { valor: 62, item: "Misteriosa" },
+  { valor: 63, item: "Moderna" },
+  { valor: 64, item: "Molhado" },
+  { valor: 65, item: "Móvel" },
+  { valor: 66, item: "Múltiplas" },
+  { valor: 67, item: "Mundana" },
+  { valor: 68, item: "Natural" },
+  { valor: 69, item: "Nova" },
+  { valor: 70, item: "Oficial" },
+  { valor: 71, item: "Orientação" },
+  { valor: 72, item: "Ornado" },
+  { valor: 73, item: "Ornamental" },
+  { valor: 74, item: "Pequena" },
+  { valor: 75, item: "Perfumada" },
+  { valor: 76, item: "Perigosa" },
+  { valor: 77, item: "Pesado" },
+  { valor: 78, item: "Pessoal" },
+  { valor: 79, item: "Pista" },
+  { valor: 80, item: "Poderosa" },
+  { valor: 81, item: "Prazerosa" },
+  { valor: 82, item: "Prejudicial" },
+  { valor: 83, item: "Prestativa" },
+  { valor: 84, item: "Pronto" },
+  { valor: 85, item: "Proteção" },
+  { valor: 86, item: "Raro" },
+  { valor: 87, item: "Recipiente" },
+  { valor: 88, item: "Recurso" },
+  { valor: 89, item: "Roubado" },
+  { valor: 90, item: "Rudimentar" },
+  { valor: 91, item: "Significativa" },
+  { valor: 92, item: "Sofisticada" },
+  { valor: 93, item: "Solitário" },
+  { valor: 94, item: "Tenebrosa" },
+  { valor: 95, item: "Tranquilizadora" },
+  { valor: 96, item: "Útil" },
+  { valor: 97, item: "Valioso" },
+  { valor: 98, item: "Vazia" },
+  { valor: 99, item: "Vestuário" },
+  { valor: 100, item: "Viajar" }
+];
+
+
+const descritoresCidade = [
+  { valor: 1, item: "Agressiva" },
+  { valor: 2, item: "Água" },
+  { valor: 3, item: "Ambiente" },
+  { valor: 4, item: "Amedrontadora" },
+  { valor: 5, item: "Antiga" },
+  { valor: 6, item: "Árduo" },
+  { valor: 7, item: "Aromática" },
+  { valor: 8, item: "Arruinada" },
+  { valor: 9, item: "Atividade" },
+  { valor: 10, item: "Bagunçada" },
+  { valor: 11, item: "Barulhenta" },
+  { valor: 12, item: "Bela" },
+  { valor: 13, item: "Bloquear" },
+  { valor: 14, item: "Calma" },
+  { valor: 15, item: "Calorosa" },
+  { valor: 16, item: "Caótico" },
+  { valor: 17, item: "Clima" },
+  { valor: 18, item: "Colinas" },
+  { valor: 19, item: "Colorida" },
+  { valor: 20, item: "Comércio" },
+  { valor: 21, item: "Conflito" },
+  { valor: 22, item: "Controlar" },
+  { valor: 23, item: "Crime" },
+  { valor: 24, item: "Densa" },
+  { valor: 25, item: "Desenvolvida" },
+  { valor: 26, item: "Doença" },
+  { valor: 27, item: "Eficiente" },
+  { valor: 28, item: "Energia" },
+  { valor: 29, item: "Enorme" },
+  { valor: 30, item: "Erma" },
+  { valor: 31, item: "Esforçar" },
+  { valor: 32, item: "Esparsa" },
+  { valor: 33, item: "Esquisita" },
+  { valor: 34, item: "Estruturas" },
+  { valor: 35, item: "Extravagante" },
+  { valor: 36, item: "Feliz" },
+  { valor: 37, item: "Fervilhante" },
+  { valor: 38, item: "Festiva" },
+  { valor: 39, item: "Fraca" },
+  { valor: 40, item: "Fria" },
+  { valor: 41, item: "Governo" },
+  { valor: 42, item: "Grande" },
+  { valor: 43, item: "Grosseiro" },
+  { valor: 44, item: "História" },
+  { valor: 45, item: "Impecável" },
+  { valor: 46, item: "Importante" },
+  { valor: 47, item: "Impressionante" },
+  { valor: 48, item: "Incompleto" },
+  { valor: 49, item: "Indústria" },
+  { valor: 50, item: "Infortúnio" },
+  { valor: 51, item: "Interessante" },
+  { valor: 52, item: "Intrigas" },
+  { valor: 53, item: "Isolada" },
+  { valor: 54, item: "Lago" },
+  { valor: 55, item: "Liberdade" },
+  { valor: 56, item: "Liderança" },
+  { valor: 57, item: "Limpa" },
+  { valor: 58, item: "Magnífico" },
+  { valor: 59, item: "Marcante" },
+  { valor: 60, item: "Massas" },
+  { valor: 61, item: "Mecânico" },
+  { valor: 62, item: "Mediano" },
+  { valor: 63, item: "Militar" },
+  { valor: 64, item: "Miserável" },
+  { valor: 65, item: "Misteriosa" },
+  { valor: 66, item: "Moderna" },
+  { valor: 67, item: "Montanha" },
+  { valor: 68, item: "Mundana" },
+  { valor: 69, item: "Natureza" },
+  { valor: 70, item: "Opressão" },
+  { valor: 71, item: "Paz" },
+  { valor: 72, item: "Pequena" },
+  { valor: 73, item: "Perigosa" },
+  { valor: 74, item: "Perturbada" },
+  { valor: 75, item: "Pobre" },
+  { valor: 76, item: "Poderosa" },
+  { valor: 77, item: "Ponte" },
+  { valor: 78, item: "Possante" },
+  { valor: 79, item: "Prestativa" },
+  { valor: 80, item: "Protegida" },
+  { valor: 81, item: "Pública" },
+  { valor: 82, item: "Raro" },
+  { valor: 83, item: "Requintado" },
+  { valor: 84, item: "Rio" },
+  { valor: 85, item: "Riqueza" },
+  { valor: 86, item: "Rústica" },
+  { valor: 87, item: "Saudável" },
+  { valor: 88, item: "Selvagem" },
+  { valor: 89, item: "Significativa" },
+  { valor: 90, item: "Silenciosa" },
+  { valor: 91, item: "Simples" },
+  { valor: 92, item: "Sofrimento" },
+  { valor: 93, item: "Sucesso" },
+  { valor: 94, item: "Suja" },
+  { valor: 95, item: "Tecnologia" },
+  { valor: 96, item: "Tensão" },
+  { valor: 97, item: "Trabalho" },
+  { valor: 98, item: "Tranquilizadora" },
+  { valor: 99, item: "Valioso" },
+  { valor: 100, item: "Viajar" }
+];
+
+const maldicoes = [
+  { valor: 1, item: "Abandonar" },
+  { valor: 2, item: "Alegria" },
+  { valor: 3, item: "Ambiente" },
+  { valor: 4, item: "Amedrontadora" },
+  { valor: 5, item: "Amizades" },
+  { valor: 6, item: "Amor" },
+  { valor: 7, item: "Antiga" },
+  { valor: 8, item: "Aprisionar" },
+  { valor: 9, item: "Arma" },
+  { valor: 10, item: "Arruinar" },
+  { valor: 11, item: "Atrair" },
+  { valor: 12, item: "Atrasar" },
+  { valor: 13, item: "Beleza" },
+  { valor: 14, item: "Bizarro" },
+  { valor: 15, item: "Bloquear" },
+  { valor: 16, item: "Boa" },
+  { valor: 17, item: "Ciúmes" },
+  { valor: 18, item: "Começar" },
+  { valor: 19, item: "Compelir" },
+  { valor: 20, item: "Condenar" },
+  { valor: 21, item: "Conflito" },
+  { valor: 22, item: "Corpo" },
+  { valor: 23, item: "Criar" },
+  { valor: 24, item: "Cruel" },
+  { valor: 25, item: "Débil" },
+  { valor: 26, item: "Desamparada" },
+  { valor: 27, item: "Desconfiar" },
+  { valor: 28, item: "Destino" },
+  { valor: 29, item: "Diminuir" },
+  { valor: 30, item: "Dividir" },
+  { valor: 31, item: "Doença" },
+  { valor: 32, item: "Dominar" },
+  { valor: 33, item: "Dor" },
+  { valor: 34, item: "Elementos" },
+  { valor: 35, item: "Emoções" },
+  { valor: 36, item: "Energia" },
+  { valor: 37, item: "Esforçar" },
+  { valor: 38, item: "Estranhar" },
+  { valor: 39, item: "Fama" },
+  { valor: 40, item: "Família" },
+  { valor: 41, item: "Fardo" },
+  { valor: 42, item: "Felicidade" },
+  { valor: 43, item: "Ferir" },
+  { valor: 44, item: "Fracasso" },
+  { valor: 45, item: "Gratificação" },
+  { valor: 46, item: "Guiar" },
+  { valor: 47, item: "Idade" },
+  { valor: 48, item: "Ilusões" },
+  { valor: 49, item: "Incapacidade" },
+  { valor: 50, item: "Informação" },
+  { valor: 51, item: "Infortúnio" },
+  { valor: 52, item: "Inimigos" },
+  { valor: 53, item: "Intelecto" },
+  { valor: 54, item: "Interromper" },
+  { valor: 55, item: "Irônico" },
+  { valor: 56, item: "Judicial" },
+  { valor: 57, item: "Lar" },
+  { valor: 58, item: "Letal" },
+  { valor: 59, item: "Liberdade" },
+  { valor: 60, item: "Limite" },
+  { valor: 61, item: "Lutar" },
+  { valor: 62, item: "Malícia" },
+  { valor: 63, item: "Mau" },
+  { valor: 64, item: "Medo" },
+  { valor: 65, item: "Miserável" },
+  { valor: 66, item: "Misteriosa" },
+  { valor: 67, item: "Morte" },
+  { valor: 68, item: "Mover" },
+  { valor: 69, item: "Mundana" },
+  { valor: 70, item: "Natureza" },
+  { valor: 71, item: "Negligenciar" },
+  { valor: 72, item: "Negócios" },
+  { valor: 73, item: "Objetivos" },
+  { valor: 74, item: "Opressão" },
+  { valor: 75, item: "Paixão" },
+  { valor: 76, item: "Parar" },
+  { valor: 77, item: "Paz" },
+  { valor: 78, item: "Perigo" },
+  { valor: 79, item: "Permanente" },
+  { valor: 80, item: "Perseguir" },
+  { valor: 81, item: "Posses" },
+  { valor: 82, item: "Punir" },
+  { valor: 83, item: "Quebrar" },
+  { valor: 84, item: "Riqueza" },
+  { valor: 85, item: "Ruim" },
+  { valor: 86, item: "Saúde" },
+  { valor: 87, item: "Sentidos" },
+  { valor: 88, item: "Separar" },
+  { valor: 89, item: "Significativa" },
+  { valor: 90, item: "Solitária" },
+  { valor: 91, item: "Sonhos" },
+  { valor: 92, item: "Sorte" },
+  { valor: 93, item: "Sucesso" },
+  { valor: 94, item: "Temporária" },
+  { valor: 95, item: "Tenebrosa" },
+  { valor: 96, item: "Trair" },
+  { valor: 97, item: "Trocar" },
+  { valor: 98, item: "Vingança" },
+  { valor: 99, item: "Violência" },
+  { valor: 100, item: "Zombar" }
+];
+
+const civilizacao = [
+  { valor: 1, item: "Ativa" },
+  { valor: 2, item: "Avançada" },
+  { valor: 3, item: "Aventureiro" },
+  { valor: 4, item: "Agressiva" },
+  { valor: 5, item: "Agrícola" },
+  { valor: 6, item: "Ancestral" },
+  { valor: 7, item: "Irritada" },
+  { valor: 8, item: "Ansiosa" },
+  { valor: 9, item: "Artística" },
+  { valor: 10, item: "Mediano" },
+  { valor: 11, item: "Bela" },
+  { valor: 12, item: "Bizarro" },
+  { valor: 13, item: "Erma" },
+  { valor: 14, item: "Ousada" },
+  { valor: 15, item: "Burocrática" },
+  { valor: 16, item: "Sossegada" },
+  { valor: 17, item: "Cuidadosa" },
+  { valor: 18, item: "Descuidada" },
+  { valor: 19, item: "Precavida" },
+  { valor: 20, item: "Chique" },
+  { valor: 21, item: "Limpa" },
+  { valor: 22, item: "Colorida" },
+  { valor: 23, item: "Combativa" },
+  { valor: 24, item: "Comercial" },
+  { valor: 25, item: "Competitivo" },
+  { valor: 26, item: "Construtiva" },
+  { valor: 27, item: "Controladora" },
+  { valor: 28, item: "Louca" },
+  { valor: 29, item: "Criativa" },
+  { valor: 30, item: "Tenebrosa" },
+  { valor: 31, item: "Cruel" },
+  { valor: 32, item: "Curiosa" },
+  { valor: 33, item: "Perigosa" },
+  { valor: 34, item: "Decadente" },
+  { valor: 35, item: "Desafiadora" },
+  { valor: 36, item: "Prazerosa" },
+  { valor: 37, item: "Desenvolvida" },
+  { valor: 38, item: "Detestável" },
+  { valor: 39, item: "Desconfiada" },
+  { valor: 40, item: "Dominante" },
+  { valor: 41, item: "Maçante" },
+  { valor: 42, item: "Eficiente" },
+  { valor: 43, item: "Expansiva" },
+  { valor: 44, item: "Fracassada" },
+  { valor: 45, item: "Famosa" },
+  { valor: 46, item: "Temível" },
+  { valor: 47, item: "Festiva" },
+  { valor: 48, item: "Libertar" },
+  { valor: 49, item: "Generosa" },
+  { valor: 50, item: "Gananciosa" },
+  { valor: 51, item: "Feliz" },
+  { valor: 52, item: "Saudável" },
+  { valor: 53, item: "Prestativa" },
+  { valor: 54, item: "Desamparada" },
+  { valor: 55, item: "Histórico" },
+  { valor: 56, item: "Importante" },
+  { valor: 57, item: "Industrial" },
+  { valor: 58, item: "Influente" },
+  { valor: 59, item: "Intolerante" },
+  { valor: 60, item: "Grande" },
+  { valor: 61, item: "Ordeira" },
+  { valor: 62, item: "Desordeira" },
+  { valor: 63, item: "Magnífico" },
+  { valor: 64, item: "Possante" },
+  { valor: 65, item: "Militarista" },
+  { valor: 66, item: "Miserável" },
+  { valor: 67, item: "Moderna" },
+  { valor: 68, item: "Mundana" },
+  { valor: 69, item: "Misteriosa" },
+  { valor: 70, item: "Antiga" },
+  { valor: 71, item: "Abrir" },
+  { valor: 72, item: "Opressora" },
+  { valor: 73, item: "Pacífica" },
+  { valor: 74, item: "Polida" },
+  { valor: 75, item: "Pobre" },
+  { valor: 76, item: "Poderosa" },
+  { valor: 77, item: "Primitiva" },
+  { valor: 78, item: "Punitiva" },
+  { valor: 79, item: "Peculiar" },
+  { valor: 80, item: "Religiosa" },
+  { valor: 81, item: "Arruinada" },
+  { valor: 82, item: "Rústica" },
+  { valor: 83, item: "Implacável" },
+  { valor: 84, item: "Assustador" },
+  { valor: 85, item: "Simples" },
+  { valor: 86, item: "Pequena" },
+  { valor: 87, item: "Estranhar" },
+  { valor: 88, item: "Forte" },
+  { valor: 89, item: "Dificuldades" },
+  { valor: 90, item: "Sucesso" },
+  { valor: 91, item: "Sofrimento" },
+  { valor: 92, item: "Suprimida" },
+  { valor: 93, item: "Suspeita" },
+  { valor: 94, item: "Traiçoeira" },
+  { valor: 95, item: "Bélico" },
+  { valor: 96, item: "Fraca" },
+  { valor: 97, item: "Abastada" },
+  { valor: 98, item: "Receptiva" },
+  { valor: 99, item: "Selvagem" },
+  { valor: 100, item: "Jovem" }
+];
+
+const lendas = [
+  { valor: 1, item: "Abandonar" },
+  { valor: 2, item: "Ajudar" },
+  { valor: 3, item: "Aliados" },
+  { valor: 4, item: "Aliar" },
+  { valor: 5, item: "Amedrontadora" },
+  { valor: 6, item: "Amizade" },
+  { valor: 7, item: "Amor" },
+  { valor: 8, item: "Antiga" },
+  { valor: 9, item: "Aprisionar" },
+  { valor: 10, item: "Arruinar" },
+  { valor: 11, item: "Atrasar" },
+  { valor: 12, item: "Aumentar" },
+  { valor: 13, item: "Auxiliar" },
+  { valor: 14, item: "Bizarro" },
+  { valor: 15, item: "Bloquear" },
+  { valor: 16, item: "Boa" },
+  { valor: 17, item: "Cataclisma" },
+  { valor: 18, item: "Cautela" },
+  { valor: 19, item: "Ciúmes" },
+  { valor: 20, item: "Conceder" },
+  { valor: 21, item: "Confiar" },
+  { valor: 22, item: "Conflito" },
+  { valor: 23, item: "Controlar" },
+  { valor: 24, item: "Criar" },
+  { valor: 25, item: "Crise" },
+  { valor: 26, item: "Curar" },
+  { valor: 27, item: "Danificar" },
+  { valor: 28, item: "Derrotada" },
+  { valor: 29, item: "Desafiadora" },
+  { valor: 30, item: "Desamparada" },
+  { valor: 31, item: "Descuido" },
+  { valor: 32, item: "Diminuir" },
+  { valor: 33, item: "Dividir" },
+  { valor: 34, item: "Doença" },
+  { valor: 35, item: "Elementos" },
+  { valor: 36, item: "Encarar" },
+  { valor: 37, item: "Encontrar" },
+  { valor: 38, item: "Energia" },
+  { valor: 39, item: "Enganar" },
+  { valor: 40, item: "Enredo" },
+  { valor: 41, item: "Esforçar" },
+  { valor: 42, item: "Estranhar" },
+  { valor: 43, item: "Expor" },
+  { valor: 44, item: "Fama" },
+  { valor: 45, item: "Fardo" },
+  { valor: 46, item: "Ferir" },
+  { valor: 47, item: "Fim" },
+  { valor: 48, item: "Fracasso" },
+  { valor: 49, item: "Guiar" },
+  { valor: 50, item: "Heroína" },
+  { valor: 51, item: "Histórico" },
+  { valor: 52, item: "Importante" },
+  { valor: 53, item: "Informar" },
+  { valor: 54, item: "Infortúnio" },
+  { valor: 55, item: "Inimigos" },
+  { valor: 56, item: "Inocência" },
+  { valor: 57, item: "Interromper" },
+  { valor: 58, item: "Intriga" },
+  { valor: 59, item: "Irar" },
+  { valor: 60, item: "Judicial" },
+  { valor: 61, item: "Juíza" },
+  { valor: 62, item: "Lealdade" },
+  { valor: 63, item: "Letal" },
+  { valor: 64, item: "Liberdade" },
+  { valor: 65, item: "Libertar" },
+  { valor: 66, item: "Liderança" },
+  { valor: 67, item: "Lutar" },
+  { valor: 68, item: "Massas" },
+  { valor: 69, item: "Mau" },
+  { valor: 70, item: "Medo" },
+  { valor: 71, item: "Militar" },
+  { valor: 72, item: "Misteriosa" },
+  { valor: 73, item: "Monstro" },
+  { valor: 74, item: "Mover" },
+  { valor: 75, item: "Mundana" },
+  { valor: 76, item: "Natural" },
+  { valor: 77, item: "Obtenção" },
+  { valor: 78, item: "Oculta" },
+  { valor: 79, item: "Opor" },
+  { valor: 80, item: "Opressão" },
+  { valor: 81, item: "Parar" },
+  { valor: 82, item: "Paz" },
+  { valor: 83, item: "Perda" },
+  { valor: 84, item: "Perigo" },
+  { valor: 85, item: "Perseguir" },
+  { valor: 86, item: "Poder" },
+  { valor: 87, item: "Possante" },
+  { valor: 88, item: "Posses" },
+  { valor: 89, item: "Punir" },
+  { valor: 90, item: "Quebrar" },
+  { valor: 91, item: "Retornar" },
+  { valor: 92, item: "Riqueza" },
+  { valor: 93, item: "Roubo" },
+  { valor: 94, item: "Salvador" },
+  { valor: 95, item: "Soltar" },
+  { valor: 96, item: "Trair" },
+  { valor: 97, item: "Trocar" },
+  { valor: 98, item: "Usurpar" },
+  { valor: 99, item: "Vilã" },
+  { valor: 100, item: "Vingança" }
+];
+
+const sonhosVisoes = [
+  { valor: 1, item: "Adversidade" },
+  { valor: 2, item: "Aliados" },
+  { valor: 3, item: "Ambiente" },
+  { valor: 4, item: "Ameaça" },
+  { valor: 5, item: "Amedrontadora" },
+  { valor: 6, item: "Amizade" },
+  { valor: 7, item: "Amor" },
+  { valor: 8, item: "Arma" },
+  { valor: 9, item: "Arruinar" },
+  { valor: 10, item: "Assustador" },
+  { valor: 11, item: "Atividade" },
+  { valor: 12, item: "Auxiliar" },
+  { valor: 13, item: "Aviso" },
+  { valor: 14, item: "Bagunçada" },
+  { valor: 15, item: "Bizarro" },
+  { valor: 16, item: "Boa" },
+  { valor: 17, item: "Caminho" },
+  { valor: 18, item: "Catástrofe" },
+  { valor: 19, item: "Celebrar" },
+  { valor: 20, item: "Colorida" },
+  { valor: 21, item: "Confiar" },
+  { valor: 22, item: "Conflito" },
+  { valor: 23, item: "Contatar" },
+  { valor: 24, item: "Controlar" },
+  { valor: 25, item: "Crise" },
+  { valor: 26, item: "Crueldade" },
+  { valor: 27, item: "Derrota" },
+  { valor: 28, item: "Desamparada" },
+  { valor: 29, item: "Desconcertante" },
+  { valor: 30, item: "Dica" },
+  { valor: 31, item: "Elementos" },
+  { valor: 32, item: "Emoções" },
+  { valor: 33, item: "Energia" },
+  { valor: 34, item: "Enigma" },
+  { valor: 35, item: "Enredo" },
+  { valor: 36, item: "Erma" },
+  { valor: 37, item: "Escura" },
+  { valor: 38, item: "Esforçar" },
+  { valor: 39, item: "Esperança" },
+  { valor: 40, item: "Esquisita" },
+  { valor: 41, item: "Estranhar" },
+  { valor: 42, item: "Evento" },
+  { valor: 43, item: "Evitável" },
+  { valor: 44, item: "Ferir" },
+  { valor: 45, item: "Festiva" },
+  { valor: 46, item: "Fracasso" },
+  { valor: 47, item: "Futuro" },
+  { valor: 48, item: "Horrível" },
+  { valor: 49, item: "Ideias" },
+  { valor: 50, item: "Implorar" },
+  { valor: 51, item: "Importante" },
+  { valor: 52, item: "Incerto" },
+  { valor: 53, item: "Incompleto" },
+  { valor: 54, item: "Informação" },
+  { valor: 55, item: "Infortúnio" },
+  { valor: 56, item: "Inimigos" },
+  { valor: 57, item: "Instrução" },
+  { valor: 58, item: "Interrupção" },
+  { valor: 59, item: "Liberdade" },
+  { valor: 60, item: "Lugar" },
+  { valor: 61, item: "Lutar" },
+  { valor: 62, item: "Malícia" },
+  { valor: 63, item: "Massas" },
+  { valor: 64, item: "Mau" },
+  { valor: 65, item: "Mecânico" },
+  { valor: 66, item: "Medos" },
+  { valor: 67, item: "Mensagem" },
+  { valor: 68, item: "Mentiras" },
+  { valor: 69, item: "Militar" },
+  { valor: 70, item: "Misteriosa" },
+  { valor: 71, item: "Morte" },
+  { valor: 72, item: "Mundana" },
+  { valor: 73, item: "Natural" },
+  { valor: 74, item: "Objetivos" },
+  { valor: 75, item: "Obscurecer" },
+  { valor: 76, item: "Obtenção" },
+  { valor: 77, item: "Opor" },
+  { valor: 78, item: "Orientação" },
+  { valor: 79, item: "Paz" },
+  { valor: 80, item: "Perigo" },
+  { valor: 81, item: "Pessoas" },
+  { valor: 82, item: "Planos" },
+  { valor: 83, item: "Poder" },
+  { valor: 84, item: "Positiva" },
+  { valor: 85, item: "Posses" },
+  { valor: 86, item: "Pressa" },
+  { valor: 87, item: "Prestativa" },
+  { valor: 88, item: "Problema" },
+  { valor: 89, item: "Riqueza" },
+  { valor: 90, item: "Simples" },
+  { valor: 91, item: "Sofrimento" },
+  { valor: 92, item: "Sucesso" },
+  { valor: 93, item: "Suprimir" },
+  { valor: 94, item: "Tempo" },
+  { valor: 95, item: "Tenebrosa" },
+  { valor: 96, item: "Tensão" },
+  { valor: 97, item: "Tranquilizadora" },
+  { valor: 98, item: "Trocar" },
+  { valor: 99, item: "Viajar" },
+  { valor: 100, item: "Violência" }
+];
+
+const efeitosMagia = [
+  { valor: 1, item: "Água" },
+  { valor: 2, item: "Alimento" },
+  { valor: 3, item: "Alma" },
+  { valor: 4, item: "Ambiente" },
+  { valor: 5, item: "Animal" },
+  { valor: 6, item: "Animar" },
+  { valor: 7, item: "Aprimorar" },
+  { valor: 8, item: "Aprisionar" },
+  { valor: 9, item: "Área" },
+  { valor: 10, item: "Arma" },
+  { valor: 11, item: "Atacar" },
+  { valor: 12, item: "Atordoar" },
+  { valor: 13, item: "Atrair" },
+  { valor: 14, item: "Auxiliar" },
+  { valor: 15, item: "Barulhenta" },
+  { valor: 16, item: "Bizarro" },
+  { valor: 17, item: "Bloquear" },
+  { valor: 18, item: "Capturar" },
+  { valor: 19, item: "Clara" },
+  { valor: 20, item: "Clima" },
+  { valor: 21, item: "Comunicar" },
+  { valor: 22, item: "Conceder" },
+  { valor: 23, item: "Conjurar" },
+  { valor: 24, item: "Conjurar" },
+  { valor: 25, item: "Controlar" },
+  { valor: 26, item: "Criar" },
+  { valor: 27, item: "Criatura" },
+  { valor: 28, item: "Curar" },
+  { valor: 29, item: "Danificar" },
+  { valor: 30, item: "Defesa" },
+  { valor: 31, item: "Destruir" },
+  { valor: 32, item: "Detectar" },
+  { valor: 33, item: "Dificultar" },
+  { valor: 34, item: "Diminuir" },
+  { valor: 35, item: "Distância" },
+  { valor: 36, item: "Doença" },
+  { valor: 37, item: "Dominar" },
+  { valor: 38, item: "Dor" },
+  { valor: 39, item: "Duplicar" },
+  { valor: 40, item: "Elementos" },
+  { valor: 41, item: "Emoção" },
+  { valor: 42, item: "Energia" },
+  { valor: 43, item: "Enganar" },
+  { valor: 44, item: "Escudo" },
+  { valor: 45, item: "Escura" },
+  { valor: 46, item: "Estranho" },
+  { valor: 47, item: "Expor" },
+  { valor: 48, item: "Ferir" },
+  { valor: 49, item: "Físico" },
+  { valor: 50, item: "Fixar" },
+  { valor: 51, item: "Fogo" },
+  { valor: 52, item: "Força" },
+  { valor: 53, item: "Fraca" },
+  { valor: 54, item: "Fria" },
+  { valor: 55, item: "Gatilho" },
+  { valor: 56, item: "Gelo" },
+  { valor: 57, item: "Grupo" },
+  { valor: 58, item: "Guiar" },
+  { valor: 59, item: "Ilusão" },
+  { valor: 60, item: "Imbuir" },
+  { valor: 61, item: "Imunidade" },
+  { valor: 62, item: "Incerto" },
+  { valor: 63, item: "Informação" },
+  { valor: 64, item: "Inimigos" },
+  { valor: 65, item: "Inspecionar" },
+  { valor: 66, item: "Leve" },
+  { valor: 67, item: "Libertar" },
+  { valor: 68, item: "Limitação" },
+  { valor: 69, item: "Líquido" },
+  { valor: 70, item: "Maldição" },
+  { valor: 71, item: "Manipulação" },
+  { valor: 72, item: "Mente" },
+  { valor: 73, item: "Morta-viva" },
+  { valor: 74, item: "Morte" },
+  { valor: 75, item: "Muro" },
+  { valor: 76, item: "Natureza" },
+  { valor: 77, item: "Neutralizar" },
+  { valor: 78, item: "Nuvem" },
+  { valor: 79, item: "Objeto" },
+  { valor: 80, item: "Ocultar" },
+  { valor: 81, item: "Outros" },
+  { valor: 82, item: "Planta" },
+  { valor: 83, item: "Poderosa" },
+  { valor: 84, item: "Portal" },
+  { valor: 85, item: "Prestativa" },
+  { valor: 86, item: "Próprio" },
+  { valor: 87, item: "Proteger" },
+  { valor: 88, item: "Quebrar" },
+  { valor: 89, item: "Queimar" },
+  { valor: 90, item: "Reduzir" },
+  { valor: 91, item: "Resistência" },
+  { valor: 92, item: "Restaurar" },
+  { valor: 93, item: "Sentidos" },
+  { valor: 94, item: "Tempo" },
+  { valor: 95, item: "Terra" },
+  { valor: 96, item: "Transformar" },
+  { valor: 97, item: "Trocar" },
+  { valor: 98, item: "Veneno" },
+  { valor: 99, item: "Viajar" },
+  { valor: 100, item: "Vida" }
+];
+
+const inimigos = [
+  {
+    "nome": "Abutre",
+    "pv": "4",
+    "pvMax": "4",
+    "tipo": "Animal Pequeno Selvagem",
+    "passivas": [
+      { "nome": "Voador", "efeito": "Pode se mover livremente pelo ar" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 2", "nome": "Recuo", "dano": "", "efeito": "Sai voando para longe e escolhe alvo com menos PV para seu próximo ataque", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "3 a 5", "nome": "Garras", "dano": "Dano 1", "efeito": "", "alcance": "Corporal" },
+      { "dado": "6", "nome": "Bico", "dano": "Dano 2", "efeito": "", "alcance": "Corporal" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Bode",
+    "pv": "5",
+    "pvMax": "5",
+    "tipo": "Animal Pequeno Selvagem",
+    "passivas": [
+      { "nome": "Escalada", "efeito": "Pode escalar qualquer lugar" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Recuo", "dano": "Dano +1", "efeito": "Afasta-se; próximo turno causa dano se atacar com Chifre", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "4 a 6", "nome": "Chifre", "dano": "Dano 1", "efeito": "", "alcance": "Corporal" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Boitatá",
+    "pv": "6",
+    "pvMax": "6",
+    "tipo": "Besta Pequena Voraz",
+    "passivas": [
+      { "nome": "Imunidade", "efeito": "Imune a todo dano de fogo" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Mordida", "dano": "Dano 1 por fogo", "efeito": "", "alcance": "Corporal" },
+      { "dado": "6", "nome": "Sopros de Fogo", "dano": "Dano 3 por fogo", "efeito": "Todos à vista recebem dano", "alcance": "Longo" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Bolha Gelatinosa",
+    "pv": "5",
+    "pvMax": "5",
+    "tipo": "Amorfo Pequeno Autômato",
+    "passivas": [
+      { "nome": "Imunidade", "efeito": "Total: Imune a todo dano, exceto fogo, ácido e eletricidade" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Toque", "dano": "Dano 2 por ácido", "efeito": "", "alcance": "Corporal" },
+      { "dado": "6", "nome": "Multiplicar", "dano": "", "efeito": "Surge uma nova Bolha no seu lado", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Canidraco Comum",
+    "pv": "12",
+    "pvMax": "12",
+    "tipo": "Besta Média Selvagem",
+    "passivas": [
+      { "nome": "Imunidade", "efeito": "Imune a fogo" },
+      { "nome": "Fraqueza", "efeito": "Recebe dobro de dano de frio" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Mordida", "dano": "Dano 2", "efeito": "", "alcance": "Corporal" },
+      { "dado": "6", "nome": "Onda de Calor", "dano": "Dano 3 por fogo", "efeito": "Todos ao alcance corporal recebem dano", "alcance": "Corporal" }
+    ],
+    "pertences": ""
+  },{
+    "nome": "Crocodilo",
+    "pv": "18",
+    "pvMax": "18",
+    "tipo": "Animal Grande Selvagem",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Mordida", "dano": "Dano 2", "efeito": "", "alcance": "Corporal" },
+      { "dado": "6", "nome": "Giro da Morte", "dano": "Dano 2", "efeito": "Alvo ficará no chão e não poderá agir no próximo turno", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Elemental do Fogo",
+    "pv": "10",
+    "pvMax": "10",
+    "tipo": "Construto Médio Voraz",
+    "passivas": [
+      { "nome": "Aura", "efeito": "Aura Fervente: Todos ao alcance corporal recebem Dano 1 de fogo no início do turno" },
+      { "nome": "Imunidade", "efeito": "Imune a fogo" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Soco", "dano": "Dano 2 de fogo", "efeito": "", "alcance": "Corporal" },
+      { "dado": "4 a 5", "nome": "Rajada", "dano": "Dano 2 de fogo", "efeito": "", "alcance": "Média" },
+      { "dado": "6", "nome": "Labareda", "dano": "Dano 3", "efeito": "Todos à frente adjacentes ficam Em Chamas", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Enxame de Insetos Voadores",
+    "pv": "6",
+    "pvMax": "6",
+    "tipo": "Amorfo Médio Selvagem",
+    "passivas": [
+      { "nome": "Resistência", "efeito": "Recebe metade de qualquer dano que não for em área" },
+      { "nome": "Obscurecer", "efeito": "Todos adjacentes ficam cegos" },
+      { "nome": "Voador", "efeito": "Pode se mover livremente pelo ar" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Picadas", "dano": "Dano 1", "efeito": "Todos ao alcance corporal recebem dano", "alcance": "Corporal" },
+      { "dado": "6", "nome": "Dissipar", "dano": "", "efeito": "Não pode ser alvo de ninguém até o próximo turno", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Esqueleto",
+    "pv": "2",
+    "pvMax": "2",
+    "tipo": "Morto-Vivo Médio Autômato",
+    "passivas": [
+      { "nome": "Imunidade", "efeito": "Imune a frio" }
+    ],
+    "habilidades": [
+      { "dado": "1", "nome": "Desmontando", "dano": "", "efeito": "Para e arruma uma parte do corpo; nada acontece", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "2 a 5", "nome": "Soco", "dano": "Dano 1", "efeito": "", "alcance": "Corporal" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Fantasma Perdido",
+    "pv": "4",
+    "pvMax": "4",
+    "tipo": "Espectro Médio Agressivo",
+    "passivas": [
+      { "nome": "Incorpóreo", "efeito": "Recebe metade de todo dano físico ou de arma não mágica (arredonde para baixo)" },
+      { "nome": "Voador", "efeito": "Pode se mover livremente pelo ar" }
+    ],
+    "habilidades": [
+      { "dado": "1", "nome": "Desaparecer", "dano": "", "efeito": "Desaparece e não pode ser alvo", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "2 a 5", "nome": "Toque Etéreo", "dano": "Dano 2", "efeito": "", "alcance": "Corporal" },
+      { "dado": "6", "nome": "Possessão", "dano": "", "efeito": "Alvo fará ações no seu turno, ao aliado mais próximo", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Fungóide Atirador",
+    "pv": "3",
+    "pvMax": "3",
+    "tipo": "Humanóide Pequeno Autômato",
+    "passivas": [
+      { "nome": "Pó Tóxico", "efeito": "Quando destruído, todos ao alcance corporal devem vencer um teste ou receber Dano 5" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Disparo de Esporos", "dano": "Dano 1", "efeito": "", "alcance": "Distância" },
+      { "dado": "6", "nome": "Multiplicar", "dano": "", "efeito": "Em 2 turnos, brotar outro Fungóide igual do seu corpo se não for derrotado antes", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Fungóide Protetor",
+    "pv": "2",
+    "pvMax": "2",
+    "tipo": "Humanóide Pequeno Autômato",
+    "passivas": [
+      { "nome": "Pó Tóxico", "efeito": "Quando destruído, todos ao alcance corporal devem vencer um teste ou receber Dano 3 direto" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Garra", "dano": "Dano 1", "efeito": "", "alcance": "Corporal" },
+      { "dado": "6", "nome": "Multiplicar", "dano": "", "efeito": "Em 2 turnos, brotar outro Fungóide igual do seu corpo se não for derrotado antes", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Fungomestre",
+    "pv": "6",
+    "pvMax": "6",
+    "tipo": "Humanoide Pequeno Autômato",
+    "passivas": [
+      { "nome": "Pó Tóxico", "efeito": "Quando for destruído, todos ao alcance corporal devem vencer um teste ou receber 5 de dano direto" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Nuvem Tóxica", "dano": "Dano 5 direto", "efeito": "Todos ao alcance corporal devem vencer um teste ou receber dano", "alcance": "Corporal" },
+      { "dado": "4 a 6", "nome": "Multiplicar", "dano": "", "efeito": "Em dois turnos, brotar outro Fungóide igual no seu corpo se não for derrotado antes", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Gárgula",
+    "pv": "13",
+    "pvMax": "13",
+    "tipo": "Construto Médio Trapeceiro",
+    "passivas": [
+      { "nome": "Imunidades", "efeito": "Fogo, Frio, Eletricidade" },
+      { "nome": "Voador", "efeito": "Pode se mover livremente pelo ar" }
+    ],
+    "habilidades": [
+      { "dado": "1", "nome": "Recuo", "dano": "", "efeito": "Sai voando para longe e escolhe um novo alvo no próximo turno", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "2 a 4", "nome": "Garras", "dano": "Dano 2", "efeito": "", "alcance": "Corporal" },
+      { "dado": "5 a 6", "nome": "Recompor", "dano": "", "efeito": "Recupera todos os PV", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Goblin Bucha",
+    "pv": "2",
+    "pvMax": "2",
+    "tipo": "Humanoide Pequeno Trapeceiro",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1", "nome": "Tática Goblin", "dano": "", "efeito": "Se afasta e não faz nada; se algum aliado já foi derrotado, foge", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "2 a 6", "nome": "Adaga", "dano": "Dano 1", "efeito": "", "alcance": "Corporal" }
+    ],
+    "pertences": "Adaga"
+  }, {
+    "nome": "Goblin Bruxo",
+    "pv": "6",
+    "pvMax": "6",
+    "tipo": "Humanoide Pequeno Trapeceiro",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 4", "nome": "Raio Mágico", "dano": "Dano 1", "efeito": "", "alcance": "Média" },
+      { "dado": "5", "nome": "Cura", "dano": "", "efeito": "Recupera 2 PVs de todos aliados", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "6", "nome": "Bola de Fogo", "dano": "Dano 4", "efeito": "", "alcance": "Longa, fogo" }
+    ],
+    "pertences": "Cajado"
+  },
+  {
+    "nome": "Goblin Inflamável",
+    "pv": "4",
+    "pvMax": "4",
+    "tipo": "Humanoide Pequeno Agressivo",
+    "passivas": [
+      { "nome": "Inflamável", "efeito": "Se receber dano de fogo explode" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Tocha", "dano": "Dano 1", "efeito": "Fogo", "alcance": "Corporal" },
+      { "dado": "6", "nome": "Explodir", "dano": "Dano 3", "efeito": "Morre, mas causa dano em todos adjacentes e deixam em chamas", "alcance": "Adjacente" }
+    ],
+    "pertences": "Tocha"
+  },
+  {
+    "nome": "Golem de Madeira",
+    "pv": "12",
+    "pvMax": "12",
+    "tipo": "Construto Médio Autômato",
+    "passivas": [
+      { "nome": "Imunidade", "efeito": "Frio e Ácido" },
+      { "nome": "Fraqueza", "efeito": "Recebe o dobro de dano de Fogo" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 4", "nome": "Soco", "dano": "Dano 2", "efeito": "", "alcance": "Corporal" },
+      { "dado": "5 a 6", "nome": "Encontrão", "dano": "Dano 3", "efeito": "Fica Caído", "alcance": "Corporal" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Golem de Pedra (Estátua)",
+    "pv": "20",
+    "pvMax": "20",
+    "tipo": "Construto Grande Autômato",
+    "passivas": [
+      { "nome": "Imunidade", "efeito": "Fogo, Frio, Ácido, Eletricidade" },
+      { "nome": "Escudo de Pedra", "efeito": "Ignora todo dano que receber no primeiro ataque do turno; quebra se receber 5 de dano de uma vez" }
+    ],
+    "habilidades": [
+      { "dado": "1", "nome": "Reconstruir", "dano": "", "efeito": "Recupera 4 PV perdidos", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "2 a 6", "nome": "Golpe", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Golem de Pedra (Ídolo)",
+    "pv": "50",
+    "pvMax": "50",
+    "tipo": "Construto Grande Autômato",
+    "passivas": [
+      { "nome": "Imunidade", "efeito": "Fogo, Frio, Ácido, Eletricidade" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Soco", "dano": "Dano 4", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "4 a 5", "nome": "Agarrar", "dano": "Dano 3", "efeito": "Imobiliza", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Arremessar", "dano": "Dano 5", "efeito": "Se tiver alguém agarrado, arremessa essa pessoa que recebe 5 de dano e fica caído", "alcance": "Distância" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Grifo Selvagem",
+    "pv": "21",
+    "pvMax": "21",
+    "tipo": "Animal Grande Selvagem",
+    "passivas": [
+      { "nome": "Voador", "efeito": "Pode se mover livremente pelo ar" }
+    ],
+    "habilidades": [
+      { "dado": "1", "nome": "Recuo", "dano": "", "efeito": "Sai voando para longe, próximo ataque terá dano +1", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "2 a 5", "nome": "Garras", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Dilacerar", "dano": "Dano 4", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Gigante do Bosque",
+    "pv": "50",
+    "pvMax": "50",
+    "tipo": "Humanoide Gigante Moderado",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1", "nome": "Tédio", "dano": "", "efeito": "Se afasta; se sair 3x, vai embora", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "2", "nome": "Pisão", "dano": "Dano 2", "efeito": "Todos adjacentes ficam Caídos", "alcance": "Adjacente" },
+      { "dado": "3", "nome": "Chute", "dano": "Dano 3", "efeito": "Alvo voa para longe e fica caído", "alcance": "Adjacente" },
+      { "dado": "4", "nome": "Agarrar", "dano": "Dano 3", "efeito": "Imobilizado, preso nas mãos do gigante; se cair, recebe 3 de dano e fica caído", "alcance": "Adjacente" },
+      { "dado": "5", "nome": "Arremessar Pedra", "dano": "Dano 4", "efeito": "Se tiver alguém segurado, arremessa esse alguém que recebe 4 de dano e fica caído", "alcance": "Longa" },
+      { "dado": "6", "nome": "Engolir", "dano": "", "efeito": "Se tiver alguém segurado, engole; se não, role novamente", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Harpia",
+    "pv": "7 PV",
+    "pvMax": "7",
+    "tipo": "Humanoide Médio Trapeceiro",
+    "passivas": [
+      { "nome": "Voador", "efeito": "Pode se mover livremente no ar" },
+      { "nome": "Voz Roubada", "efeito": "Quem tiver sua voz roubada ficará mudo até a Harpia ser derrotada; ela pode falar com vozes roubadas" }
+    ],
+    "habilidades": [
+      { "dado": "1", "nome": "Tática", "dano": "", "efeito": "Se tiver roubado alguma voz, vai embora; se não, ataca alvo que tenha voz com garras (Dano 3, Adjacente)", "alcance": "Adjacente" },
+      { "dado": "2 a 4", "nome": "Bela de Canção", "dano": "Dano 1", "efeito": "Todos que puderem ouvir recebem +1 para cada personagem que ficou mudo (imbloqueável)", "alcance": "Longa" },
+      { "dado": "5 a 6", "nome": "Ladra de Vozes", "dano": "Dano 3", "efeito": "Alvo fica mudo; se já estiver mudo, recebe dano", "alcance": "Longa" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Jacaré",
+    "pv": "12",
+    "pvMax": "12",
+    "tipo": "Animal Médio Selvagem",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Mordida", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Giro da Morte", "dano": "Dano 3", "efeito": "Alvo fica no chão e perde o próximo turno", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Javali",
+    "pv": "6",
+    "pvMax": "6",
+    "tipo": "Animal Pequeno Selvagem",
+    "passivas": [
+      { "nome": "Investida", "efeito": "Se atacar primeiro, +1 de dano" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Presas", "dano": "Dano 1", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Cabeçada", "dano": "Dano 1", "efeito": "Deixa alvo Caído", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Kaprotauro Guerreiro",
+    "pv": "13",
+    "pvMax": "13",
+    "tipo": "Humanoide Médio Agressivo",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 4", "nome": "Machado Pesado", "dano": "Dano 3", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "5 a 6", "nome": "Ataque Poderoso", "dano": "Dano 6", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": "Machado Pesado"
+  },
+  {
+    "nome": "Kaprotauro Lanceiro",
+    "pv": "12",
+    "pvMax": "12",
+    "tipo": "Humanoide Médio Agressivo",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 4", "nome": "Lança Curta", "dano": "Dano 2", "efeito": "", "alcance": "Média" },
+      { "dado": "5 a 6", "nome": "Dano Crítico", "dano": "Dano 4", "efeito": "", "alcance": "Média" }
+    ],
+    "pertences": "3 Lanças Curtas"
+  },
+  {
+    "nome": "Kaprotauro Curandeiro",
+    "pv": "10",
+    "pvMax": "10",
+    "tipo": "Humanoide Médio Agressivo",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Aura de Cura", "dano": "", "efeito": "Kaprotaurros recuperam 2 PVs perdidos", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "4 a 5", "nome": "Relâmpago", "dano": "Dano 1", "efeito": "Elétrico", "alcance": "Distância" },
+      { "dado": "6", "nome": "Chuva Sagrada de Deus Cabra", "dano": "", "efeito": "Todos fazem um teste ou ficam Emburrecidos", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": "Cajado de Ossos e Máscara Kaprícia"
+  },
+  {
+    "nome": "Kaprotauro Líder",
+    "pv": "14",
+    "pvMax": "14",
+    "tipo": "Humanoide Médio Agressivo",
+    "passivas": [
+      { "nome": "Escudo", "efeito": "Ignora o 1º ataque por turno; quebra ao receber 8 ou mais" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 2", "nome": "Grito Káprico", "dano": "", "efeito": "Kaprotaurros causam +1 de dano nos próximos ataques", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "3 a 5", "nome": "Lança Curta", "dano": "Dano 2", "efeito": "Adjacente", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Ataque Poderoso", "dano": "Dano 8", "efeito": "Adjacente", "alcance": "Adjacente" }
+    ],
+    "pertences": "Lança Curta e Escudo Pesado"
+  },
+  {
+    "nome": "Leão",
+    "pv": "10",
+    "pvMax": "10",
+    "tipo": "Animal Médio Selvagem",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1", "nome": "Rugido", "dano": "", "efeito": "Alvo fica Atordoado", "alcance": "Média" },
+      { "dado": "2 a 5", "nome": "Garras", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Mordida", "dano": "Dano 4", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Lích",
+    "pv": "40",
+    "pvMax": "40",
+    "tipo": "Morto-Vivo Médio Fanático",
+    "passivas": [
+      { "nome": "Aura Gélida", "efeito": "Dano 2 por turno em quem estiver perto" },
+      { "nome": "Resistências", "efeito": "Metade do dano elétrico e Frio" },
+      { "nome": "Fraquezas", "efeito": "Recebe dobro de dano de fogo" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 2", "nome": "Raio Gélido", "dano": "Dano 2", "efeito": "Frio", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "3 a 4", "nome": "Trazer Servos Mortos", "dano": "", "efeito": "Invoca 3 esqueletos", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "5", "nome": "Toque Espectral", "dano": "Dano 2", "efeito": "Todos perdem 2 PE", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "6", "nome": "Dominar", "dano": "", "efeito": "Alvo não terá controle do corpo no próximo turno e atacará o aliado mais próximo", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": "Cinturão da Morte e Cajado de Ossos"
+  },
+  {
+    "nome": "Limo Vivo",
+    "pv": "10",
+    "pvMax": "10",
+    "tipo": "Anfíbio Médio Autômato",
+    "passivas": [
+      { "nome": "Fraquezas", "efeito": "Recebe dobro de dano de fogo" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Bola de Limo", "dano": "Dano 2", "efeito": "Alvo fica Imobilizado", "alcance": "Média" },
+      { "dado": "4 a 6", "nome": "Regeneração", "dano": "", "efeito": "Recupera todos os PV", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Lobo",
+    "pv": "5",
+    "pvMax": "5",
+    "tipo": "Animal Pequeno Selvagem",
+    "passivas": [
+      { "nome": "Alcateia", "efeito": "+1 se estiver com aliados atacando o mesmo alvo" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Garras", "dano": "Dano 1", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Mordida", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Mantícora",
+    "pv": "34",
+    "pvMax": "34",
+    "tipo": "Besta Grande Voraz",
+    "passivas": [
+      { "nome": "Voador", "efeito": "Se move livremente no ar" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 2", "nome": "Tática", "dano": "Dano 3", "efeito": "Se afastada voando, ataca o herói com menor PV com espinhos da cauda", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "3 a 5", "nome": "Mordida", "dano": "Dano 4", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "Opção C", "nome": "Flecha da Cauda", "dano": "Dano 6", "efeito": "Fogo/Veneno", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Naga Mística",
+    "pv": "15",
+    "pvMax": "15",
+    "tipo": "Humanoide Médio Agressivo",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Raio Mágico", "dano": "Dano 2", "efeito": "", "alcance": "Longa" },
+      { "dado": "4 a 5", "nome": "Cura", "dano": "", "efeito": "Recupera 2 PV aliados", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "6", "nome": "Relâmpago", "dano": "Dano 4", "efeito": "Alvo fica Paralisado", "alcance": "Longa" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Naga Soldado",
+    "pv": "12",
+    "pvMax": "12",
+    "tipo": "Humanoide Médio Fanática",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 4", "nome": "Alabarda", "dano": "Dano 3", "efeito": "", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "5 a 6", "nome": "Constrição", "dano": "Dano 1", "efeito": "Alvo fica Imobilizado", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": "Joias e Alabarda"
+  },
+  {
+    "nome": "Aracna Gigante",
+    "pv": "22",
+    "pvMax": "22",
+    "tipo": "Besta Grande Voraz",
+    "passivas": [
+      { "nome": "Medo", "efeito": "Se for atingida com fogo, role um dado; se cair 4+, ela foge do combate" },
+      { "nome": "Escalada", "efeito": "Pode escalar quase qualquer lugar" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 4", "nome": "Mordida", "dano": "Dano 4", "efeito": "", "alcance": "Corporal" },
+      { "dado": "5 a 6", "nome": "Teia", "dano": "", "efeito": "Causa Imobilizado; se afasta, muda de alvo", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Ninhada de Aracnídeos",
+    "pv": "6",
+    "pvMax": "6",
+    "tipo": "Amorfo Médio Selvagem",
+    "passivas": [
+      { "nome": "Resistência", "efeito": "Recebe metade de qualquer dano que não for em área" },
+      { "nome": "Envolver", "efeito": "Todos ao alcance corporal ficam imobilizados" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 4", "nome": "Picadas", "dano": "Dano 2", "efeito": "Todos", "alcance": "Adjacente" },
+      { "dado": "5 a 6", "nome": "Derrubar", "dano": "Dano 1", "efeito": "Alvo deve vencer um teste ou ficará caído", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Ogro Brigão",
+    "pv": "22",
+    "pvMax": "22",
+    "tipo": "Humanoide Grande Agressivo",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Soco", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "4 a 5", "nome": "Provocação", "dano": "", "efeito": "Alvo ficará com -2 no próximo ataque", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "6", "nome": "Chute", "dano": "Dano 3", "efeito": "Alvo fica caído", "alcance": "Adjacente" }
+    ],
+    "pertences": "Marreta, Armadura Gigante"
+  },
+  {
+    "nome": "Ogro Mercenário",
+    "pv": "25",
+    "pvMax": "25",
+    "tipo": "Humanoide Grande Agressivo",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Marreta", "dano": "Dano 3", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "4 a 5", "nome": "Giro", "dano": "Dano 2", "efeito": "Em todos os alvos", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Marreta Crítica", "dano": "Dano 6", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Olho Flutuante",
+    "pv": "14",
+    "pvMax": "14",
+    "tipo": "Abissal Médio Fanático",
+    "passivas": [
+      { "nome": "Visão", "efeito": "Pode enxergar criaturas invisíveis, ocultas, escondidas, atrás de paredes, etc." },
+      { "nome": "Voador", "efeito": "Pode se mover livremente pelo ar" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Raio Elétrico", "dano": "Dano 2", "efeito": "", "alcance": "Longo" },
+      { "dado": "4 a 5", "nome": "Raio Paralisante", "dano": "Dano 1", "efeito": "Alvo fica paralisado", "alcance": "Longo" },
+      { "dado": "6", "nome": "Raio Desintegrador", "dano": "Dano 10", "efeito": "", "alcance": "Longo" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Pantera",
+    "pv": "9",
+    "pvMax": "9",
+    "tipo": "Animal Médio Selvagem",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Garras", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Mordida", "dano": "Dano 4", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Planta Ambulante (Médio)",
+    "pv": "7",
+    "pvMax": "7",
+    "tipo": "Amorfo Médio Selvagem",
+    "passivas": [
+      { "nome": "Fraqueza", "efeito": "Recebe o dobro do dano de fogo" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Mordida", "dano": "Dano 2", "efeito": "Em todos os alvos", "alcance": "Adjacente" },
+      { "dado": "4 a 5", "nome": "Cipó", "dano": "Dano 1", "efeito": "Alvo desarmado, arma fica no corpo da planta", "alcance": "Médio" },
+      { "dado": "6", "nome": "Brotar", "dano": "", "efeito": "Nasce uma planta cuspidora em algum lugar aleatório", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": "Peitoral"
+  },
+  {
+    "nome": "Planta Cuspidora",
+    "pv": "4",
+    "pvMax": "4",
+    "tipo": "Amorfo Pequeno Selvagem",
+    "passivas": [
+      { "nome": "Fraqueza", "efeito": "Recebe o dobro do dano de fogo" },
+      { "nome": "Imóvel", "efeito": "Não pode se mover nem cair" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Cuspe de Semente", "dano": "Dano 1", "efeito": "", "alcance": "Longo" },
+      { "dado": "5 a 6", "nome": "Brotar", "dano": "", "efeito": "Nasce uma planta cuspidora em algum lugar aleatório", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "6", "nome": "Brotar", "dano": "", "efeito": "Nasce uma nova planta cuspidora perto do alvo que recebeu semente por último", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Quimera de Helena",
+    "pv": "30",
+    "pvMax": "30",
+    "tipo": "Besta Grande Selvagem",
+    "passivas": [
+      { "nome": "Multi-Ataque", "efeito": "Role 3 dados, as ações são feitas do valor mais alto para o mais baixo, em alvos diferentes" }
+    ],
+    "habilidades": [
+      { "dado": "1", "nome": "Recuperação", "dano": "", "efeito": "Recua e recupera 4 PV", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "2 a 3", "nome": "Garra", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "4 a 5", "nome": "Mordida Venenosa", "dano": "Dano 1", "efeito": "Alvo fica Envenenado", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Sopro de Fogo", "dano": "Dano 3", "efeito": "Todos os alvos visíveis recebem dano de fogo", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Quimera Grotesca",
+    "pv": "16",
+    "pvMax": "16",
+    "tipo": "Besta Média Selvagem",
+    "passivas": [
+      { "nome": "Multi-Ataque", "efeito": "Role 2 dados, as ações são feitas do valor mais alto para o mais baixo, em alvos diferentes" },
+      { "nome": "Voador", "efeito": "Pode se mover livremente pelo ar" }
+    ],
+    "habilidades": [
+      { "dado": "1", "nome": "Recuo", "dano": "", "efeito": "Voa para longe, e escolhe o alvo com menor PV para seu próximo ataque", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "2 a 5", "nome": "Garra", "dano": "Dano 1", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Mordida", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Quimera Ancestral",
+    "pv": "30",
+    "pvMax": "30",
+    "tipo": "Besta Média Selvagem",
+    "passivas": [
+      { "nome": "Multi-Ataque", "efeito": "Role 2 dados, as ações são feitas do valor mais alto para o mais baixo, em alvos diferentes" },
+      { "nome": "Voador", "efeito": "Pode se mover livremente pelo ar" }
+    ],
+    "habilidades": [
+      { "dado": "1", "nome": "Recuo", "dano": "", "efeito": "Voa para longe, e escolhe o alvo com menor PV para seu próximo ataque", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "2 a 5", "nome": "Garra", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Mordida do Leão", "dano": "Dano 5", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Ladrão",
+    "pv": "9",
+    "pvMax": "9",
+    "tipo": "Humanoide Médio Trapaceiro",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Arremesso", "dano": "Dano 1", "efeito": "", "alcance": "Média" },
+      { "dado": "4 a 5", "nome": "Furtivo", "dano": "", "efeito": "Se afasta e se esconde", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "6", "nome": "Adaga Crítica", "dano": "Dano 4", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": "Capa, 1D6 adagas"
+  },
+  {
+    "nome": "Soldado",
+    "pv": "11",
+    "pvMax": "11",
+    "tipo": "Humanoide Médio Agressivo",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Lança Curta", "dano": "Dano 2", "efeito": "", "alcance": "Curto" },
+      { "dado": "6", "nome": "Lança Crítica", "dano": "Dano 4", "efeito": "", "alcance": "Curto" }
+    ],
+    "pertences": "Lança Curta e Armadura Simples"
+  },
+  {
+    "nome": "Serpedraco",
+    "pv": "22",
+    "pvMax": "22",
+    "tipo": "Besta Grande Selvagem",
+    "passivas": [
+      { "nome": "Resistência", "efeito": "Recebe metade do dano de fogo" },
+      { "nome": "Voador", "efeito": "Pode se mover livremente pelo ar" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 2", "nome": "Recuo", "dano": "", "efeito": "Voa para longe, seu próximo ataque terá +2 de dano", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "3 a 5", "nome": "Garras", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Mordida", "dano": "Dano 3", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Serpente Constritora",
+    "pv": "22",
+    "pvMax": "22",
+    "tipo": "Besta Grande Selvagem",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Mordida", "dano": "Dano 1", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Constrição", "dano": "Dano 1", "efeito": "Alvo fica Imobilizado", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Shoggoth",
+    "pv": "30",
+    "pvMax": "30",
+    "tipo": "Abissal Grande Autômato",
+    "passivas": [
+      { "nome": "Assustador", "efeito": "É preciso gastar 2 PE para se chegar adjacente a essa criatura" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 2", "nome": "Regeneração", "dano": "", "efeito": "Recupera todos os PV", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "3 a 5", "nome": "Tentáculo", "dano": "Dano 5", "efeito": "", "alcance": "Média" },
+      { "dado": "6", "nome": "Tentáculo", "dano": "Dano 2", "efeito": "Alvo deve vencer um teste ou ficará Engolido", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Smork Soldado",
+    "pv": "6",
+    "pvMax": "30",
+    "tipo": "Humanoide Médio Fanático",
+    "passivas": [
+      { "nome": "Resistência", "efeito": "Recebe metade do dano de frio" },
+      { "nome": "Aquático", "efeito": "Respira embaixo da água, não pode ficar mais de uma cena fora da água" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 2", "nome": "Bolhas", "dano": "", "efeito": "Alvo ficará mudo até o final da cena", "alcance": "Média" },
+      { "dado": "3 a 5", "nome": "Arpão", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Arpão Crítico", "dano": "Dano 4", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": "Arpão"
+  },
+  {
+    "nome": "Smork Suporte",
+    "pv": "5",
+    "pvMax": "5",
+    "tipo": "Humanoide Médio Fanático",
+    "passivas": [
+      { "nome": "Resistência", "efeito": "Recebe metade do dano de frio" },
+      { "nome": "Aquático", "efeito": "Respira embaixo da água, não pode ficar mais de uma cena fora da água" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Grito Borbulhante", "dano": "", "efeito": "Todos os Smorks recuperam 1 PV", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "4 a 5", "nome": "Arpão", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Arpão Crítico", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": "Arpão"
+  },
+  {
+    "nome": "Tormentador Soldado",
+    "pv": "30",
+    "pvMax": "30",
+    "tipo": "Abissal Grande Fanático",
+    "passivas": [
+      { "nome": "Resistência", "efeito": "Recebe metade do dano de fogo" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Tridente", "dano": "Dano 3", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "4 a 5", "nome": "Chicote", "dano": "Dano 3", "efeito": "", "alcance": "Média" },
+      { "dado": "6", "nome": "Encontrão", "dano": "Dano 4", "efeito": "Alvo fica Atordoado", "alcance": "Adjacente" }
+    ],
+    "pertences": "Tridente e Chicote"
+  },
+  {
+    "nome": "Tormentador Açogueiro",
+    "pv": "34",
+    "pvMax": "34",
+    "tipo": "Abissal Grande Fanático",
+    "passivas": [
+      { "nome": "Resistência", "efeito": "Recebe metade do dano de fogo" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Cutelo Demoníaco", "dano": "Dano 3", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "4 a 5", "nome": "Correntes", "dano": "Dano 4", "efeito": "Puxa o alvo", "alcance": "Média" },
+      { "dado": "6", "nome": "Desmembrar", "dano": "Dano 6", "efeito": "Alvo deve fazer um teste de saúde; se falhar perderá um membro aleatório", "alcance": "Adjacente" }
+    ],
+    "pertences": "Machado Pesado"
+  },
+  {
+    "nome": "Troll Capanga",
+    "pv": "28",
+    "pvMax": "28",
+    "tipo": "Abissal Grande Fanático",
+    "passivas": [
+      { "nome": "Fraqueza", "efeito": "Recebe o dobro do dano de fogo" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 4", "nome": "Clava Gigante", "dano": "Dano 4", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "5", "nome": "Giro", "dano": "Dano 4", "efeito": "Todos e provoca Caído", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Regeneração", "dano": "", "efeito": "Recupera todos os PV", "alcance": "" }
+    ],
+    "pertences": "Clava Gigante"
+  },
+  {
+    "nome": "Troll da Floresta",
+    "pv": "30",
+    "pvMax": "30",
+    "tipo": "Abissal Grande Agressivo",
+    "passivas": [
+      { "nome": "Fraqueza", "efeito": "Recebe o dobro do dano de fogo" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 4", "nome": "Soco", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "5", "nome": "Empurrão", "dano": "Dano 3", "efeito": "Alvo fica Caído", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Regeneração", "dano": "", "efeito": "Recupera todos os PV", "alcance": "" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Tubarão",
+    "pv": "14",
+    "pvMax": "14",
+    "tipo": "Animal Grande Selvagem",
+    "passivas": [
+      { "nome": "Restrição", "efeito": "Vive apenas embaixo da água" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Mordida", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Mordida Forte", "dano": "Dano 3", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Unicórnio Falso",
+    "pv": "10",
+    "pvMax": "10",
+    "tipo": "Abissal Médio Voraz",
+    "passivas": [
+      { "nome": "Ilusão", "efeito": "Aparenta ser um lindo unicórnio branco, porém quando ataca, a ilusão se desfaz e revela sua face macabra" },
+      { "nome": "Assustador", "efeito": "É preciso gastar 1 PE para se chegar adjacente a essa criatura" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 4", "nome": "Mordida", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "5", "nome": "Energizar", "dano": "", "efeito": "Seu próximo ataque causará +2 de dano de eletricidade", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "6", "nome": "Raio do Chifre", "dano": "Dano 3", "efeito": "Alvo ficará Paralisado", "alcance": "Longa" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Urso Pardo",
+    "pv": "26",
+    "pvMax": "26",
+    "tipo": "Animal Grande Selvagem",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Garras", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Abraço", "dano": "Dano 4", "efeito": "Alvo ficará Paralisado", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Urso Polar",
+    "pv": "28",
+    "pvMax": "28",
+    "tipo": "Animal Grande Selvagem",
+    "passivas": [
+      { "nome": "Glacial", "efeito": "Vive em regiões muito frias; causa Dano -2 se estiver em uma região quente" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Garras", "dano": "Dano 3", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Mordida", "dano": "Dano 5", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Urso Preto",
+    "pv": "18",
+    "pvMax": "18",
+    "tipo": "Animal Médio Selvagem",
+    "passivas": [],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Garras", "dano": "Dano 2", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Mordida", "dano": "Dano 3", "efeito": "", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Verme Devorador",
+    "pv": "26",
+    "pvMax": "26",
+    "tipo": "Animal Grande Selvagem",
+    "passivas": [
+      { "nome": "Imunidade", "efeito": "Imune a dano de ácido" }
+    ],
+    "habilidades": [
+      { "dado": "1", "nome": "Explosão", "dano": "Dano 4", "efeito": "Morre mas todos ao alcance recebem dano de ácido", "alcance": "Longo" },
+      { "dado": "2 a 6", "nome": "Cuspe", "dano": "Dano 2", "efeito": "Dano de ácido", "alcance": "Longo" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Verme Devorador Gigante",
+    "pv": "45",
+    "pvMax": "45",
+    "tipo": "Animal Grande Selvagem",
+    "passivas": [
+      { "nome": "Imunidade", "efeito": "Imune a dano de ácido" },
+      { "nome": "Sangue Ácido", "efeito": "Todo que fizer um ataque adjacente recebe 1 Dano de ácido" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 4", "nome": "Mordida", "dano": "Dano 1", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "5 a 6", "nome": "Jato Ácido", "dano": "Dano 5", "efeito": "Dano de ácido em todos", "alcance": "Longo" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Yeti",
+    "pv": "16",
+    "pvMax": "16",
+    "tipo": "Humanoide Médio Selvagem",
+    "passivas": [
+      { "nome": "Camuflagem das Neves", "efeito": "Se estiver na neve, é imune a dano crítico" },
+      { "nome": "Glacial", "efeito": "Vive em regiões muito frias; causa Dano -2 se estiver em uma região quente" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 5", "nome": "Soco", "dano": "Dano 3", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "6", "nome": "Abraço", "dano": "Dano 4", "efeito": "Alvo ficará Imobilizado; Yeti só atacará esse alvo", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Yetilin",
+    "pv": "5",
+    "pvMax": "5",
+    "tipo": "Humanoide Pequeno Selvagem",
+    "passivas": [
+      { "nome": "Camuflagem das Neves", "efeito": "Se estiver na neve, é imune a dano crítico" },
+      { "nome": "Glacial", "efeito": "Vive em regiões muito frias; causa Dano -2 se estiver em uma região quente" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 3", "nome": "Mordida", "dano": "Dano 1", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "4", "nome": "Chamado", "dano": "", "efeito": "Um novo Yetilin aparece no próximo turno", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "5 a 6", "nome": "Salto ao Branco", "dano": "", "efeito": "Se esconde, não pode ser alvo até o próximo turno", "alcance": "Opção C — Deduzir alcance pelo texto" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Zumbi Comum",
+    "pv": "3",
+    "pvMax": "3",
+    "tipo": "Morto-Vivo Médio Autômato",
+    "passivas": [
+      { "nome": "Sáliva Necrótica", "efeito": "Aqueles que forem mordidos precisam fazer um teste ou ficarão Entorpecidos" }
+    ],
+    "habilidades": [
+      { "dado": "1", "nome": "Desmontando", "dano": "", "efeito": "Para e arruma uma parte do corpo que está desmontando, nada acontece", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "2 a 3", "nome": "Agarrar", "dano": "Dano 1", "efeito": "Alvo deve vencer um teste ou ficará Imobilizado", "alcance": "Adjacente" },
+      { "dado": "4 a 6", "nome": "Mordida Maldita", "dano": "Dano 2", "efeito": "Alvo ficará Atordoado", "alcance": "Adjacente" }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Zumbi Lenhador",
+    "pv": "8",
+    "pvMax": "8",
+    "tipo": "Morto-Vivo Médio Autômato",
+    "passivas": [
+      { "nome": "Sáliva Necrótica", "efeito": "Aqueles que forem mordidos precisam fazer um teste ou ficarão Entorpecidos" }
+    ],
+    "habilidades": [
+      { "dado": "1", "nome": "Desmontando", "dano": "", "efeito": "Para e arruma uma parte do corpo que está desmontando, nada acontece", "alcance": "Opção C — Deduzir alcance pelo texto" },
+      { "dado": "1 a 4", "nome": "Machado", "dano": "Dano 3", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "4 a 6", "nome": "Mordida Maldita", "dano": "Dano 2", "efeito": "Alvo ficará Atordoado", "alcance": "Adjacente" }
+    ],
+    "pertences": "Machado de mão"
+  },
+  {
+    "nome": "Cardume de Piranhas",
+    "pv": "6",
+    "pvMax": "6",
+    "tipo": "Amorfo Médio Selvagem",
+    "passivas": [
+      { "nome": "Resistência", "efeito": "Recebe Metade de qualquer dano que não for em área" },
+      { "nome": "Envolver", "efeito": "Todos ao alcançe corporal ficam imobilizados" },
+      { "nome": "Restrição", "efeito": "Só pode se mover se tiver água" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 4", "nome": "Mordidas", "dano": "2", "efeito": "", "alcance": "Corporal" },
+      { "dado": "5 a 6", "nome": "Derrubar", "dano": "1", "efeito": "Alvo deve vencer um teste ou ficará Caído", "alcance": "Corporal" }
+      
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Bode de Montaria",
+    "pv": "9",
+    "pvMax": "9",
+    "tipo": "Animal Médio Domesticado",
+    "passivas": [
+      {
+        "nome": "Montaria",
+        "efeito": "Pode ser usado de montaria"
+      },
+      {
+        "nome": "Investida",
+        "efeito": "Se engajar em combate vindo de longe, causa Dano 1 e deixa alvo Caído"
+      },
+      {
+        "nome": "Escalada",
+        "efeito": "Pode escalar quase qualquer lugar"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 4",
+        "nome": "Nervoso",
+        "dano": "",
+        "efeito": "Se não estiver com seu dono, irá fugir do combate",
+        "alcance": ""
+      },
+      {
+        "dado": "5 a 6",
+        "nome": "Cabeçada",
+        "dano": "1",
+        "efeito": "",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Enguia da Areia",
+    "pv": "60",
+    "pvMax": "60",
+    "tipo": "Besta Gigante Voraz",
+    "passivas": [
+      {
+        "nome": "Imunidade",
+        "efeito": "Imune a Eletricidade"
+      },
+      {
+        "nome": "Eletrificado",
+        "efeito": "Dano 1 de eletricidade em quem fizer um ataque corporal nesta criatura"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Enterrar",
+        "dano": "3",
+        "efeito": "Entra pra dentro da terra causando Caído em todos que estiverem tocando o chão; Sai de cena",
+        "alcance": "Especial"
+      },
+      {
+        "dado": "2 a 3",
+        "nome": "Tremor",
+        "dano": "2",
+        "efeito": "Todos tocando o chão devem vencer um Teste ou receberão Dano 2 e Caído",
+        "alcance": "Especial"
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Descarga",
+        "dano": "5",
+        "efeito": "Todos da cena recebem Dano 5 de eletricidade",
+        "alcance": "Longo"
+      },
+      {
+        "dado": "6",
+        "nome": "Engolir",
+        "dano": "",
+        "efeito": "Alvo fica Engolido",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Espírito da Floresta",
+    "pv": "10",
+    "pvMax": "10",
+    "tipo": "Espectro Médio Moderado",
+    "passivas": [
+      {
+        "nome": "Incorpóreo",
+        "efeito": "Recebe metade de todo ataque ou arma não-mágica; arredonde para baixo"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Sugar Alma",
+        "dano": "",
+        "efeito": "Se alguém estiver com 2 PV ou menos, irá perder todos PEs e o fantasma recupera todos os PVs perdidos",
+        "alcance": "Especial"
+      },
+      {
+        "dado": "2 a 5",
+        "nome": "Garras Etéreas",
+        "dano": "2",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Invocar Lobo",
+        "dano": "",
+        "efeito": "Aparece um Lobo na mata",
+        "alcance": ""
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Esqueleto Mineirador",
+    "pv": "1",
+    "pvMax": "1",
+    "tipo": "Morto-Vivo Médio Autômato",
+    "passivas": [
+      {
+        "nome": "Imunidade",
+        "efeito": "Imune a Frio"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 5",
+        "nome": "Picareta",
+        "dano": "2",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Cravar",
+        "dano": "4",
+        "efeito": "e picareta quebra",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": "Picareta"
+  },
+  {
+    "nome": "Esqueleto Soldado",
+    "pv": "3",
+    "pvMax": "3",
+    "tipo": "Morto-Vivo Médio Autômato",
+    "passivas": [
+      {
+        "nome": "Imunidade",
+        "efeito": "Imune a Frio"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Desmontando",
+        "dano": "",
+        "efeito": "Usa sua ação para arrumar uma parte do corpo que está se desmontando",
+        "alcance": ""
+      },
+      {
+        "dado": "2 a 5",
+        "nome": "Espada",
+        "dano": "1",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Espada Crítico",
+        "dano": "2",
+        "efeito": "",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": "Espada e armadura quebradas"
+  },
+  {
+    "nome": "Fantasma da Princesa Esquecida",
+    "pv": "10",
+    "pvMax": "10",
+    "tipo": "Espectro Médio Agressivo",
+    "passivas": [
+      {
+        "nome": "Incorpóreo",
+        "efeito": "Recebe metade de todo ataque ou arma não-mágica; arredonde para baixo"
+      },
+      {
+        "nome": "Voador",
+        "efeito": "Pode se mover livremente pelo ar"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Sugar Alma",
+        "dano": "",
+        "efeito": "Se alguém tiver com 2 PV ou menos, irá perder todos PEs e o fantasma recupera todos os PVs perdidos",
+        "alcance": ""
+      },
+      {
+        "dado": "2 a 5",
+        "nome": "Garras Etéreas",
+        "dano": "2",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Poltergeist",
+        "dano": "3",
+        "efeito": "Objetos da cena voam na direção do grupo; Todos devem vencer um Teste ou receberão Dano 3",
+        "alcance": ""
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Fantasma do Cavaleiro Esquecido",
+    "pv": "15",
+    "pvMax": "15",
+    "tipo": "Espectro Grande Fanático",
+    "passivas": [
+      {
+        "nome": "Incorpóreo",
+        "efeito": "Recebe metade de todo ataque ou arma não-mágica; arredonde para baixo"
+      },
+      {
+        "nome": "Cavalo",
+        "efeito": "Ele está montado em um cavalo fantasma, mas é como se fosse o mesmo ser"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Ameaça",
+        "dano": "",
+        "efeito": "O cavalo empina e o cavaleiro dá gargalhada; Todos devem vencer um Teste ou ficarão Paralizados de medo",
+        "alcance": ""
+      },
+      {
+        "dado": "2 a 5",
+        "nome": "Lança Longa",
+        "dano": "1",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Empalar",
+        "dano": "7",
+        "efeito": "e alvo fica Paralisado",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Fantasma do Rei Esquecido",
+    "pv": "20",
+    "pvMax": "20",
+    "tipo": "Espectro Médio Agressivo",
+    "passivas": [
+      {
+        "nome": "Incorpóreo",
+        "efeito": "Recebe metade de todo ataque ou arma não-mágica; arredonde para baixo"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 3",
+        "nome": "Curvão-se",
+        "dano": "3",
+        "efeito": "Todos devem vencer um Teste ou receberão Dano 3 e ficarão Caídos",
+        "alcance": ""
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Servo",
+        "dano": "",
+        "efeito": "Surge 1 Fantasma Vingador",
+        "alcance": ""
+      },
+      {
+        "dado": "6",
+        "nome": "Esqueletos",
+        "dano": "",
+        "efeito": "Surge 2 Esqueletos Soldados",
+        "alcance": ""
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Fantasma Vingador",
+    "pv": "8",
+    "pvMax": "8",
+    "tipo": "Espectro Médio Fanático",
+    "passivas": [
+      {
+        "nome": "Incorpóreo",
+        "efeito": "Recebe metade de todo ataque ou arma não-mágica; arredonde para baixo"
+      },
+      {
+        "nome": "Voador",
+        "efeito": "Pode se mover livremente pelo ar"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Sugar Alma",
+        "dano": "",
+        "efeito": "Se alguém tiver com 2 PV ou menos, irá perder todos PEs e o fantasma recupera todos os PVs perdidos",
+        "alcance": ""
+      },
+      {
+        "dado": "2 a 5",
+        "nome": "Garras Etéreas",
+        "dano": "3",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Poltergeist",
+        "dano": "5",
+        "efeito": "Objetos da cena voam na direção do grupo; Todos devem vencer um Teste ou receberão Dano 5",
+        "alcance": ""
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Goblin Cultista",
+    "pv": "5",
+    "pvMax": "5",
+    "tipo": "Humanóide Pequeno Fanático",
+    "passivas": [],
+    "habilidades": [
+      {
+        "dado": "1 a 4",
+        "nome": "Raio Mágico",
+        "dano": "1",
+        "efeito": "",
+        "alcance": "Distância"
+      },
+      {
+        "dado": "5 a 6",
+        "nome": "Ritual",
+        "dano": "",
+        "efeito": "Marque 1 ponto; Assim que os goblins marcarem 3 pontos, surge um Shoggoth",
+        "alcance": ""
+      }
+    ],
+    "pertences": "Manto amarelo e Adaga Abissal"
+  },
+  {
+    "nome": "Guarda de Novisgardia",
+    "pv": "13",
+    "pvMax": "13",
+    "tipo": "Humanoide Médio Agressivo",
+    "passivas": [
+      {
+        "nome": "Escudo",
+        "efeito": "Ignora o primeiro ataque que receber da rodada, exceto se for Quebrador; Se o dano for maior que 4 o escudo é destruído"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 5",
+        "nome": "Lança de Gnir",
+        "dano": "2",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Derrubar",
+        "dano": "5",
+        "efeito": "e alvo fica Caído",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": "Túnica de Lã, Cota de Malha, Escudo Redondo e Lança de Gnir"
+  },
+  {
+    "nome": "Guarda do Império Aasha",
+    "pv": "12",
+    "pvMax": "12",
+    "tipo": "Humanoide Médio Agressivo",
+    "passivas": [],
+    "habilidades": [
+      {
+        "dado": "1 a 5",
+        "nome": "Glaive Imperial",
+        "dano": "2",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Impalar",
+        "dano": "7",
+        "efeito": "",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": "Túnica Kanisha, Armadura Simples e Glaive Imperial"
+  },
+  {
+    "nome": "Guardião Angelical",
+    "pv": "30",
+    "pvMax": "30",
+    "tipo": "Abissal Grande Fanático",
+    "passivas": [
+      {
+        "nome": "Fraqueza",
+        "efeito": "Recebe dobro de dano de Fogo"
+      },
+      {
+        "nome": "Voador",
+        "efeito": "Pode se mover livremente pelo ar"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 3",
+        "nome": "Lança Curta",
+        "dano": "2",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "4",
+        "nome": "Recuo",
+        "dano": "5",
+        "efeito": "Levanta voo; seu próximo ataque será com a Lança causando Dano 5 no alvo com menos PV",
+        "alcance": ""
+      },
+      {
+        "dado": "5",
+        "nome": "Luz dos Deuses",
+        "dano": "",
+        "efeito": "Todos devem vencer um Teste ou ficarão Cegos",
+        "alcance": ""
+      },
+      {
+        "dado": "6",
+        "nome": "Recuperação Sagrada",
+        "dano": "",
+        "efeito": "Recupera todos os PVs perdidos",
+        "alcance": ""
+      }
+    ],
+    "pertences": "Túnica branca, Lança Curta e 1 Tesouro aleatório"
+  },
+  {
+    "nome": "Horror de Zaah",
+    "pv": "10",
+    "pvMax": "10",
+    "tipo": "Besta Média Sobrevivente",
+    "passivas": [
+      {
+        "nome": "Movimentos Rápidos",
+        "efeito": "É impossível fugir"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 3",
+        "nome": "Garras/Arma",
+        "dano": "1",
+        "efeito": "Ou Dano da arma se tiver carregando uma",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Agarrar Arma",
+        "dano": "",
+        "efeito": "O alvo perde a arma que estiver carregando e este passa a atacar com esta arma",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Mordida Venenosa",
+        "dano": "3",
+        "efeito": "e alvo fica Envenenado",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Jurumim",
+    "pv": "11",
+    "pvMax": "11",
+    "tipo": "Animal Grande Domesticado",
+    "passivas": [
+      {
+        "nome": "Montaria",
+        "efeito": "Pode ser usado de montaria"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 5",
+        "nome": "Nervoso",
+        "dano": "",
+        "efeito": "Se não estiver com seu dono, irá fugir do combate",
+        "alcance": ""
+      },
+      {
+        "dado": "6",
+        "nome": "Garras",
+        "dano": "3",
+        "efeito": "",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Kargadan",
+    "pv": "30",
+    "pvMax": "30",
+    "tipo": "Animal Grande Selvagem",
+    "passivas": [],
+    "habilidades": [
+      {
+        "dado": "1 a 3",
+        "nome": "Recuo",
+        "dano": "3",
+        "efeito": "Se afasta; Próximo turno irá vir correndo e atacará com Chifre causando Dano 3 e alvo fica Caído",
+        "alcance": ""
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Chifre",
+        "dano": "2",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Descarga",
+        "dano": "3",
+        "efeito": "Todos na cena recebem Dano 3 de Eletricidade",
+        "alcance": "Longo"
+      }
+    ],
+    "pertences": "Chifre de Kargadan (se fizer um chá do pó deste chifre, quem beber elimina uma condição negativa)"
+  },
+  {
+    "nome": "Mapinguari Adulto",
+    "pv": "32",
+    "pvMax": "32",
+    "tipo": "Humanoide Grande Voraz",
+    "passivas": [
+      {
+        "nome": "Aura Fétida",
+        "efeito": "Todo personagem ao alcance corporal deve vencer um Teste no início do seu turno. Se falhar, fica Atordoado e se afasta"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 3",
+        "nome": "Garras",
+        "dano": "3",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Cuspe",
+        "dano": "2",
+        "efeito": "Dano 2 de Ácido",
+        "alcance": "Longo"
+      },
+      {
+        "dado": "6",
+        "nome": "Engolir",
+        "dano": "",
+        "efeito": "Alvo deve vencer Teste ou será Engolido",
+        "alcance": ""
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Múmia Soldado",
+    "pv": "4",
+    "pvMax": "4",
+    "tipo": "Morto-Vivo Médio Autômato",
+    "passivas": [
+      {
+        "nome": "Fraqueza",
+        "efeito": "Recebe o dobro de dano de Fogo"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 2",
+        "nome": "Areia",
+        "dano": "",
+        "efeito": "Recupera todos os PVs perdidos",
+        "alcance": ""
+      },
+      {
+        "dado": "3 a 5",
+        "nome": "Kopesh",
+        "dano": "3",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Reforços",
+        "dano": "",
+        "efeito": "1 Múmia Soldado se levanta da areia nas costas do alvo",
+        "alcance": ""
+      }
+    ],
+    "pertences": "Máscara mortuária, Kopesh de Bronze (igual Machado de Mão) e Rubi grande em forma de escaravelho"
+  },
+  {
+    "nome": "Ogro General",
+    "pv": "25",
+    "pvMax": "25",
+    "tipo": "Humanoide Grande Agressivo",
+    "passivas": [],
+    "habilidades": [
+      {
+        "dado": "1 a 3",
+        "nome": "Marreta",
+        "dano": "3",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Giro",
+        "dano": "2",
+        "efeito": "Todos ao alcance corporal recebem Dano 2",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Marreta Crítica",
+        "dano": "5",
+        "efeito": "",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": "Elmo Gigante, Armadura Simples gigante e Marreta"
+  },
+  {
+    "nome": "Ogro Rei",
+    "pv": "21",
+    "pvMax": "21",
+    "tipo": "Humanoide Grande Agressivo",
+    "passivas": [],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Provocação",
+        "dano": "",
+        "efeito": "Todos devem vencer um Teste ou ficarão Atordoados",
+        "alcance": ""
+      },
+      {
+        "dado": "2 a 3",
+        "nome": "Arroto Real",
+        "dano": "2",
+        "efeito": "Todos ao alcance corporal devem vencer um Teste ou receberão Dano 2 e ficarão Caídos",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "4 a 6",
+        "nome": "Machado Pesado",
+        "dano": "6",
+        "efeito": "",
+        "alcance": "Corporal"
+      }
+    ],
+    "pertences": "Roupa mal costurada, Capa vermelha (que deve ter sido uma bandeira), Coroa Gigante de ferro e Machado Pesado"
+  },
+  {
+    "nome": "Patrulheiro das Matas Ayangan",
+    "pv": "13",
+    "pvMax": "13",
+    "tipo": "Humanoide Médio Agressivo",
+    "passivas": [
+      {
+        "nome": "Escudo",
+        "efeito": "Ignora todo ataque de Dano 4 ou menos, exceto se for Quebrador"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 5",
+        "nome": "Lança de Gnir",
+        "dano": "2",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Raízes Agarradoras",
+        "dano": "",
+        "efeito": "Alvo fica Imobilizado",
+        "alcance": "Média"
+      }
+    ],
+    "pertences": "Túnica de Lã, Cota de Malha, Escudo Redondo e Lança de Gnir"
+  },
+  {
+    "nome": "Planta Assassina",
+    "pv": "17",
+    "pvMax": "17",
+    "tipo": "Amorfo Pequeno Selvagem",
+    "passivas": [
+      {
+        "nome": "Fraqueza",
+        "efeito": "Recebe o dobro de dano de Fogo"
+      },
+      {
+        "nome": "Multi-Ataque",
+        "efeito": "Role 2 dados; Ações são feitas do valor mais alto ao valor menor"
+      }
+    ],
+    "habilidades": [
+      {
+        "dado": "1 a 4",
+        "nome": "Chicote",
+        "dano": "2",
+        "efeito": "",
+        "alcance": "Média"
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Mordida",
+        "dano": "3",
+        "efeito": "Alvo fica Envenenado",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Regeneração",
+        "dano": "",
+        "efeito": "Recupera 6 PVs",
+        "alcance": ""
+      }
+    ],
+    "pertences": ""
+  }
+]
+
+
+
+
+
+
+
+
+
+
 
 
 

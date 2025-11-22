@@ -1,3 +1,7 @@
+let inimigoSelecionado = null;
+let inimigosAtivos = [];
+let ocultarMortos = false;
+
 function gerarEncontro() {
   const bioma = document.getElementById('biomaSelect').value;
   const r = rolarD20();
@@ -24,6 +28,16 @@ function gerarEncontro() {
     <div class="card-body">
       <h5 class="card-title">⚔️ Encontro</h5>
       <p>${resultado}</p>
+      <div id="listaInimigosAtivos"></div>
+      <br>
+      <div class="d-flex mb-2">
+        <button class="btn btn-primary btn-sm mb-2" onclick="abrirAdicionarInimigo()">
+          Adicionar Inimigo
+        </button>
+        <button class="btn btn-secondary btn-sm mb-2" onclick="alternarMortos()">
+            Ocultar Mortos
+        </button>
+      </div>
     </div>
   </div>`;
 }
@@ -81,6 +95,16 @@ function gerarComplicacaoAmbiental(bioma) {
     <h5>⚠️ Complicação</h5>
     <b>${comp}</b><br>
     <small>${c.t1} — ${c.t2}</small>
+    <div id="listaInimigosAtivos"></div>
+      <br>
+      <div class="d-flex mb-2">
+        <button class="btn btn-primary btn-sm mb-2" onclick="abrirAdicionarInimigo()">
+          Adicionar Inimigo
+        </button>
+        <button class="btn btn-secondary btn-sm mb-2" onclick="alternarMortos()">
+            Ocultar Mortos
+        </button>
+      </div>
   </div></div>`;
 }
 
@@ -267,13 +291,22 @@ function gerarMonstroEncontro(bioma) {
 
   const encontro = tabela[linha][categoria];
 
-  return `
-  👹 <b>Monstro Errante</b> (Bioma: <b>${bioma}</b>)<br>
-  Rolagens → d4 = ${linha+1}, d20 = ${dificuldade}<br>
-  <div class="mt-2"><b>➡ Resultado:</b> ${encontro}</div>`;
+  return montarHTMLComInimigos(encontro);
 }
 
 function gerarMonstroEncontroCenas(bioma) {
+  const tabela = encontrosPorBioma[bioma];
+  const linha = rolarD4() - 1;
+  const dificuldade = rolarD20();
+  let categoria = dificuldade > 18 ? 2 : dificuldade > 8 ? 1 : 0;
+  const encontro = tabela[linha][categoria];
+
+  const box = document.getElementById('resultadoEncontro');
+  box.style.display = 'block';
+  box.innerHTML += montarHTMLComInimigos(encontro);
+}
+
+function gerarMonstroEncontroCenasOld(bioma) {
   const tabela = encontrosPorBioma[bioma];
   const linha = rolarD4() - 1;
   const dificuldade = rolarD20();
@@ -579,3 +612,267 @@ function concluirMoradoresDesaparecidos() {
     </div></div>
   `;
 }
+
+function extrairInimigos(texto) { 
+  return texto.split(" e ") 
+    .map(parte => { 
+      const match = parte.trim().match(/^(\d+)\s+(.+)$/); 
+      if (!match) return null; 
+      return { 
+        quantidade: parseInt(match[1]), 
+        nome: match[2].trim() }; }) .filter(x => x); 
+}
+
+function montarHTMLComInimigos(encontroStr) {
+    const grupos = extrairInimigos(encontroStr);
+
+    inimigosAtivos = []; // zera instâncias ao gerar um novo encontro
+
+    const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    let contador = 0;
+
+    grupos.forEach(grupo => {
+        const fichaBase = inimigos.find(i => i.nome === grupo.nome);
+        if (!fichaBase) return;
+
+        for (let i = 0; i < grupo.quantidade; i++) {
+            const letra = letras[contador] || `X${contador}`;
+
+            inimigosAtivos.push({
+                id: letra,
+                nome: fichaBase.nome,
+                tipo: fichaBase.tipo,
+                pv: fichaBase.pv,
+                pvMax: fichaBase.pv,
+                morto: false,
+                passivas: fichaBase.passivas,
+                habilidades: fichaBase.habilidades,
+                pertences: fichaBase.pertences
+            });
+
+            contador++;
+        }
+    });
+
+    // Montar HTML da lista
+    setTimeout(atualizarListaInimigosTela, 50);
+    return "";
+}
+
+function mostrarFichaInimigo(id) {
+    inimigoSelecionado = inimigosAtivos.find(i => i.id === id);
+    const ficha = inimigoSelecionado;
+    const imgPath = `assets/img/inimigos/${ficha.nome}.png`;
+
+    if (!ficha) {
+        alert("Inimigo não encontrado: " + id);
+        return;
+    }
+
+    const passivasHTML = ficha.passivas?.length
+        ? ficha.passivas.map(p => `<li><b>${p.nome}</b>: ${p.efeito}</li>`).join("")
+        : "<i>Nenhuma</i>";
+
+    const habilidadesHTML = ficha.habilidades?.length
+        ? ficha.habilidades.map(h => `
+            <li class="mb-2">
+                <b>Dado:</b> ${h.dado} <br>
+                <b>${h.nome}</b> — ${h.dano || "<i>Sem dano</i>"} <br>
+                <b>Efeito:</b> ${h.efeito || "<i>Nenhum</i>"} <br>
+                <b>Alcance:</b> ${h.alcance || "<i>N/A</i>"}
+            </li>
+        `).join("")
+        : "<i>Nenhuma</i>";
+
+    const html = `
+        
+        <div class="d-flex align-items-center mb-2">
+    <img 
+        src="${imgPath}" 
+        onerror="this.src='assets/img/inimigos/placeholder.png'"
+        style="width:120px; height:120px; object-fit:cover; border-radius:10px; border:2px solid #666; margin-right:15px;"
+    >
+    <div>
+        <h3 class="mb-0">${ficha.nome}</h3>
+        <small class="text-muted">${ficha.tipo}</small>
+    </div>
+</div>
+<hr>
+
+        <p>
+            <b>PV:</b> 
+            <span id="pvAtual">${ficha.pv}</span> /
+            <span id="pvMax">${ficha.pvMax}</span>
+        </p>
+
+        <input id="inputDano" type="number" min="0" class="form-control" placeholder="Dano ou Cura">
+
+        <div class="input-group mt-2" style="max-width: 220px;">
+            <button class="btn btn-danger" onclick="aplicarDano()">Dano</button>
+            <button class="btn btn-success" onclick="curarInimigo()">Curar</button>
+            <button class="btn btn-dark w-100 mt-2" onclick="marcarMorto()">
+              Marcar como Morto
+            </button>
+        </div>
+
+        <h5 class="mt-3">Passivas</h5>
+        <ul>${passivasHTML}</ul>
+
+        <h5 class="mt-3">Habilidades</h5>
+        <ul>${habilidadesHTML}</ul>
+
+        <h5 class="mt-3">Pertences</h5>
+        <p>${ficha.pertences || "<i>Nenhum</i>"}</p>
+    `;
+
+    document.getElementById("modalInimigoConteudo").innerHTML = html;
+    new bootstrap.Modal(document.getElementById("modalInimigo")).show();
+}
+
+
+function aplicarDano() {
+    const valor = parseInt(document.getElementById("inputDano").value, 10);
+    if (isNaN(valor) || valor <= 0) return;
+
+    let pv = inimigoSelecionado.pv - valor;
+    if (pv < 0) pv = 0;
+
+    inimigoSelecionado.pv = pv;
+    document.getElementById("pvAtual").innerText = pv;
+
+    document.getElementById("inputDano").value = "";
+}
+
+function curarInimigo() {
+    const valor = parseInt(document.getElementById("inputDano").value, 10);
+    if (isNaN(valor) || valor <= 0) return;
+
+    let pv = inimigoSelecionado.pv + valor;
+    if (pv > inimigoSelecionado.pvMax) pv = inimigoSelecionado.pvMax;
+
+    inimigoSelecionado.pv = pv;
+    document.getElementById("pvAtual").innerText = pv;
+
+    document.getElementById("inputDano").value = "";
+}
+
+function abrirAdicionarInimigo() {
+    document.getElementById("buscaInimigo").value = "";
+    filtrarInimigos();
+    new bootstrap.Modal(document.getElementById("modalAddInimigo")).show();
+}
+
+function filtrarInimigos() {
+    const q = document.getElementById("buscaInimigo").value.toLowerCase();
+    const lista = document.getElementById("listaResultadosInimigos");
+
+    const encontrados = inimigos
+        .filter(i => i.nome.toLowerCase().includes(q))
+        .slice(0, 20); // limitar para não lotar
+
+    lista.innerHTML = encontrados.map(i => `
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            ${i.nome}
+            <button class="btn btn-sm btn-success" onclick="adicionarInimigoManual('${i.nome.replace(/'/g, "\\'")}')">
+                Adicionar
+            </button>
+        </li>
+    `).join("");
+}
+
+function adicionarInimigoManual(nome) {
+    const base = inimigos.find(i => i.nome === nome);
+    if (!base) return;
+
+    const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+    let idx = inimigosAtivos.length;
+    const id = letras[idx] || `X${idx}`;
+
+    inimigosAtivos.push({
+        id,
+        nome: base.nome,
+        tipo: base.tipo,
+        pv: base.pv,
+        pvMax: base.pv,
+        morto: false,
+        passivas: base.passivas,
+        habilidades: base.habilidades,
+        pertences: base.pertences
+    });
+
+    atualizarListaInimigosTela();
+}
+
+
+function atualizarListaInimigosTela() {
+    const container = document.getElementById("listaInimigosAtivos");
+
+    container.innerHTML = inimigosAtivos
+        .filter(i => !(ocultarMortos && i.morto))
+        .map(i => {
+
+            const imgPath = `assets/img/inimigos/${i.nome}.png`;
+
+            return `
+                <div class="my-1 d-flex align-items-center ${i.morto ? "text-decoration-line-through text-muted" : ""}">
+                    
+                    <img 
+                        src="${imgPath}" 
+                        onerror="this.src='assets/img/inimigos/placeholder.png'" 
+                        class="me-2"
+                        style="width:70px; height:70px; object-fit:cover; border-radius:6px; border:1px solid #444;"
+                    >
+
+                    <b>${i.id} - ${i.nome}</b>
+
+                    <button 
+                        class="btn btn-sm btn-info ms-2" 
+                        onclick="mostrarFichaInimigo('${i.id}')"
+                    >
+                        Ver Ficha
+                    </button>
+                </div>
+            `;
+        })
+        .join("");
+}
+
+
+function atualizarListaInimigosTelaOld() {
+    const container = document.getElementById("listaInimigosAtivos");
+
+    container.innerHTML = inimigosAtivos
+        .filter(i => !(ocultarMortos && i.morto))
+        .map(i => `
+            <div class="my-1 ${i.morto ? "text-decoration-line-through text-muted" : ""}">
+                <b>${i.id} - ${i.nome}</b>
+                <button 
+                    class="btn btn-sm btn-info ms-2" 
+                    onclick="mostrarFichaInimigo('${i.id}')"
+                >
+                    Ver Ficha
+                </button>
+            </div>
+        `)
+        .join("");
+}
+
+function marcarMorto() {
+    if (!inimigoSelecionado) return;
+
+    inimigoSelecionado.morto = true;
+
+    // Fecha o modal
+    bootstrap.Modal.getInstance(document.getElementById("modalInimigo")).hide();
+
+    // Atualiza a lista na tela (para riscar ou ocultar)
+    atualizarListaInimigosTela();
+}
+
+function alternarMortos() {
+    ocultarMortos = !ocultarMortos;
+    atualizarListaInimigosTela();
+}
+
+

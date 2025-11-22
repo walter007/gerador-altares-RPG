@@ -273,3 +273,91 @@ function setPNJs(lista) {
   campanhas[campanhaAtual].tabelaPNJ = lista;
   salvarCampanhas();
 }
+
+document.getElementById("temaDescritor").addEventListener("change", function() {
+    const tema = this.value;
+    const selectTabela = document.getElementById("tabelaDescritor");
+
+    selectTabela.innerHTML = "";
+
+    if (!tema || !tabelasDescritores[tema]) {
+        selectTabela.innerHTML = `<option value="">Escolha um tema primeiro</option>`;
+        return;
+    }
+
+    const tbs = tabelasDescritores[tema].tabelas;
+
+    Object.keys(tbs).forEach(key => {
+        const opt = document.createElement("option");
+        opt.value = key;
+        opt.textContent = tbs[key].nome;
+        selectTabela.appendChild(opt);
+    });
+});
+
+function gerarDescritor() {
+    const tema = document.getElementById("temaDescritor").value;
+    const tabelaKey = document.getElementById("tabelaDescritor").value;
+    const box = document.getElementById("resultadoDescritor");
+
+    if (!tema || !tabelaKey) {
+        alert("Escolha um tema e uma tabela primeiro!");
+        return;
+    }
+
+    const tabela = tabelasDescritores[tema].tabelas[tabelaKey].dados;
+
+    function rolar() {
+        const n = Math.floor(Math.random() * 100) + 1;
+        const obj = tabela.find(e => e.valor === n);
+        return obj ? obj.item : "—";
+    }
+
+    const palavra1 = rolar();
+    const palavra2 = rolar();
+
+    box.innerHTML = `
+        <div class="alert alert-info">
+            <h5>🎲 Descritor Gerado</h5>
+            <b>${palavra1}</b> — <b>${palavra2}</b>
+        </div>
+    `;
+
+    box.style.display = "block";
+}
+
+const tabelasDescritores = {
+    acao: {
+        nome: "Ações",
+        tabelas: {
+            acao1: { nome: "Ação 1", dados: acao1 },
+            acao2: { nome: "Ação 2", dados: acao2 }
+        }
+    },
+
+    descritor: {
+        nome: "Descrições",
+        tabelas: {
+            descritor1: { nome: "Descritor Geral 1", dados: descritor1 },
+            descritor2: { nome: "Descritor Geral 2", dados: descritor2 },
+            descritoresCidade: { nome: "Cidades", dados: descritoresCidade },
+            civilizacao: { nome: "civilização", dados: civilizacao },
+            lendas: { nome: "Lendas", dados: lendas },
+            sonhosVisoes: { nome: "Sonhos e Visões", dados: sonhosVisoes }
+            // continue conforme suas tabelas
+        }
+    },
+
+    elemento: {
+        nome: "Elementos",
+        tabelas: {
+            localidade: { nome: "Localidade", dados: localidade },
+            personagem: { nome: "Personagem", dados: personagem },
+            objetoCena: { nome: "Objetos", dados: objetoCena },
+            efeitosMagia: { nome: "Efeitos de Magia", dados: efeitosMagia },
+            maldicoes: { nome: "Maldições", dados: maldicoes }
+            // continue conforme suas tabelas
+        }
+    }
+};
+
