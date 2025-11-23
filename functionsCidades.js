@@ -106,7 +106,7 @@ function limparCidades() {
 
 
 
-function atualizarListaCidades() {
+function atualizarListaCidadesOld() {
   const data = campanhas[campanhaAtual];
   const ul = document.getElementById("listaCidades");
   ul.innerHTML = "";

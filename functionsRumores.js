@@ -2,7 +2,6 @@ let rumores = JSON.parse(localStorage.getItem("rumoresSalvos") || "[]");
 
 function gerarBoato() {
   const data = campanhas[campanhaAtual];
-  const bioma = document.getElementById('biomaSelect').value;
   const r = rolarD20();
   const direcao = direcoes[Math.floor(Math.random()*direcoes.length)];
   const distancia = rolarD12();
@@ -24,8 +23,8 @@ function gerarBoato() {
   atualizarListaRumores();
 
   // Exibe imediatamente no card
-  document.getElementById("textoMissao").innerHTML = texto;
-  document.getElementById("resultado").style.display = "block";
+  //document.getElementById("textoMissao").innerHTML = texto;
+  //document.getElementById("resultado").style.display = "block";
 }
 
 function salvarRumores() {

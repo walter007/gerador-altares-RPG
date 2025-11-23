@@ -1179,6 +1179,14 @@ function detalharEspeciaisPJ(pjIndex, armaIndex) {
 
 
 function editarPJ(index) {
+    const modalElemento = document.getElementById("modalDetalhes");
+    const detalhesModal = bootstrap.Modal.getInstance(modalElemento);
+    if (detalhesModal) {
+        detalhesModal.hide();
+    } else {
+        console.error("Instância do Modal não encontrada.");
+    }
+
     const pj = campanhas[campanhaAtual].pjs[index];
     if (!pj) return;
 
@@ -2128,10 +2136,11 @@ function diminuirPEAtual(pjIndex) {
 
 function abrirModalDetalhePjs() {
   const select = document.getElementById("selectPJ");
+  const listaPjModal = document.getElementById("listaPjModal");
   select.innerHTML = "";
 
-    console.log("DEBUG listarPJs -> campanhaAtual:", campanhaAtual);
-    console.log("DEBUG listarPJs -> campanhas:", campanhas);
+    //console.log("DEBUG listarPJs -> campanhaAtual:", campanhaAtual);
+    //console.log("DEBUG listarPJs -> campanhas:", campanhas);
 
   campanhas[campanhaAtual].pjs.forEach((pj, i) => {
     select.innerHTML += `<option value="${i}">${pj.nome}</option>`;
