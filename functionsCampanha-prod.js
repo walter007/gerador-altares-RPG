@@ -5,73 +5,125 @@
 let campanhas = {};
 let campanhaAtual = null;
 
+async function sha1(texto) {
+    const buffer = new TextEncoder().encode(texto);
+    const hashBuffer = await crypto.subtle.digest("SHA-1", buffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function salvarBackupLocal() {
+    const ordenado = ordenar({ campanhas, campanhaAtual });
+    const json = JSON.stringify(ordenado);
+    const integridade = await sha1(json);
+
+    localStorage.setItem("altarisBackup", JSON.stringify({
+        timestamp: Date.now(),
+        integridade,
+        campanhas,
+        campanhaAtual
+    }));
+}
+
+async function carregarBackupLocal() {
+    const raw = localStorage.getItem("altarisBackup");
+    if (!raw) return false;
+
+    try {
+        const backup = JSON.parse(raw);
+        const ordenado = ordenar({
+          campanhas: backup.campanhas,
+          campanhaAtual: backup.campanhaAtual
+        });
+        const json = JSON.stringify(ordenado);
+        const hashNow = await sha1(json);
+
+        if (hashNow !== backup.integridade) {
+            console.error("❌ Backup local corrompido. Ignorando.");
+            return false;
+        }
+
+        campanhas = backup.campanhas;
+        campanhaAtual = backup.campanhaAtual;
+
+        console.warn("⚠ Usando dados do backup local.");
+        return true;
+    } catch (err) {
+        console.error("Erro ao ler backup local:", err);
+        return false;
+    }
+}
+
 async function iniciarApp() {
-    console.log("Iniciando Aplicação e Carregamento de Dados...");
-    
-    // As referências a db, doc, getDoc, etc., SÓ EXISTEM DENTRO das funções
-    // onde são desestruturadas de window.firebaseModules.
+    console.log("Iniciando app...");
 
-    // 1. Carregar Dados na Inicialização
-    await carregarDados(); // Aguarda o carregamento do Firebase
+    const firebaseOK = await carregarDadosFirebase();
 
-    // 2. Se não houver dados, criar Campanha Padrão e Salvar
-    if (!campanhaAtual || !campanhas[campanhaAtual]) {
-        console.log("Nenhuma campanha encontrada. Criando Campanha Padrão.");
-        campanhaAtual = "Campanha Padrão";
-        campanhas[campanhaAtual] = { 
-              missoesAtivas: [], 
-              missoesConcluidas: [], 
-              rumores: [], 
-              cidades: [], 
-              dungeons: [],
-              cenas: [], // ✅ Adicionado aqui também!
-              tramas: [],
-              tabelaPNJ: [],
-              tabelaPJ: [],
-              pnjs: [],
-              pjs: [],
-              pontosInteresse: {
-                monstruoso: [],
-                geografico: [],
-                npc: [],
-                divino: [],
-                magico: [],
-                militar: []
-          }
-        };
-        await salvarCampanhas(); // Aguardar o salvamento inicial
+    // 1. Se Firebase falhou → fallback local
+    if (!firebaseOK) {
+        const localOK = await carregarBackupLocal();
+
+        if (!localOK) {
+            alert("Erro ao carregar dados. Verifique sua internet.");
+            return;
+        }
+
+        carregarCampanha(campanhaAtual);
+        return;
     }
 
-    // 3. Chamar as funções de atualização da interface
+    // 2. Firebase OK → se vazio, cria padrão
+    if (!campanhaAtual || !campanhas[campanhaAtual]) {
+        campanhaAtual = "Campanha Padrão";
+        campanhas[campanhaAtual] = novaCampanhaBase();
+        await salvarCampanhas();
+    }
+
+    // 3. Atualiza backup local
+    await salvarBackupLocal();
+
     carregarCampanha(campanhaAtual);
-    // ... chame outras funções de inicialização da interface aqui ...
 }
 
 
-async function carregarDados() {
-    // É OBRIGATÓRIO desestruturar os módulos aqui dentro
+async function carregarDadosFirebase() {
     const { db, doc, getDoc } = window.firebaseModules;
-    
-    // A referência do documento
-    const ref = doc(db, "altaris", "dadosDoUsuario");
-    
+
     try {
-        // Agora getDoc está definido, pois estamos dentro de uma função
-        // e o await está em uma função async.
+        const ref = doc(db, "altaris", "dadosDoUsuario");
         const snap = await getDoc(ref);
-        
-        if (snap.exists()) {
-            const data = snap.data();
-            campanhas = data.campanhas || {};
-            campanhaAtual = data.campanhaAtual || null;
-            console.log("Dados carregados com sucesso do Firebase.");
-        } else {
-            console.log("Documento não encontrado no Firebase.");
-            campanhas = {};
-            campanhaAtual = null;
+
+        if (!snap.exists()) {
+            console.warn("Firebase vazio. Criar padrão.");
+            return true;
         }
+
+        const data = snap.data();
+
+        // Verifica integridade se existir hash
+        if (data.integridade) {
+            const ordenado = ordenar({
+            campanhas: data.campanhas,
+            campanhaAtual: data.campanhaAtual
+        });
+        const json = JSON.stringify(ordenado);
+        const hashNow = await sha1(json);
+
+            if (hashNow !== data.integridade) {
+                console.error("❌ Dados do Firebase corrompidos! Usando backup local.");
+                return false;
+            }
+        }
+
+        campanhas = data.campanhas || {};
+        campanhaAtual = data.campanhaAtual || null;
+
+        console.log("Dados carregados com integridade OK.");
+        return true;
+
     } catch (error) {
-        console.error("Erro ao carregar dados do Firebase:", error);
+        console.error("Erro ao carregar Firebase:", error);
+        return false;
     }
 }
 
@@ -80,10 +132,20 @@ function salvarCampanhasOld() {
   localStorage.setItem("campanhaAtualAltaris", campanhaAtual);
 }
 
-async function salvarCampanhas() {
-    // É OBRIGATÓRIO desestruturar os módulos aqui dentro
+async function salvarCampanhasOld2() {
     const { db, doc, setDoc } = window.firebaseModules;
-    
+
+    // Evita sobrescrever dados corrompidos
+    if (!campanhas || typeof campanhas !== "object") {
+        console.error("❌ Falha: campanhas está corrompido, não será salvo.");
+        return;
+    }
+
+    if (!campanhaAtual || !campanhas[campanhaAtual]) {
+        console.error("❌ Falha: campanhaAtual inválida, não será salva.");
+        return;
+    }
+
     try {
         await setDoc(doc(db, "altaris", "dadosDoUsuario"), {
             campanhas,
@@ -92,6 +154,31 @@ async function salvarCampanhas() {
         console.log("Dados salvos com sucesso no Firebase.");
     } catch (error) {
         console.error("Erro ao salvar dados no Firebase:", error);
+    }
+}
+
+async function salvarCampanhas() {
+    const { db, doc, setDoc } = window.firebaseModules;
+
+    // Monta JSON para salvar
+    const ordenado = ordenar({ campanhas, campanhaAtual });
+    const json = JSON.stringify(ordenado);
+    const integridade = await sha1(json);
+
+    try {
+        await setDoc(doc(db, "altaris", "dadosDoUsuario"), {
+            campanhas,
+            campanhaAtual,
+            integridade
+        });
+
+        console.log("Salvo no Firebase.");
+        await salvarBackupLocal();
+
+    } catch (err) {
+        console.error("Erro ao salvar Firebase:", err);
+        console.warn("Salvando apenas backup local.");
+        await salvarBackupLocal();
     }
 }
 
@@ -111,42 +198,18 @@ function carregarCampanha(nome) {
 }
 
 function criarCampanha() {
-  const nome = document.getElementById("novaCampanhaNome").value.trim();
-  if (!nome) return alert("Digite um nome.");
+    const nome = document.getElementById("novaCampanhaNome").value.trim();
+    if (!nome) return alert("Digite um nome.");
+    if (campanhas[nome]) return alert("Já existe uma campanha com esse nome.");
 
-  if (campanhas[nome]) return alert("Já existe uma campanha com esse nome.");
+    campanhas[nome] = novaCampanhaBase();
+    campanhaAtual = nome;
 
-   const novaCampanhaBase = {
-        missoesAtivas: [],
-        missoesConcluidas: [],
-        rumores: [],
-        cidades: [],
-        dungeons: [], // ✅ Adicionado!
-        cenas: [],
-        tramas: [],
-        tabelaPNJ: [],
-        tabelaPJ: [],
-        pnjs: [],
-        pjs: [], 
-        pontosInteresse: {
-            monstruoso: [],
-            geografico: [],
-            npc: [],
-            divino: [],
-            magico: [],
-            militar: []
-        }
-    };
+    salvarCampanhas();
+    mostrarCampanhas();
 
-  // ✅ AQUI ESTAVA FALTANDO
-  campanhas[nome] = novaCampanhaBase;
-  campanhaAtual = nome;
-
-  salvarCampanhas();
-  mostrarCampanhas();
-  document.getElementById("novaCampanhaNome").value = "";
-
-  alert(`Campanha "${nome}" criada e selecionada!`);
+    document.getElementById("novaCampanhaNome").value = "";
+    alert(`Campanha "${nome}" criada!`);
 }
 
 function excluirCampanha(nome) {
@@ -174,4 +237,42 @@ function mostrarCampanhas() {
       </li>
     `;
   });
+}
+
+function novaCampanhaBase() {
+    return {
+        missoesAtivas: [],
+        missoesConcluidas: [],
+        rumores: [],
+        cidades: [],
+        dungeons: [],
+        cenas: [],
+        tramas: [],
+        tabelaPNJ: [],
+        tabelaPJ: [],
+        pnjs: [],
+        pjs: [],
+        pontosInteresse: {
+            monstruoso: [],
+            geografico: [],
+            npc: [],
+            divino: [],
+            magico: [],
+            militar: []
+        }
+    };
+}
+
+function ordenar(obj) {
+    if (Array.isArray(obj)) {
+        return obj.map(ordenar);
+    } else if (obj && typeof obj === "object") {
+        return Object.keys(obj)
+            .sort()
+            .reduce((acc, key) => {
+                acc[key] = ordenar(obj[key]);
+                return acc;
+            }, {});
+    }
+    return obj;
 }
