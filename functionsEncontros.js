@@ -498,7 +498,7 @@ function detalharMonstro(tipo, bioma) {
     const rA = rolarD6();
     const rT = rolarD6();
     const ações = ["Ignora o grupo","Usa arma de sopro casualmente","Pousa e faz perguntas","Pousa e ataca","Ataca do ar","Ajuda o grupo"];
-    const dragões = ["Branco","Dourado","Negro","Prateado","Verde","Vermelho"];
+    const dragões = ["Branco","Branco","Negro","azul","Verde","Vermelho"];
     texto = `🐉 <b>Passagem de Dragão</b><br>Ação (d20 = ${rA}): <b>${ações[rA -1]}</b><br>Tipo de Dragão (d20 = ${rT}): <b>${dragões[rT -1]}</b>`;
   }
 

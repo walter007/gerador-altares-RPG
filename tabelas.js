@@ -8272,7 +8272,26 @@ const inimigos = [
       { "dado": "6", "nome": "Giro da Morte", "dano": "Dano 2", "efeito": "Alvo ficará no chão e não poderá agir no próximo turno", "alcance": "Corporal" }
     ],
     "pertences": ""
-  },{
+  },
+  {
+    "nome": "Dragão Jovem",
+    "pv": "50",
+    "pvMax": "50",
+    "tipo": "Animal Grande Trapaceiro",
+    "passivas": [
+      { "nome": "Imunidade", "efeito": "Imune a fogo" },
+      { "nome": "Fraqueza", "efeito": "Recebe o dobro de dano de frio" },
+      { "nome": "Voador", "efeito": "Pode ser mover livrimente no ar" }
+    ],
+    "habilidades": [
+      { "dado": "1 a 2", "nome": "Rugido", "dano": "1", "efeito": "Todos devem fazer um teste, aquele que falhar recebera Dano 1 imbloqueavel e ficará Surdo", "alcance": "Longo" },
+      { "dado": "3 a 4", "nome": "Mordida", "dano": "4", "efeito": "", "alcance": "Corporal" },
+      { "dado": "5", "nome": "Recuo", "dano": "7", "efeito": "Levanta voo ficando imune a ataques corporais, No proximo turno faz um ataque de garras causando dano 7", "alcance": "Longo" },
+      { "dado": "6", "nome": "Sopro de Fogo", "dano": "5", "efeito": "Todos os Alvos visiveis recebe dano 5 de fogo", "alcance": "Longo" }
+    ],
+    "pertences": ""
+  },
+  {
     "nome": "Diabrete",
     "pv": "18",
     "pvMax": "18",
@@ -9181,7 +9200,7 @@ const inimigos = [
     "pertences": ""
   },
   {
-    "nome": "Zumbi Lenhador",
+    "nome": "Zumbi Agricultor",
     "pv": "8",
     "pvMax": "8",
     "tipo": "Morto-Vivo Médio Autômato",
@@ -9190,7 +9209,7 @@ const inimigos = [
     ],
     "habilidades": [
       { "dado": "1", "nome": "Desmontando", "dano": "", "efeito": "Para e arruma uma parte do corpo que está desmontando, nada acontece", "alcance": "Opção C — Deduzir alcance pelo texto" },
-      { "dado": "1 a 4", "nome": "Machado", "dano": "Dano 3", "efeito": "", "alcance": "Adjacente" },
+      { "dado": "1 a 4", "nome": "Forcado", "dano": "Dano 3", "efeito": "", "alcance": "Adjacente" },
       { "dado": "4 a 6", "nome": "Mordida Maldita", "dano": "Dano 2", "efeito": "Alvo ficará Atordoado", "alcance": "Adjacente" }
     ],
     "pertences": "Machado de mão"
@@ -10284,8 +10303,333 @@ const inimigos = [
       }
     ],
     "pertences": ""
+  },
+  {
+  "nome": "Dragão Adulto Branco",
+  "pv": "80",
+  "pvMax": "80",
+  "tipo": "Besta Gigante Fanático",
+  "passivas": [
+    { "nome": "Voador", "efeito": "Pode se mover livremente pelo ar" },
+    { "nome": "Imunidade", "efeito": "Frio" },
+    { "nome": "Fraqueza", "efeito": "Fogo causa dano dobrado" }
+  ],
+  "habilidades": [
+    {
+      "dado": "1",
+      "nome": "Fúria Gélida",
+      "dano": "4",
+      "efeito": "O alvo fica Lento (não pode correr no próximo turno)",
+      "alcance": "Corporal"
+    },
+    {
+      "dado": "2 a 3",
+      "nome": "Mordida Congelante",
+      "dano": "5",
+      "efeito": "Frio",
+      "alcance": "Corporal"
+    },
+    {
+      "dado": "4 a 5",
+      "nome": "Garras Cortantes",
+      "dano": "6",
+      "efeito": "",
+      "alcance": "Corporal"
+    },
+    {
+      "dado": "6",
+      "nome": "Sopro de Gelo",
+      "dano": "6",
+      "efeito": "Frio — todos em cone curto ficam Lentos",
+      "alcance": "Longo"
+    }
+  ],
+  "pertences": ""
+  },
+  {
+    "nome": "Dragão Adulto Dourado",
+    "pv": "120",
+    "pvMax": "120",
+    "tipo": "Besta Gigante Protetor",
+    "passivas": [
+      { "nome": "Voador", "efeito": "Pode se mover livremente pelo ar" },
+      { "nome": "Resistência", "efeito": "Metade de dano de Fogo e Radiante" }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Aura Dourada",
+        "dano": "",
+        "efeito": "Todos aliados do dragão recebem +2 Defesa até o próximo turno",
+        "alcance": "Longo"
+      },
+      {
+        "dado": "2 a 3",
+        "nome": "Raio Dourado",
+        "dano": "5",
+        "efeito": "Radiante; alvo perde 1 PE",
+        "alcance": "Longo"
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Garras Lendárias",
+        "dano": "6",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Sopro de Fogo Dourado",
+        "dano": "7",
+        "efeito": "Fogo; todos em linha longa recebem dano e ficam Cegos",
+        "alcance": "Longo"
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Dragão Adulto Negro",
+    "pv": "95",
+    "pvMax": "95",
+    "tipo": "Besta Gigante Trapaceiro",
+    "passivas": [
+      { "nome": "Voador", "efeito": "Pode se mover livremente no ar" },
+      { "nome": "Imunidade", "efeito": "Ácido" }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Mergulho Traiçoeiro",
+        "dano": "4",
+        "efeito": "O alvo fica Cego por gosma",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "2 a 3",
+        "nome": "Cauda Serrilhada",
+        "dano": "5",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Presas Ácidas",
+        "dano": "5",
+        "efeito": "Ácido; alvo recebe +2 de dano no próximo ataque que sofrer",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Sopro de Ácido",
+        "dano": "7",
+        "efeito": "Ácido; quem falhar no teste perde 1 item equipado",
+        "alcance": "Longo"
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Dragão Adulto Prateado",
+    "pv": "110",
+    "pvMax": "110",
+    "tipo": "Besta Gigante Protetor",
+    "passivas": [
+      { "nome": "Voador", "efeito": "Movimento livre no ar" },
+      { "nome": "Resistência", "efeito": "Metade de dano de Frio e Radiante" }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Sopro Congelante",
+        "dano": "6",
+        "efeito": "Todos no cone ficam Lentos",
+        "alcance": "Longo"
+      },
+      {
+        "dado": "2 a 3",
+        "nome": "Mordida Prateada",
+        "dano": "5",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Garras Celestes",
+        "dano": "6",
+        "efeito": "Radiante",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Sopro Paralisante",
+        "dano": "4",
+        "efeito": "Todos no cone devem vencer um teste ou ficam Paralisados",
+        "alcance": "Longo"
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Dragão Adulto Vermelho",
+    "pv": "120",
+    "pvMax": "120",
+    "tipo": "Besta Gigante Fanático",
+    "passivas": [
+      { "nome": "Voador", "efeito": "Pode se mover livremente no ar" },
+      { "nome": "Imunidade", "efeito": "Fogo" }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Rugido Tirânico",
+        "dano": "",
+        "efeito": "Todos devem vencer um teste ou ficam Amedrontados",
+        "alcance": "Longo"
+      },
+      {
+        "dado": "2 a 3",
+        "nome": "Mordida Flamejante",
+        "dano": "6",
+        "efeito": "Fogo",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Garras Incandescentes",
+        "dano": "6",
+        "efeito": "",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Sopro de Fogo",
+        "dano": "8",
+        "efeito": "Todos os alvos em cone longo recebem dano massivo",
+        "alcance": "Longo"
+      }
+    ],
+    "pertences": ""
+  },
+  {
+    "nome": "Dragão Adulto Azul",
+    "pv": "105",
+    "pvMax": "105",
+    "tipo": "Besta Gigante Fanático",
+    "passivas": [
+      { "nome": "Voador", "efeito": "Pode se mover livremente pelo ar" },
+      { "nome": "Escavador", "efeito": "Pode mergulhar na terra e reaparecer em outro ponto do campo" },
+      { "nome": "Imunidade", "efeito": "Eletricidade" }
+    ],
+    "habilidades": [
+      {
+        "dado": "1",
+        "nome": "Mergulho de Areia",
+        "dano": "",
+        "efeito": "Enterra-se e reaparece adjacente ao alvo mais isolado; o alvo deve fazer um teste ou fica Derrubado",
+        "alcance": "Opção C"
+      },
+      {
+        "dado": "2 a 3",
+        "nome": "Mordida Estática",
+        "dano": "5",
+        "efeito": "Eletricidade",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "4 a 5",
+        "nome": "Garras Arrasadoras",
+        "dano": "6",
+        "efeito": "Se o alvo estiver Derrubado, recebe +2 de dano",
+        "alcance": "Corporal"
+      },
+      {
+        "dado": "6",
+        "nome": "Relâmpago Supremo",
+        "dano": "7",
+        "efeito": "Eletricidade — Linha longa; quem falhar no teste fica Atordoado",
+        "alcance": "Longo"
+      }
+    ],
+    "pertences": ""
   }
 ]
+
+
+const estimativaDificuldadeEncontros = [
+  {
+    nome: "Monstro A",
+    pv: 2,
+    dm: 1,
+    quantidade: { umaEstrela: 4, duasEstrelas: 6, tresEstrelas: 8 }
+  },
+  {
+    nome: "Monstro B",
+    pv: 5,
+    dm: 1,
+    quantidade: { umaEstrela: 3, duasEstrelas: 4, tresEstrelas: 6 }
+  },
+  {
+    nome: "Monstro C",
+    pv: 4,
+    dm: 2,
+    quantidade: { umaEstrela: 2, duasEstrelas: 3, tresEstrelas: 4 }
+  },
+  {
+    nome: "Monstro D",
+    pv: 11,
+    dm: 1,
+    quantidade: { umaEstrela: 2, duasEstrelas: 3, tresEstrelas: 4 }
+  },
+  {
+    nome: "Monstro E",
+    pv: 11,
+    dm: 2,
+    quantidade: { umaEstrela: 1, duasEstrelas: 2, tresEstrelas: 3 }
+  },
+  {
+    nome: "Monstro F",
+    pv: 21,
+    dm: 2,
+    quantidade: { umaEstrela: 1, duasEstrelas: 1, tresEstrelas: 2 }
+  },
+  {
+    nome: "Monstro G",
+    pv: 45,
+    dm: 2,
+    quantidade: { umaEstrela: null, duasEstrelas: 1, tresEstrelas: 1 }
+  },
+  {
+    nome: "Monstro H",
+    pv: 60,
+    dm: 3,
+    quantidade: { umaEstrela: null, duasEstrelas: null, tresEstrelas: 1 }
+  },
+  {
+    nome: "Monstro I",
+    pv: 80,
+    dm: 3,
+    quantidade: { umaEstrela: null, duasEstrelas: null, tresEstrelas: 1 }
+  },
+  {
+    nome: "Monstro J",
+    pv: 100,
+    dm: 4,
+    quantidade: { umaEstrela: null, duasEstrelas: null, tresEstrelas: 1 }
+  },
+  {
+    nome: "Monstro K",
+    pv: 130,
+    dm: 5,
+    quantidade: { umaEstrela: null, duasEstrelas: null, tresEstrelas: 1 }
+  },
+  {
+    nome: "Monstro L",
+    pv: 150,
+    dm: 6,
+    quantidade: { umaEstrela: null, duasEstrelas: null, tresEstrelas: 1 }
+  }
+];
+
 
 
 
