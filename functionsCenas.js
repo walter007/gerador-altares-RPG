@@ -100,3 +100,17 @@ function limparCenas() {
   salvarCampanhas();
   atualizarListaCenas();
 }
+
+function atualizarCenaAtual() {
+  const campanha = campanhas[campanhaAtual];
+
+  if (!campanha.cenas || campanha.cenas.length === 0) {
+    document.getElementById("cenaAtualBox").style.display = "none";
+    return;
+  }
+
+  const cena = campanha.cenas[campanha.cenas.length - 1];
+
+  document.getElementById("cenaAtualTexto").innerText = `${cena.titulo} — ${cena.texto}`;
+  document.getElementById("cenaAtualBox").style.display = "block";
+}

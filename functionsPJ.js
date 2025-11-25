@@ -183,7 +183,6 @@ function atualizarTotaisPVPE() {
 
 
 
-
 function addEquipVestido() {
   const container = document.getElementById("pjEquipVestido");
 
@@ -871,7 +870,9 @@ function coletarDadosPJ() {
     PE: li.querySelector(".habilidadePE").textContent.replace("PE ", ""),
     descricao: li.querySelector(".habilidadeDescricao").textContent
     })),
-    mochila: mochilaTemp
+    mochila: mochilaTemp,
+    experiencia: document.getElementById("experiencia").value,
+    riquesas: document.getElementById("riquesas").value
   };
 }
 
@@ -1119,8 +1120,45 @@ function detalharPJ(index) {
         <h5>🎒 Mochila</h5>
         <ul>${mochilaHTML}</ul>
 
+        <div class="d-flex align-items-center gap-2 my-2">
+            <b>Experiência</b>
+
+            <button class="btn btn-sm btn-danger"
+                    onclick="alterarExp(${index}, -1)">
+                -
+            </button>
+
+            <span id="expDisplay"
+                class="badge bg-info text-light fs-5 px-3">
+                ${parseInt(pj.experiencia) || 0}
+            </span>
+
+            <button class="btn btn-sm btn-success"
+                    onclick="alterarExp(${index}, +1)">
+                +
+            </button>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 my-2">
+            <b>Riquesas</b>
+
+            <button class="btn btn-sm btn-danger"
+                    onclick="alterarRiquesas(${index}, -1)">
+                -
+            </button>
+
+            <span id="riquesasDisplay"
+                class="badge bg-warning text-light fs-5 px-3">
+                ${parseInt(pj.riquesas) || 0}
+            </span>
+
+            <button class="btn btn-sm btn-success"
+                    onclick="alterarRiquesas(${index}, +1)">
+                +
+            </button>
+        </div>
+
         <br>
-        <button class="btn btn-primary" onclick="editarPJ(${index})">Editar</button>
     `;
 
     new bootstrap.Modal(document.getElementById("modalDetalhes")).show();
@@ -1179,6 +1217,7 @@ function detalharEspeciaisPJ(pjIndex, armaIndex) {
 
 
 function editarPJ(index) {
+    console.log(document.getElementById("experiencia").value)
     const modalElemento = document.getElementById("modalDetalhes");
     const detalhesModal = bootstrap.Modal.getInstance(modalElemento);
     if (detalhesModal) {
@@ -1199,6 +1238,8 @@ function editarPJ(index) {
     document.getElementById("pjClasse").value = pj.classe;
     document.getElementById("pjFoco").value = pj.foco;
     document.getElementById("pjMotivacao").value = pj.motivacao;
+    document.getElementById("experiencia").value = pj.experiencia;
+    document.getElementById("riquesas").value = pj.riquesas;
 
     // --- PV ---
     document.getElementById("pjPVEspecie").value = pj.pv.especie;
@@ -1356,8 +1397,19 @@ function editarPJ(index) {
     (pj.conhecimentos || []).forEach(c => {
         const li = document.createElement("li");
         li.className = "list-group-item d-flex justify-content-between align-items-center";
-        li.innerHTML = `${c} 
-            <button class="btn btn-sm btn-danger" onclick="this.parentElement.remove()">X</button>`;
+
+        const span = document.createElement("span");
+        span.className = "conhecimentoTexto";
+        span.textContent = c;
+
+        const btn = document.createElement("button");
+        btn.className = "btn btn-sm btn-danger";
+        btn.textContent = "X";
+        btn.onclick = () => li.remove();
+
+        li.appendChild(span);
+        li.appendChild(btn);
+
         listaConhec.appendChild(li);
     });
 
@@ -1995,9 +2047,40 @@ function alterarPV(pjIndex, delta) {
     atual = Math.max(0, Math.min(max, atual + delta));
 
     pj.pv.atual = atual;
-    document.getElementById("pvAtualDisplay").textContent = atual;
+    document.getElementById("pvAtualDisplay").value = atual;
 
     salvarCampanhas();
+}
+
+function alterarExp(pjIndex, delta) {
+    const pj = campanhas[campanhaAtual].pjs[pjIndex];
+    if (!pj) return;
+
+    let atual = lerNumeroSeguro("expDisplay");
+    let max = 10;
+
+    atual = Math.max(0, Math.min(max, atual + delta));
+
+    pj.experiencia = atual;
+    document.getElementById("expDisplay").textContent = atual;
+
+    salvarCampanhas();
+}
+
+function alterarRiquesas(pjIndex, delta) {
+    const pj = campanhas[campanhaAtual].pjs[pjIndex];
+    if (!pj) return;
+
+    let atual = lerNumeroSeguro("riquesasDisplay");
+    let max = 50;
+
+    atual = Math.max(0, Math.min(max, atual + delta));
+
+    pj.riquesas = atual;
+    document.getElementById("riquesasDisplay").textContent = atual;
+
+    salvarCampanhas();
+    
 }
 
 function alterarPE(pjIndex, delta) {
