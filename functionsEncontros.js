@@ -1,11 +1,12 @@
 let inimigoSelecionado = null;
+let aventuraAtual = null;
 let inimigosAtivos = [];
 let ocultarMortos = false;
 
 function gerarEncontro() {
   const bioma = document.getElementById('biomaSelect').value;
-  const s = rolarD20();
-  const r = 17;
+  //const r = rolarD20();
+  const r = 19;
   let resultado = '';
 
   if (r <= 5) resultado = 'Nenhum encontro — Descanso Seguro.';
@@ -555,6 +556,74 @@ function gerarEncontroEspecial() {
   else if (r <= 9) tipo = "npc";
   else tipo = "aventura";
 
+  // --- Tipo Mágico ---
+  if (tipo === "magico") {
+    const pi = piMagico[rolarD12() - 1];
+    texto = `
+      <h4>✨ Encontro Especial — Ponto Mágico</h4>
+      <strong>Descrição:</strong> ${pi.descricao}<br>
+      <strong>Combate:</strong> ${pi.combate}<br>
+      <strong>Paz:</strong> ${pi.paz}<br>
+      <strong>Ganchos:</strong> ${pi.ganchos}<br>
+      <strong>Variações:</strong> ${pi.variacoes}
+    `;
+  }
+
+  // --- AVENTURA REAL (da nova tabela) ---
+  else if (tipo === "aventura") {
+
+    // sorteia uma aventura da tabela real
+    //aventuraAtual = aventuras[Math.floor(Math.random() * aventuras.length)];
+    aventuraAtual = aventuras[0];
+
+    registrarAventuraDescoberta(aventuraAtual,bioma)
+
+    texto = `
+      <h4>🗺️ Aventura Especial</h4>
+      <strong>${aventuraAtual.nome}</strong><br>
+      <button class="btn btn-primary btn-sm mt-2" onclick="abrirAventura()">
+        Entrar na Aventura
+      </button>
+    `;
+  }
+
+  // --- Tipos Monstruoso / Geográfico / NPC ---
+  else {
+    const tabela = tabelasPI[bioma]?.[tipo];
+
+    if (!tabela) {
+      texto = `<i>Não há tabela disponível para ${tipo} em ${bioma}.</i>`;
+    } else {
+      const pi = tabela[rolarD12() - 1];
+      texto = `
+        <h4>🌟 Encontro Especial (${bioma} • ${tipo})</h4>
+        <strong>Descrição:</strong> ${pi.descricao}<br>
+        <strong>Combate:</strong> ${pi.combate}<br>
+        <strong>Paz:</strong> ${pi.paz}<br>
+        <strong>Ganchos:</strong> ${pi.ganchos}<br>
+        <strong>Variações:</strong> ${pi.variacoes}
+      `;
+    }
+  }
+
+  document.getElementById("resultadoEncontro").style.display = "block";
+  document.getElementById("resultadoEncontro").innerHTML = `
+    <div class="card mt-3"><div class="card-body">${texto}</div></div>`;
+}
+
+function gerarEncontroEspecialOld() {
+  const bioma = document.getElementById('biomaSelect').value;
+  const r = rolarD20();
+
+  let tipo = "";
+  let texto = "";
+
+  if (r <= 3) tipo = "monstruoso";
+  else if (r <= 5) tipo = "geografico";
+  else if (r === 6) tipo = "magico";
+  else if (r <= 9) tipo = "npc";
+  else tipo = "aventura";
+
   // --- Tipo Mágico (não depende de bioma) ---
   if (tipo === "magico") {
     const pi = piMagico[rolarD12() - 1];
@@ -571,7 +640,7 @@ function gerarEncontroEspecial() {
   // --- Aventuras Aleatórias ---
   else if (tipo === "aventura") {
     const nomes = [
-      "A Floresta sobre as Ruínas", "A Mansão do Lorde Fantasma", "A Montanha do Grifo",
+      "O resgate na Floresta dos Goblins,A Floresta sobre as Ruínas", "A Mansão do Lorde Fantasma", "A Montanha do Grifo",
       "A Masmorra Secreta dos Goblins", "A Caverna das Sete Cabeças", "O Vale dos Unicórnios",
       "O Pico da Sabedoria", "Os Charcos do Medo", "A Floresta do Mapinguari",
       "O Jardim Oculto", "A Maldição Guará", "O Calabouço Mortal",
@@ -579,7 +648,7 @@ function gerarEncontroEspecial() {
       "A Biblioteca Secreta", "O Templo Submerso", "A Masmorra Diabólica"
     ];
 
-    const nome = nomes[Math.floor(Math.random()*18)];
+    const nome = nomes[Math.floor(Math.random()*19)];
     texto = `<h4>🗺️ Aventura Especial</h4><strong>${nome}</strong><br><small>(Detalhamento ficará para a próxima etapa)</small>`;
   }
 
@@ -888,6 +957,183 @@ function marcarMorto() {
 function alternarMortos() {
     ocultarMortos = !ocultarMortos;
     atualizarListaInimigosTela();
+}
+
+function abrirAventura() {
+  if (!aventuraAtual) {
+    alert("Nenhuma aventura atual carregada.");
+    return;
+  }
+  abrirSecao('sec-aventuras');
+}
+
+function atualizarAventuraUI() {
+  if (!aventuraAtual) return;
+  document.getElementById("aventuraTitulo").innerText = aventuraAtual.nome;
+}
+
+function detalharAventura() {
+  if (!aventuraAtual) return;
+
+  const box = document.getElementById("aventuraDetalhes");
+
+  box.style.display = "block";
+  box.innerHTML = `
+    <strong>Gancho:</strong> ${aventuraAtual.gancho}<br><br>
+    <strong>Início:</strong> ${aventuraAtual.inicio}<br><br>
+    <strong>Chefe:</strong> ${aventuraAtual.chefe.nome}<br>
+    <strong>Recompensa:</strong> ${aventuraAtual.chefe.recompensa}<br><br>
+  `;
+}
+
+function gerarCena() {
+  if (!aventuraAtual) return;
+
+  const r1 = rolarD6();
+  const r2 = rolarD6();
+  const r3 = rolarD6();
+
+  const c1 = aventuraAtual.cenas[r1 - 1].parte1;
+  const c2 = aventuraAtual.cenas[r2 - 1].parte2;
+  const c3 = aventuraAtual.cenas[r3 - 1].parte3;
+
+  document.getElementById("resultadoCena").innerHTML = `
+    <strong>Cena Normal:</strong><br>
+    1️⃣ ${c1}<br>
+    2️⃣ ${c2}<br>
+    3️⃣ ${c3}
+  `;
+}
+
+function gerarCenaFinal() {
+  if (!aventuraAtual) return;
+
+  const r1 = rolarD6();
+  const r2 = rolarD6();
+
+  const c1 = aventuraAtual.cenas[r1 - 1].parte1;
+  const c2 = aventuraAtual.cenas[r2 - 1].parte2;
+  const final = aventuraAtual.encontroFinal;
+
+  document.getElementById("resultadoCena").innerHTML = `
+    <strong>🔥 Cena Final:</strong><br>
+    1️⃣ ${c1}<br>
+    2️⃣ ${c2}<br>
+    3️⃣ <b>${final}</b>
+  `;
+}
+
+function fazerBusca() {
+  const r = rolarD6();
+  const item = aventuraAtual.busca[r - 1].item;
+
+  document.getElementById("resultadoExtras").innerHTML = `
+    <strong>Busca (${r}):</strong> ${item}
+  `;
+}
+
+function gerarComplicacao() {
+  const r = rolarD6();
+  const comp = aventuraAtual.complicacao[r - 1].evento;
+
+  document.getElementById("resultadoExtras").innerHTML = `
+    <strong>Complicação (${r}):</strong> ${comp}
+  `;
+}
+
+function gerarInspiracao() {
+  const r1 = rolarD6();
+  const r2 = rolarD6();
+
+  const p1 = aventuraAtual.inspiracao.parte1[r1 - 1];
+  const p2 = aventuraAtual.inspiracao.parte2[r2 - 1];
+
+  document.getElementById("resultadoExtras").innerHTML = `
+    <strong>Inspiração:</strong><br>
+    ${p1} + ${p2}
+  `;
+}
+
+function registrarAventuraDescoberta(aventura, biomaAtual) {
+
+    const lista = campanhas[campanhaAtual].aventuras;
+
+    // 1. Se já existir aventura igual → ignora
+    if (lista.some(a => a.nome === aventura.nome)) {
+        console.log("Aventura já descoberta, ignorando…");
+        return false; // para você rolar de novo
+    }
+
+    // 2. Se bioma atual for igual ao bioma da aventura
+    if (aventura.bioma === biomaAtual) {
+        lista.push({
+            id: crypto.randomUUID(),
+            nome: aventura.nome,
+            bioma: aventura.bioma,
+            direcao: "Aqui",
+            distancia: 0,
+            finalizada: false
+        });
+
+        salvarCampanhas();
+        return "mesmo-bioma";
+    }
+
+    // 3. Bioma diferente → sorteia direção e distância
+    const direcoes = ["Norte", "Sul", "Leste", "Oeste", "Nordeste", "Sudeste"];
+    const direcao = direcoes[Math.floor(Math.random() * 6)];
+    const distancia = Math.floor(Math.random() * 12) + 1; // d12
+
+    lista.push({
+        id: crypto.randomUUID(),
+        nome: aventura.nome,
+        bioma: aventura.bioma,
+        direcao,
+        distancia,
+        finalizada: false
+    });
+
+    salvarCampanhas();
+    return "bioma-diferente";
+}
+
+function atualizarListaAventuras() {
+    const lista = campanhas[campanhaAtual].aventuras || [];
+    const div = document.getElementById("listaAventuras");
+
+    if (lista.length === 0) {
+        div.innerHTML = `<p class="text-muted">Nenhuma aventura descoberta ainda.</p>`;
+        return;
+    }
+
+    div.innerHTML = lista.map(a => `
+        <div class="card my-2 p-3">
+            <h5>${a.nome}</h5>
+            <p class="mb-1"><strong>Bioma:</strong> ${a.bioma}</p>
+            <p class="mb-1"><strong>Direção:</strong> ${a.direcao}</p>
+            <p class="mb-1"><strong>Distância:</strong> ${a.distancia} km?</p>
+            <p class="mb-2"><strong>Status:</strong> 
+                ${a.finalizada ? "<span class='text-success'>Finalizada</span>" : "Pendente"}
+            </p>
+
+            ${!a.finalizada ? `
+                <button class="btn btn-success btn-sm"
+                        onclick="finalizarAventura('${a.id}')">
+                    ✔ Finalizar Aventura
+                </button>
+            ` : ""}
+        </div>
+    `).join("");
+}
+
+function finalizarAventura(id) {
+    const lista = campanhas[campanhaAtual].aventuras;
+    const aventura = lista.find(a => a.id === id);
+    if (!aventura) return;
+
+    aventura.finalizada = true;
+    salvarCampanhas();
+    atualizarListaAventuras();
 }
 
 

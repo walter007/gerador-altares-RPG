@@ -1,7 +1,3 @@
-// ====== SISTEMA DE CAMPANHAS ======
-//let campanhas = JSON.parse(localStorage.getItem("campanhasAltaris") || "{}");
-//let campanhaAtual = localStorage.getItem("campanhaAtualAltaris") || null;
-
 let campanhas = {};
 let campanhaAtual = null;
 
@@ -132,31 +128,6 @@ function salvarCampanhasOld() {
   localStorage.setItem("campanhaAtualAltaris", campanhaAtual);
 }
 
-async function salvarCampanhasOld2() {
-    const { db, doc, setDoc } = window.firebaseModules;
-
-    // Evita sobrescrever dados corrompidos
-    if (!campanhas || typeof campanhas !== "object") {
-        console.error("❌ Falha: campanhas está corrompido, não será salvo.");
-        return;
-    }
-
-    if (!campanhaAtual || !campanhas[campanhaAtual]) {
-        console.error("❌ Falha: campanhaAtual inválida, não será salva.");
-        return;
-    }
-
-    try {
-        await setDoc(doc(db, "altaris", "dadosDoUsuario"), {
-            campanhas,
-            campanhaAtual
-        });
-        console.log("Dados salvos com sucesso no Firebase.");
-    } catch (error) {
-        console.error("Erro ao salvar dados no Firebase:", error);
-    }
-}
-
 async function salvarCampanhas() {
     const { db, doc, setDoc } = window.firebaseModules;
 
@@ -184,6 +155,9 @@ async function salvarCampanhas() {
 
 function carregarCampanha(nome) {
   campanhaAtual = nome;
+  if (!campanhas[campanhaAtual].aventuras) {
+      campanhas[campanhaAtual].aventuras = [];
+  }
   salvarCampanhas();
   atualizarListasMissoes();
   atualizarListaRumores();
@@ -259,7 +233,9 @@ function novaCampanhaBase() {
             divino: [],
             magico: [],
             militar: []
-        }
+        },
+         aventuras: [],
+         mapa: null
     };
 }
 

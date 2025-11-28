@@ -53,6 +53,7 @@
     <button class="btn btn-warning" onclick="abrirSecao('sec-tabelas-oraculo')">📚 Tabelas do Oráculo</button>
     <button class="btn btn-dark w-100 my-2" onclick="abrirSecao('pnjSection')">👤 PNJs </button>
     <button class="btn btn-dark w-100 my-2" onclick="abrirSecao('pjSection')">👤 PJs </button>
+    <button class="btn btn-primary" onclick="abrirSecao('sec-aventuras')">🧭 Aventuras</button>
     <button class="btn btn-warning" onclick="abrirSecao('sec-campanhas')">📁 Salvar / Carregar Campanha</button>
 
   </div>
@@ -67,6 +68,46 @@
   <button class="btn btn-dark mt-4" onclick="voltarMenu()">⬅ Voltar</button>
 
 </section>
+
+<div id="sec-aventuras" class="secao" style="display:none; padding: 15px;">
+
+  <button class="btn btn-secondary mb-3" onclick="voltarMenu()">⬅️ Voltar ao Menu</button>
+
+  <h3 id="aventuraTitulo"></h3>
+
+  <div class="my-3">
+    <button class="btn btn-primary" onclick="detalharAventura()">📘 Detalhar Aventura</button>
+  </div>
+
+  <div id="aventuraDetalhes" style="display:none;" class="mb-4 card p-3"></div>
+
+  <hr>
+
+  <h4>Cenas</h4>
+
+  <button class="btn btn-success me-2" onclick="gerarCena()">🎲 Gerar Cena</button>
+  <button class="btn btn-danger" onclick="gerarCenaFinal()">🔥 Gerar Cena Final</button>
+
+  <div id="resultadoCena" class="card p-3 mt-3"></div>
+
+  <hr>
+
+  <h4>Ações Extras</h4>
+
+  <button class="btn btn-warning me-2" onclick="fazerBusca()">🧭 Fazer Busca</button>
+  <button class="btn btn-danger me-2" onclick="gerarComplicacao()">⚠️ Complicação</button>
+  <button class="btn btn-info" onclick="gerarInspiracao()">💡 Gerar Inspiração</button>
+
+  <button class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#modalAventuras"
+        onclick="atualizarListaAventuras()">
+    🧭 Ver Aventuras
+</button>
+
+  <div id="resultadoExtras" class="card p-3 mt-3"></div>
+
+</div>
 
 <!--    SECTION: PNJs          -->
 <section id="pnjSection" class="secao" style="display:none">
@@ -1058,12 +1099,34 @@
   </div>
 </div>
 
+<div class="modal fade" id="modalAventuras" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Aventuras Descobertas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div id="listaAventuras"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="tabelas.js"></script>
+<script src="tabelasAventuras.js"></script>
 <script src="functionsCampanha-prod.js"></script>
 <!-- <script src="functionsCampanha-dev.js"></script> -->
 <script src="functionsCenas.js"></script>
@@ -1133,6 +1196,9 @@ function abrirSecao(id) {
     listarPNJs();
   }else if (id === "pjSection") {
     atualizarPJs();
+  }else if (id === 'sec-aventuras') {
+    atualizarAventuraUI();
+    atualizarListaAventuras();
   }
 }
 
