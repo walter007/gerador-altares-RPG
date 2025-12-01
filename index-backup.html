@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Missões - Altaris</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script type="module">
+    // Importe tudo o que você precisa diretamente
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCATBfMk70mJuISZRUD698VZjMv4qTVWew",
+        authDomain: "altares-rpg.firebaseapp.com",
+        projectId: "altares-rpg",
+        storageBucket: "altares-rpg.firebasestorage.app",
+        messagingSenderId: "904700894694",
+        appId: "1:904700894694:web:26f3a7773f61fe91ef8a27"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Mantenha apenas a conexão com o Firestore no objeto global
+    // Use window.firebaseModules para agrupar tudo
+    window.firebaseModules = {
+        db: db,
+        doc: doc,
+        getDoc: getDoc,
+        setDoc: setDoc
+    };
+</script>
+
+<style>
+    #mapa {
+      position: relative;
+      width: 1000px;
+      height: 1000px;
+      background: #222;
+      transform: scale(0.35);
+      transform-origin: top left;
+    }
+
+    .hex {
+      position: absolute;
+      background-size: contain;
+      /* evita cortar */
+      background-repeat: no-repeat;
+      background-position: center;
+      pointer-events: auto;
+      cursor: pointer;
+      image-rendering: crisp-edges;
+      width: var(--w);
+      height: var(--h);
+    }
+
+    .hex.selecionado {
+      outline: 3px solid yellow;
+      z-index: 10;
+    }
+
+    .hex:hover {
+      transform: translateY(-6px)
+    }
+
+    #viewport {
+      width: 100%;
+      height: 600px;
+      overflow: auto;
+      position: relative;
+      background: #111;
+    }
+
+    .token {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background: red;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .hud {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: white;
+    font-family: "Segoe UI";
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 9999;
+}
+
+.hud-icon{
+     width: 60px;
+     height: 60px;
+}
+
+#pmBarContainer {
+    width: 120px;
+    height: 12px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 6px;
+}
+
+#pmBar {
+    height: 100%;
+    width: 100%;
+    background: limegreen;
+    border-radius: 6px;
+    transition: width 0.4s;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 99990;
+}
+.modal-card {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: min(880px, 96%);
+  max-height: 84vh;
+  overflow: auto;
+  background: linear-gradient(180deg, #1b1b1b, #0f0f0f);
+  border: 2px solid #6b4b2b;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.8);
+  padding: 14px;
+  border-radius: 12px;
+  color: #f0e9dc;
+  z-index: 99999;
+  font-family: "Segoe UI", system-ui, -apple-system, "Noto Sans", sans-serif;
+}
+.modal-header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.modal-header h2 { margin:0; font-size:20px; color:#ffdca3; text-shadow: 0 1px 0 rgba(0,0,0,0.6); }
+.modal-header button { background:transparent; border:0; color:#ffdca3; font-size:18px; cursor:pointer; }
+.modal-body { margin-top:10px; }
+.modal-footer { display:flex; justify-content:flex-end; margin-top:14px; }
+
+/* cidade meta */
+.cidade-meta { display:flex; gap:16px; align-items:center; color:#dcd6c9; margin-bottom:8px; }
+
+/* estabelecimentos grid */
+.estabs-grid { display:flex; flex-wrap:wrap; gap:8px; padding:6px 0; }
+.estab-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding:8px;
+  border-radius:8px;
+  min-width:160px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.estab-card img { width:44px; height:44px; object-fit:cover; border-radius:6px; }
+.estab-card .estab-name { font-size:14px; color:#fff; }
+.estab-card .estab-sub { font-size:12px; color:#cfc6b6; }
+
+/* Botão Ver Cidade estilo */
+#btnVerCidade {
+  background: linear-gradient(180deg,#6b4b2b,#3f2a17);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 2px solid #f1d7aa;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  font-weight: 700;
+}
+
+/* responsividade */
+@media (max-width:600px) {
+  .modal-card { width: 94%; padding: 10px; }
+  .estab-card { min-width: 140px; }
+}
+</style>
+
+</head>
+<body class="bg-light p-4" onload="iniciarApp()">
+
+<div class="container">
+
+  <!-- MENU PRINCIPAL -->
+  <h1 class="text-center mb-4">Gerador Altaris</h1>
+
+  <div id="menu" class="container d-grid gap-3">
+    <button class="btn btn-primary" onclick="abrirSecao('missoes')">📜 Missões</button>
+    <button class="btn btn-secondary" onclick="abrirSecao('sec-encontros')">⚔️ Encontros</button>
+    <button class="btn btn-success" onclick="abrirSecao('sec-pi')">🌍 Pontos de Interesse</button>
+    <button class="btn btn-info" onclick="abrirSecao('sec-boatos')">💬 Boatos</button>
+    <button class="btn btn-dark" onclick="abrirSecao('sec-dungeon')">🗝️ Dungeon</button>
+    <button class="btn btn-primary" onclick="abrirSecao('sec-cidade')">🏙️ Cidades</button>
+    <button class="btn btn-secondary" onclick="abrirSecao('sec-diario')">📘 Diário</button>
+    <button class="btn btn-warning" onclick="abrirSecao('sec-oraculo')">🔮 Oráculo</button>
+    <button class="btn btn-warning" onclick="abrirSecao('sec-tabelas-oraculo')">📚 Tabelas do Oráculo</button>
+    <button class="btn btn-dark w-100 my-2" onclick="abrirSecao('pnjSection')">👤 PNJs </button>
+    <button class="btn btn-dark w-100 my-2" onclick="abrirSecao('pjSection')">👤 PJs </button>
+    <button class="btn btn-primary" onclick="abrirSecao('sec-aventuras')">🧭 Aventuras</button>
+    <button class="btn btn-primary" onclick="abrirSecao('sec-mapa')">🧭 Mapa</button>
+    <button class="btn btn-warning" onclick="abrirSecao('sec-campanhas')">📁 Salvar / Carregar Campanha</button>
+    <button class="btn btn-warning mt-2" onclick="regenerarMapa()">Regenerar Mapa</button>
+
+  </div>
+
+<section id="pjSection" class="secao" style="display:none">
+
+  <h3 class="mt-3">Personagens Jogadores (PJ)</h3>
+
+  <button class="btn btn-success my-2" onclick="abrirCriarPJ()">➕ Criar PJ</button>
+
+  <ul id="listaPJs" class="list-group"></ul>
+  <button class="btn btn-dark mt-4" onclick="voltarMenu()">⬅ Voltar</button>
+
+</section>
+
+<div id="sec-aventuras" class="secao" style="display:none; padding: 15px;">
+
+  <button class="btn btn-secondary mb-3" onclick="voltarMenu()">⬅️ Voltar ao Menu</button>
+
+  <h3 id="aventuraTitulo"></h3>
+
+  <div class="my-3">
+    <button class="btn btn-primary" onclick="detalharAventura()">📘 Detalhar Aventura</button>
+  </div>
+
+  <div id="aventuraDetalhes" style="display:none;" class="mb-4 card p-3"></div>
+
+  <hr>
+
+  <h4>Cenas</h4>
+
+  <button class="btn btn-success me-2" onclick="gerarCena()">🎲 Gerar Cena</button>
+  <button class="btn btn-danger" onclick="gerarCenaFinal()">🔥 Gerar Cena Final</button>
+
+  <div id="resultadoCena" class="card p-3 mt-3"></div>
+
+  <hr>
+
+  <h4>Ações Extras</h4>
+
+  <button class="btn btn-warning me-2" onclick="fazerBusca()">🧭 Fazer Busca</button>
+  <button class="btn btn-danger me-2" onclick="gerarComplicacao()">⚠️ Complicação</button>
+  <button class="btn btn-info" onclick="gerarInspiracao()">💡 Gerar Inspiração</button>
+
+  <button class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#modalAventuras"
+        onclick="atualizarListaAventuras()">
+    🧭 Ver Aventuras
+</button>
+
+  <div id="resultadoExtras" class="card p-3 mt-3"></div>
+
+</div>
+
+<!--    SECTION: PNJs          -->
+<section id="pnjSection" class="secao" style="display:none">
+  <h3 class="mb-3">👤 Gerenciamento de PNJs</h3>
+
+  <div class="d-flex gap-2 mb-3">
+    <button class="btn btn-primary" onclick="gerarPNJ_UI()">➕ Criar PNJ</button>
+  </div>
+
+  <div id="pnjLista" class="mt-3"></div>
+
+  <button class="btn btn-dark mt-4" onclick="voltarMenu()">⬅ Voltar</button>
+</section>
+
+<!-- ================= SEÇÃO ORÁCULO (Nova!) ================= -->
+<div id="sec-oraculo" class="secao" style="display:none;">
+  <h2>🔮 Oráculo do Destino</h2>
+
+  <p class="text-muted">Sistema completo baseado no Mythic.</p>
+
+  <div class="card p-3 mb-3">
+    <h5>⚖️ Consulta ao Oráculo</h5>
+
+    <label class="fw-bold">Probabilidade</label>
+    <select id="oraculoProb" class="form-select mb-2">
+        <option value="50_50">50/50</option>
+        <option value="provavel">Provável</option>
+        <option value="muito_provavel">Muito Provável</option>
+        <option value="quase_certeza">Quase Certeza</option>
+        <option value="certeza">Certeza</option>
+        <option value="improvavel">Improvável</option>
+        <option value="muito_improvavel">Muito Improvável</option>
+        <option value="quase_impossivel">Quase Impossível</option>
+        <option value="impossivel">Impossível</option>
+    </select>
+
+    <label class="fw-bold mt-2">Fator Caos</label>
+    <div class="d-flex align-items-center gap-2">
+      <input id="oraculoChaos" type="number" min="1" max="10" value="5" class="form-control w-auto">
+      <small class="text-muted">(1–10)</small>
+    </div>
+
+    <button class="btn btn-primary mt-3" onclick="consultarDestino()">🔍 Consultar Destino</button>
+    <button id="salvarOraculoBtn" class="btn btn-success mt-3" style="display:none;" onclick="salvarResultadoOraculo()">💾 Salvar no Diário</button>
+
+    <div id="resultadoOraculo" class="mt-3" style="display:none;"></div>
+  </div>
+
+    <div class="card p-3 mt-4">
+        <h5>📚 Gerar Descritores</h5>
+
+        <label class="fw-bold">Tema:</label>
+       <select id="temaDescritor" class="form-select mb-2">
+            <option value="">Selecione...</option>
+            <option value="acao">Ação</option>
+            <option value="descritor">Descrições</option>
+            <option value="elemento">Elementos</option>
+        </select>
+
+        <label class="fw-bold mt-2">Tabela:</label>
+        <select id="tabelaDescritor" class="form-select mb-2">
+            <option value="">Escolha um tema primeiro</option>
+        </select>
+
+        <button class="btn btn-primary mt-2" onclick="gerarDescritor()">
+            🎲 Gerar Descritor
+        </button>
+
+        <div id="resultadoDescritor" class="mt-3" style="display:none;"></div>
+    </div>
+
+
+  <button class="btn btn-outline-secondary mt-3" onclick="voltarMenu()">⬅ Voltar</button>
+</div>
+
+  <!-- ================= SEÇÃO TABELAS DO ORÁCULO ================= -->
+<div id="sec-tabelas-oraculo" class="secao" style="display:none;">
+  <h2>📚 Tabelas do Oráculo</h2>
+
+  <p class="text-muted">Essas tabelas são salvas por campanha e usadas nos eventos aleatórios.</p>
+
+  <!-- ==== TRAMAS ==== -->
+  <h4>📘 Tabela de Tramas</h4>
+  <div class="input-group mb-2">
+    <input id="novaTrama" type="text" class="form-control" placeholder="Descrição da trama">
+    <button class="btn btn-success" onclick="adicionarTrama()">Adicionar</button>
+  </div>
+  <ul id="listaTramas" class="list-group mb-3"></ul>
+
+  <!-- ==== PNJ ==== -->
+  <h4>🧍 Tabela de PNJ</h4>
+  <div class="input-group mb-2">
+    <input id="novoPNJ" type="text" class="form-control" placeholder="Nome do PNJ">
+    <button class="btn btn-success" onclick="adicionarPNJ()">Adicionar</button>
+  </div>
+  <ul id="listaPNJ" class="list-group mb-3"></ul>
+
+  <!-- ==== PJ ==== -->
+  <h4>🧝 Tabela de PJ</h4>
+  <div class="input-group mb-2">
+    <input id="novoPJ" type="text" class="form-control" placeholder="Nome do personagem jogador">
+    <button class="btn btn-success" onclick="adicionarPJ()">Adicionar</button>
+  </div>
+  <ul id="listaPJ" class="list-group mb-3"></ul>
+
+  <button class="btn btn-outline-secondary mt-3" onclick="voltarMenu()">⬅ Voltar</button>
+</div>
+
+  <!-- ================= SEÇÃO DIÁRIO (Atualizada) ================= -->
+<div id="sec-diario" class="secao" style="display:none;">
+  <h2>📘 Diário da Campanha</h2>
+
+  <!-- Cena Atual -->
+  <div id="cenaAtualBox" class="alert alert-info" style="display:none;">
+    <b>🎬 Cena Atual:</b> <span id="cenaAtualTexto"></span>
+  </div>
+
+  <button class="btn btn-primary w-100 mb-3" onclick="novaCena()">✏️ Criar Nova Cena</button>
+
+  <div id="editorCena" class="card p-3 mb-3" style="display:none;">
+    <label class="fw-bold">Título da Cena:</label>
+    <input id="diarioTitulo" class="form-control mb-2">
+
+    <label class="fw-bold">Descrição:</label>
+    <textarea id="diarioTexto" class="form-control" rows="6"></textarea>
+
+    <button class="btn btn-success mt-3" onclick="salvarCena()">💾 Salvar Cena</button>
+    <button class="btn btn-outline-secondary mt-3" onclick="cancelarCena()">❌ Cancelar</button>
+  </div>
+
+  <h4>📜 Cenas Registradas</h4>
+  <ul id="listaCenas" class="list-group mb-3"></ul>
+
+  <button class="btn btn-danger btn-sm" onclick="limparCenas()">🗑️ Apagar Tudo</button>
+  <button class="btn btn-outline-secondary mt-3" onclick="voltarMenu()">⬅ Voltar</button>
+</div>
+
+
+  <!-- ================= SEÇÃO MISSÕES ================= -->
+  <div id="missoes" class="secao" style="display:none;">
+    <h2>📜 Missões</h2>
+
+    <ul id="listaMissoesAtivas" class="list-group mb-3"></ul>
+
+    <h4>✅ Missões Concluídas</h4>
+    <ul id="listaMissoesConcluidas" class="list-group mb-3"></ul>
+    
+    <button class="btn btn-primary w-100 mb-3" onclick="gerarMissao()">🎲 Gerar Missão</button>
+
+    <button class="btn btn-danger w-100 mb-3" onclick="limparHistoricoMissoes()">🗑️ Limpar Histórico</button>
+
+    <button class="btn btn-secondary w-100" onclick="voltarMenu()">⬅️ Voltar</button>
+  </div>
+
+  <div id="sec-mapa" class="secao" style="display:none;">
+    <div id="viewport">
+      <div id="mapa"></div>
+      <div id="token" class="token"></div>
+      <div id="hudPM" class="hud">
+        <!--<img src="icons/movimento.png" class="hud-icon">-->
+        <div id="pmBarContainer">
+            <div id="pmBar"></div>
+        </div>
+        <span id="pmText">PM: 6 / 6</span>
+        <br>
+        <button type="button" onclick="descansar()">Descansar</button>
+      </div>
+    </div>
+    
+    <div id="terrainTooltip"
+      style="
+          position: fixed;
+          padding: 6px 10px;
+          background: rgba(0,0,0,0.75);
+          color: white;
+          font-size: 14px;
+          border-radius: 6px;
+          pointer-events: none;
+          display: none;
+          z-index: 9999;">
+    </div>
+  </div>
+
+
+  <!-- ================= SEÇÃO ENCONTROS ================= -->
+  <div id="sec-encontros" class="secao" style="display:none;">
+    <h2>⚔️ Encontros</h2>
+
+    <label class="form-label fw-bold">Bioma</label>
+    <select id="biomaSelect" class="form-select mb-3">
+      <option value="planicie">Planície</option>
+      <option value="floresta">Floresta</option>
+      <option value="selva">Selva</option>
+      <option value="deserto">Deserto</option>
+      <option value="colina">Colina</option>
+      <option value="montanha">Montanha</option>
+      <option value="costeiro">Costeiro</option>
+      <option value="marinho">Marinho</option>
+      <option value="pantano">Pântano</option>
+      <option value="tundra">Tundra</option>
+    </select>
+
+    <button class="btn btn-primary w-100 mb-3" onclick="gerarEncontro()">Gerar Encontro</button>
+
+    <div id="resultadoEncontro"></div>
+
+    <div>
+        <div id="encontrosAmbientais" class="card p-3 mb-3"></div><br>
+    </div>
+
+    
+
+    <button class="btn btn-outline-warning" onclick="abrirModalDetalhePjs()">⬅ Ver Personagem</button>
+    <button class="btn btn-outline-secondary" onclick="voltarMenu()">⬅ Voltar</button>
+    
+  </div>
+
+
+  <!-- ================= SEÇÃO PONTOS DE INTERESSE ================= -->
+<div id="sec-pi" class="secao" style="display:none;">
+  <h2>🌍 Pontos de Interesse</h2>
+
+  <label class="form-label fw-bold">Tipo</label>
+  <select id="tipoPiSelect" class="form-select mb-3">
+    <option value="monstruoso">Monstruoso</option>
+    <option value="geografico">Geográfico</option>
+    <option value="npc">NPC</option>
+    <option value="divino">Divino</option>
+    <option value="magico">Mágico</option>
+    <option value="militar">Militar</option>
+  </select>
+
+  <label class="form-label fw-bold">Bioma</label>
+  <select id="biomaSelectPI" class="form-select mb-3">
+    <option value="planicie">Planície</option>
+    <option value="floresta">Floresta</option>
+    <option value="selva">Selva</option>
+    <option value="deserto">Deserto</option>
+    <option value="colina">Colina</option>
+    <option value="montanha">Montanha</option>
+    <option value="costeiro">Costeiro</option>
+    <option value="marinho">Marinho</option>
+    <option value="pantano">Pântano</option>
+    <option value="tundra">Tundra</option>
+  </select>
+
+  <button class="btn btn-success w-100 mb-3" onclick="gerarPontoInteresse()">🎲 Gerar Ponto de Interesse</button>
+
+  <div id="resultadoPI" class="card mt-3" style="display:none;">
+    <div class="card-body" id="textoPI"></div>
+  </div>
+
+  <h4 class="mt-4">📜 Pontos Descobertos</h4>
+  <div id="listaPI"></div>
+
+  <button class="btn btn-danger btn-sm mt-2" onclick="limparPI()">Limpar Todos</button>
+
+  <button class="btn btn-outline-secondary mt-3" onclick="voltarMenu()">⬅ Voltar</button>
+</div>
+  
+
+  <!-- ================= SEÇÃO BOATOS ================= -->
+  <div id="sec-boatos" class="secao" style="display:none;">
+    <h2>💬 Boatos</h2>
+
+    <button class="btn btn-warning w-100 mb-3" onclick="gerarBoato()">Gerar Boato</button>
+
+    <h4>Rumores Descobertos</h4>
+    <ul id="listaRumores" class="list-group mb-3"></ul>
+    <button class="btn btn-danger btn-sm" onclick="limparRumores()">Limpar</button>
+
+    <button class="btn btn-outline-secondary mt-3" onclick="voltarMenu()">⬅ Voltar</button>
+  </div>
+
+
+  <!-- ================= SEÇÃO DUNGEON ================= -->
+  <div id="sec-dungeon" class="secao" style="display:none;">
+    <h2>🗝️ Dungeon</h2>
+
+    <select id="dungeonSelect" class="form-select mb-3">
+      <option value="temploProfanado">Templo Profanado</option>
+      <option value="cidadelaAbandonada">Cidadela Abandonada</option>
+      <option value="antigoLaboratorio">Antigo Laboratório</option>
+      <option value="calaboucoArruinado">Calabouço Arruinado</option>
+      <option value="criptaAssombrada">Cripta Assombrada</option>
+      <option value="cavernaComum">Caverna Comum</option>
+    </select>
+
+    <h4>🧱 Criação de Dungeon</h4>
+
+    <div class="mb-2">
+        <button class="btn btn-secondary" onclick="novaDungeon()">Nova Dungeon</button>
+        <button class="btn btn-primary" onclick="gerarSalaDungeon()">Gerar Sala</button>
+        <button class="btn btn-success" onclick="finalizarDungeon()">Finalizar Dungeon</button>
+    </div>
+
+    <div id="dungeonAtual" class="card p-3 mb-3" style="display:none;"></div>
+    <br>
+    <div>
+        <h5>Encontros</h5>
+        <div id="encontrosDungeon" class="card p-3 mb-3"></div><br>
+    </div>
+
+    <h5>Dungeons Criadas</h5>
+    <ul id="listaDungeons" class="list-group"></ul>
+
+    <div id="resultadoDungeon"></div>
+
+    <button class="btn btn-outline-secondary" onclick="voltarMenu()">⬅ Voltar</button>
+  </div>
+
+  <!-- ================= SEÇÃO CAMPANHAS ================= -->
+<div id="sec-campanhas" class="secao" style="display:none;">
+  <h2>📁 Salvar / Carregar Campanha</h2>
+
+  <p><b>Campanha Atual:</b> <span id="campanhaAtualNome"></span></p>
+
+  <h4>Campanhas Existentes</h4>
+  <ul id="listaCampanhas" class="list-group mb-3"></ul>
+
+  <div class="input-group mb-3">
+    <input id="novaCampanhaNome" type="text" class="form-control" placeholder="Nome da nova campanha">
+    <button class="btn btn-success" onclick="criarCampanha()">Criar</button>
+  </div>
+
+  <button class="btn btn-outline-secondary" onclick="voltarMenu()">⬅ Voltar</button>
+</div>
+
+<!-- ================= SEÇÃO CIDADES ================= -->
+<div id="sec-cidade" class="secao" style="display:none;">
+  <h2>🏙️ Cidades</h2>
+
+  <button class="btn btn-primary w-100 mb-3" onclick="gerarCidade()">🎲 Gerar Cidade</button>
+
+  <div id="resultadoCidade" class="card mt-3" style="display:none;">
+    <div class="card-body" id="textoCidade"></div>
+  </div>
+
+  <h4 class="mt-4">🏛️ Cidades Descobertas</h4>
+  <ul id="listaCidades" class="list-group mb-3"></ul>
+
+  <button class="btn btn-danger btn-sm" onclick="limparCidades()">Limpar Histórico</button>
+
+  <button class="btn btn-outline-secondary mt-3" onclick="voltarMenu()">⬅ Voltar</button>
+</div>
+
+</div>
+
+<div class="modal fade" id="modalDetalhesPNJ" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalhes do PNJ</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="conteudoDetalhesPNJ"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEditarPNJ" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar PNJ</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="conteudoEditarPNJ"></div>
+      <div class="modal-footer">
+        <button class="btn btn-success" onclick="salvarEdicaoPNJ()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalCriarPJ">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 id="modalCriarPjTitulo" class="modal-title">Criar PJ</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="formCriarPJ">
+          <input type="hidden" id="pjEditando">
+          <h4>Ficha de Personagem</h4>
+
+          <div class="row">
+            <div class="col">
+              Nome: <input type="text" class="form-control" id="pjNome" required>
+            </div>
+            <div class="col">
+                Espécie:
+                <select id="pjEspecie" class="form-select" onchange="atualizarEspeciePVPE()">
+                    <option disabled selected>Escolha...</option>
+                    <option value="Ruma">Ruma (10 PV / 10 PE)</option>
+                    <option value="Pequenino">Pequenino (8 PV / 12 PE)</option>
+                    <option value="Duarvo">Duarvo (13 PV / 7 PE)</option>
+                    <option value="Kururuh">Kururuh (7 PV / 13 PE)</option>
+                    <option value="Elfo">Elfo (9 PV / 11 PE)</option>
+                    <option value="Silfo">Silfo (5 PV / 13 PE)</option>
+                    <option value="Akridiano">Akridiano (9 PV / 10 PE)</option>
+                    <option value="Diabrante">Diabrante (12 PV / 8 PE)</option>
+                    <option value="Arbóreo">Arbóreo (8 PV / 12 PE)</option>
+                    <option value="Felicato">Felicato (10 PV / 11 PE)</option>
+                    <option value="Javalique">Javalique (14 PV / 6 PE)</option>
+                    <option value="Komodo">Komodo (11 PV / 9 PE)</option>
+                </select>
+            </div>
+
+            <div class="col">
+                Origem:
+                <select id="pjOrigem" class="form-select">
+                    <option disabled selected>Escolha...</option>
+                    <option>Urbano</option>
+                    <option>Florestal</option>
+                    <option>Campestre</option>
+                    <option>Pantanoso</option>
+                    <option>Costeiro</option>
+                    <option>Desértico</option>
+                    <option>Pampeiro</option>
+                    <option>Montanhês</option>
+                    <option>Glacial</option>
+                    <option>Vulcânico</option>
+                    <option>Subterrâneo</option>
+                    <option>Nômade</option>
+                </select>
+          </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col">
+                Classe:
+                <select id="pjClasse" class="form-select" onchange="atualizarPVPEClasse()">
+                    <option disabled selected>Escolha...</option>
+                    <option>Arqueiro</option>
+                    <option>Bardo</option>
+                    <option>Berserker</option>
+                    <option>Cavaleiro</option>
+                    <option>Duelista</option>
+                    <option>Druida</option>
+                    <option>Mago</option>
+                    <option>Ladrão</option>
+                    <option>Patrulheiro</option>
+                    <option>Necromante</option>
+                    <option>Protetor</option>
+                    <option>Soldado</option>
+                </select>
+            </div>
+            <div class="col">
+                Foco:
+                <select id="pjFoco" class="form-select">
+                    <option disabled selected>Escolha...</option>
+                    <option>Força</option>
+                    <option>Saúde</option>
+                    <option>Rapidez</option>
+                    <option>Sutileza</option>
+                    <option>Concentração</option>
+                    <option>Comunicação</option>
+                </select>
+            </div>
+            <div class="col">
+              Motivação: <input type="text" class="form-control" id="pjMotivacao">
+            </div>
+          </div>
+
+          <hr>
+          <h5>Pontos de Vida</h5>
+
+        <div class="row">
+        <div class="col">
+            <label class="form-label">PV da Espécie</label>
+            <input class="form-control" id="pjPVEspecie">
+        </div>
+
+        <div class="col">
+            <label class="form-label">PV da Classe</label>
+            <input class="form-control" id="pjPVClasse">
+        </div>
+
+        <div class="col">
+            <label class="form-label">PV de Equipamentos</label>
+            <input class="form-control" id="pjPVEquip">
+        </div>
+
+        <div class="col">
+            <label class="form-label">PV Máximo</label>
+            <input class="form-control" id="pjPVMax">
+        </div>
+
+        <div class="col">
+            <label class="form-label">PV Atual</label>
+            <input class="form-control" id="pjPVAtual">
+        </div>
+        </div>
+
+
+          <hr>
+          <h5>Pontos de Energia</h5>
+
+        <div class="row">
+        <div class="col">
+            <label class="form-label">PE da Espécie</label>
+            <input class="form-control" id="pjPEEspecie">
+        </div>
+
+        <div class="col">
+            <label class="form-label">PE da Classe</label>
+            <input class="form-control" id="pjPEClasse">
+        </div>
+
+        <div class="col">
+            <label class="form-label">PE de Equipamentos</label>
+            <input class="form-control" id="pjPEEquip">
+        </div>
+
+        <div class="col">
+            <label class="form-label">PE Máximo</label>
+            <input class="form-control" id="pjPEMax">
+        </div>
+
+        <div class="col">
+            <label class="form-label">PE Atual</label>
+            <input class="form-control" id="pjPEAtual">
+        </div>
+        </div>
+
+          <hr>
+          <h5>Armas em Mãos (até 3)</h5>
+
+          <div id="pjArmas"></div>
+          <button type="button" class="btn btn-secondary mt-2" onclick="abrirEscolhaArma()">Adicionar Arma 2</button>
+
+          <hr>
+          <h5>Escudo / Ferramenta (múltiplos)</h5>
+          
+          <div id="pjEscudos"></div>
+          <button type="button" class="btn btn-secondary mt-2" onclick="adicionarEscudo()">Adicionar Escudo</button>
+
+          <hr>
+          <h5>Equipamento Vestido</h5>
+
+          <div id="pjEquipVestido"></div>
+
+         <button type="button" class="btn btn-secondary mt-2" onclick="adicionarVestimenta()">Adicionar Vestimenta</button>
+
+          <hr>
+          <h5>Conhecimentos (até 8)</h5>
+          <div class="d-flex gap-2">
+            <select id="pjConhecimentoAdd" class="form-select">
+                <option disabled selected>Escolha um conhecimento...</option>
+                <option>Anatomia</option>
+                <option>Alquimia</option>
+                <option>Animais</option>
+                <option>Crime</option>
+                <option>Dança</option>
+                <option>Estudos</option>
+                <option>Forja</option>
+                <option>Guerra</option>
+                <option>História</option>
+                <option>Magia</option>
+                <option>Mecanismos</option>
+                <option>Música</option>
+                <option>Nobreza</option>
+                <option>Plantas</option>
+                <option>Sobrevivência</option>
+            </select>
+
+            <button type="button" class="btn btn-secondary" onclick="addConhecimento()">Adicionar</button>
+        </div>
+        <ul id="pjListaConhecimentos" class="list-group mt-2"></ul>
+
+          <hr>
+          <h5>Habilidades (até 12)</h5>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-primary" onclick="abrirHabClasse()">
+                Adicionar habilidade da classe
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="abrirHabGeral()">
+                Adicionar habilidade geral
+            </button>
+
+          </div>
+          <ul id="pjListaHabilidades" class="list-group mt-2"></ul>
+
+          <hr>
+          <h5>Mochila (até 10)</h5>
+          <div class="mt-3">
+            <label class="form-label"><b>Mochila</b></label>
+            <div id="listaMochila"></div>
+            <button type="button" class="btn btn-sm btn-primary mt-2" onclick="abrirModalAdicionarMochila()">
+                Adicionar Item
+            </button>
+        </div>
+        </form>
+      </div>
+
+      <input type="hidden" id="experiencia" name="experiencia" >
+      <input type="hidden" id="riquesas" name="riquesas" >
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button id="salvarPjBtn" class="btn btn-primary">Salvar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ADICIONAR/EDITAR MOCHILA -->
+<div class="modal fade" id="modalMochila" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Item da Mochila</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <label class="form-label">Nome</label>
+        <input id="mochilaNome" class="form-control">
+
+        <label class="form-label mt-3">Descrição</label>
+        <textarea id="mochilaDescricao" rows="3" class="form-control"></textarea>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success" onclick="salvarItemMochila()">Salvar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal para escolher habilidade da classe -->
+<div class="modal fade" id="modalAddHabClasse" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title">Adicionar Habilidade da Classe</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <label class="form-label">Selecione uma habilidade:</label>
+        <select id="selectHabClasse" class="form-select"></select>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="confirmarHabClasse()">Adicionar</button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalHabGeral">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Habilidades Gerais Disponíveis</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <select id="selectHabGeral" class="form-select"></select>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="confirmarHabGeral()">Adicionar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalDetalhes" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 id="modalDetalhesTitulo" class="modal-title">Detalhes do PJ</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" id="modalDetalhesCorpo">
+        <!-- conteúdo preenchido dinamicamente -->
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal" onclick="limparBackdrops()">Fechar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEscolherArma">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Escolher Arma</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <select id="listaArmas" class="form-select mb-3">
+          <option value="">Selecione uma arma</option>
+          <option value="MAGICA">✨ Arma Mágica</option>
+        </select>
+
+        <div id="previewArma"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" onclick="confirmarEscolhaArma()">Adicionar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Detalhes dos Especiais da Arma -->
+<div class="modal fade" id="modalDetalhesEspeciais" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Especiais da Arma</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" id="modalDetalhesEspeciaisCorpo">
+        <!-- preenchido via JS -->
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Selecionar Escudo -->
+<div class="modal fade" id="modalSelecionarEscudo" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Escolher Escudo</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <select id="selectEscudo" class="form-select">
+          <!-- Preenchido via JS -->
+        </select>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="confirmarEscudo()">Adicionar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalSelecionarVestimenta" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Escolher Vestimenta</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <select id="selectVestimenta" class="form-select"></select>
+      </div>
+
+      <div class="modal-footer">
+        <!-- ⭐ BOTÃO NOVO AQUI ⭐ -->
+        <button class="btn btn-warning" onclick="gerarVestimentaMagica()">
+          ✨ Gerar Vestimenta Mágica
+        </button>
+
+        <button class="btn btn-primary" onclick="confirmarVestimenta()">Adicionar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEspeciaisVestimenta">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Especiais da Vestimenta</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" id="conteudoEspeciaisVestimenta"></div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal Selecionar Habilidade -->
+<div class="modal fade" id="modalHabilidadeClasse">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Selecionar Habilidade da Classe</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <select id="selectHabilidadeClasse" class="form-select"></select>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" onclick="confirmarHabilidadeClasse()">Adicionar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalDetalhesHabilidades">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Detalhes das Habilidades</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" id="conteudoDetalhesHabilidades">
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalHabEspecie">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Habilidade da Espécie</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" id="conteudoHabEspecie">
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalItemMochila">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Item da Mochila</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" id="conteudoItemMochila"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalSelecionarMochila" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Adicionar Item à Mochila</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <label class="form-label fw-bold">Selecione um item:</label>
+        <select id="selectMochilaItem" class="form-select mb-3">
+          <option value="">Selecione um item...</option>
+        </select>
+
+        <div id="previewMochilaItem"></div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="confirmarItemMochila()">Adicionar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEspeciaisEscudo">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Especiais do Escudo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="conteudoEspeciaisEscudo"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalDescansoLongo">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Descanso Longo</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>Você está em zona segura?</p>
+
+        <button id="btnZonaSegura" class="btn btn-success w-100 mb-2">
+          ✔ Zona Segura
+        </button>
+
+        <button id="btnZonaPerigosa" class="btn btn-danger w-100">
+          ⚠ Zona Perigosa
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalInimigo">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ficha do Inimigo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="modalInimigoConteudo"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalAddInimigo">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Adicionar Inimigo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <input type="text" id="buscaInimigo" class="form-control" placeholder="Digite para buscar…" oninput="filtrarInimigos()">
+
+        <ul id="listaResultadosInimigos" class="list-group mt-2"></ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalSelecionarPJ" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Selecionar Personagem</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <label for="selectPJ" class="form-label">Escolha um personagem:</label>
+        <select id="selectPJ" class="form-select"></select>
+        <ul id="listaPjModal" class="list-group"></ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" onclick="confirmarSelecionarPJ()">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalAventuras" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Aventuras Descobertas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div id="listaAventuras"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<button id="btnVerCidade" style="display:none; position:fixed; bottom:22px; right:22px; z-index:99999;"
+        class="btn btn-lg btn-primary">Ver Cidade</button>
+
+<!-- Modal de cidade -->
+<div id="modalCidade" style="display:none;">
+  <div class="modal-backdrop"></div>
+  <div class="modal-card">
+    <header class="modal-header">
+      <h2 id="cidadeNome">Cidade</h2>
+      <button id="fecharModalCidade" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body">
+      <div class="cidade-meta">
+        <div><b>Tipo:</b> <span id="cidadeTipo"></span></div>
+        <div><b>Apelido:</b>
+          <input id="cidadeApelidoInput" type="text" maxlength="4" style="width:70px;margin-left:6px;">
+          <button id="salvarApelidoCidade" class="btn btn-sm btn-outline-light">Salvar</button>
+        </div>
+      </div>
+
+      <section>
+        <h3>Estabelecimentos</h3>
+        <div id="listaEstabelecimentos" class="estabs-grid"></div>
+      </section>
+
+      <section style="margin-top:12px;">
+        <h3>Resumo</h3>
+        <div id="cidadeResumo" style="white-space:pre-wrap;"></div>
+      </section>
+    </main>
+
+    <footer class="modal-footer">
+      <button id="fecharModalCidadeBtn" class="btn">Fechar</button>
+    </footer>
+  </div>
+</div>
+
+
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="tabelas.js"></script>
+<script src="tabelasAventuras.js"></script>
+<script src="tabelasGeracaoTerreno.js"></script>
+<script src="functionsCampanha-prod.js"></script>
+<script src="functionsMapa.js"></script>
+<!-- <script src="functionsCampanha-dev.js"></script> -->
+<script src="functionsCenas.js"></script>
+<script src="functionsCidades.js"></script>
+<script src="functionsDungeon.js"></script>
+<script src="functionsMissoes.js"></script>
+<script src="functionsRumores.js"></script>
+<script src="functionsEncontros.js"></script>
+<script src="functionsPontosInteresse.js"></script>
+<script src="functionsOraculo.js"></script>
+<script src="functionsPNJ.js"></script>
+<script src="functionsPJ.js"></script>
+
+<script>
+
+
+let mochilaEditIndex = null;
+let mochilaTemp = [];    
+// Rolagem
+function d20() { return Math.floor(Math.random()*20)+1; }
+function rolarD20() { return Math.floor(Math.random()*20)+1; }
+function rolarD4() { return Math.floor(Math.random()*4)+1; }
+function rolarD6() { return Math.floor(Math.random()*6)+1; }
+function rolarD12() { return Math.floor(Math.random()*12)+1; }
+function r(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function rolar(lista) {
+    return lista[Math.floor(Math.random() * lista.length)];
+}
+
+function abrirSecao(id) {
+  // esconder menu corretamente
+  document.getElementById('menu').classList.add('d-none');
+
+  // esconder outras seções
+  document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
+
+  // mostrar seção escolhida
+  document.getElementById(id).style.display = 'block';
+
+  // carregamentos dinâmicos por seção
+  if (id === 'sec-campanhas') {
+    mostrarCampanhas();
+    document.getElementById("campanhaAtualNome").innerText = campanhaAtual;
+  } 
+  else if (id === 'missoes') {
+    atualizarListasMissoes();
+  } 
+  else if (id === 'sec-boatos') {
+    atualizarListaRumores();
+  }
+  else if (id === 'sec-cidade') {
+    atualizarListaCidades();
+  }
+  else if (id === 'sec-pi') {
+    atualizarListaPI(); // <-- AQUI ESTÁ A CORREÇÃO!
+  } else if (id === "sec-dungeon"){
+    atualizarListaDungeons();
+  } else if (id === "sec-diario") {
+    atualizarListaCenas();
+    atualizarCenaAtual()
+  }else if (id === "sec-tabelas-oraculo") {
+    atualizarTabelasOraculo();
+  }else if (id === "pnjSection") {
+    listarPNJs();
+  }else if (id === "pjSection") {
+    atualizarPJs();
+  }else if (id === 'sec-aventuras') {
+    atualizarAventuraUI();
+    atualizarListaAventuras();
+  }else if (id === 'sec-mapa') {
+    abrirMapa();
+  }
+}
+
+function voltarMenu() {
+  // esconder seções
+  document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
+
+  // mostrar o menu corretamente
+  const menu = document.getElementById('menu');
+  menu.classList.remove('d-none');
+  menu.classList.add('d-grid');
+}
+
+
+function rolarD12() {
+  return Math.floor(Math.random() * 12) + 1;
+}
+
+function rolar2d6() {
+  return (Math.floor(Math.random()*6)+1) + "-" + (Math.floor(Math.random()*6)+1);
+}
+
+
+function rolar2d6Key() {
+  const d1 = rolarD6();
+  const d2 = rolarD6();
+  return `${d1}-${d2}`;
+}
+
+function gerarTesouro() {
+  const d = rolarD6();
+  switch(d) {
+    case 1:
+    case 2:
+      return 'Objeto Valioso';
+    case 3:
+      return 'Pedra Preciosa';
+    case 4:
+      return 'Item Mágico (Vestimenta Mágica)';
+    case 5:
+      return 'Item Mágico (Arma Mágica)';
+    case 6:
+      return 'Equipamento + Role novamente: ' + gerarTesouro();
+  }
+}
+
+function rolarD10() {
+  return Math.floor(Math.random() * 10) + 1;
+}
+
+// ----------------- Helpers -----------------
+
+// =====================================
+// 🔮 ORÁCULO DO DESTINO (usando destinoTabela)
+// =====================================
+
+// -------------------------
+// 🎲 Rola d100
+// -------------------------
+function d100() {
+  return Math.floor(Math.random() * 100) + 1;
+}
+
+// ------------------------------
+// 🎲 Rola 2d10 (para Evento Caos)
+// ------------------------------
+function doisD10() {
+  return {
+    d1: Math.floor(Math.random() * 10) + 1,
+    d2: Math.floor(Math.random() * 10) + 1
+  };
+}
+
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+// Remove tags HTML e mantém texto simples
+function stripHtml(html) {
+  const tmp = document.createElement("DIV");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
+}
+
+function salvarMissoes() { salvarCampanhas(); }
+function salvarRumores() { salvarCampanhas(); }
+
+</script>
+</html>
+
+

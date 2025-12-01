@@ -158,6 +158,19 @@ function carregarCampanha(nome) {
   if (!campanhas[campanhaAtual].aventuras) {
       campanhas[campanhaAtual].aventuras = [];
   }
+
+  const mapaSalvo = campanhas[campanhaAtual].mapa;
+  if (mapaSalvo && mapaSalvo.hexes) {
+    // reconstrói visual do mapa a partir dos dados salvos
+    reconstruirMapaVisual(mapaSalvo);
+    console.log("Mapa carregado da campanha.");
+  } else {
+    // nenhum mapa salvo — mantenha comportamento atual (gera/mostra listas etc)
+    // se você tiver função que gera mapa automaticamente, chame-a aqui
+    // ex: gerarMapa(cols, rows)  // opcional
+    console.log("Campanha não possui mapa salvo (gera novo ou deixa vazio).");
+  }
+
   salvarCampanhas();
   atualizarListasMissoes();
   atualizarListaRumores();
@@ -179,6 +192,8 @@ function criarCampanha() {
     campanhas[nome] = novaCampanhaBase();
     campanhaAtual = nome;
 
+    const novoMapa = gerarMapaDados(); // 🔥 função nova, explicada abaixo
+    campanhas[nome].mapa = novoMapa;
     salvarCampanhas();
     mostrarCampanhas();
 
@@ -251,4 +266,43 @@ function ordenar(obj) {
             }, {});
     }
     return obj;
+}
+
+async function salvarMapaNaCampanha() {
+  if (!campanhaAtual) return;
+  if (!campanhas[campanhaAtual]) return;
+
+  // garante que temos o formato esperado em 'terrenos' (se você usa objeto global 'terrenos')
+  // formatos aceitos:
+  //  terrenos["q,r"] = { terreno: "...", poi: ..., dadosPOI: ..., custoPM: ... }
+  // se seu 'terrenos' for apenas string, converta aqui (exemplo abaixo)
+  // campanhas[campanhaAtual].mapa.hexes = terrenos;
+
+  // monta objeto mínimo do mapa (não sobrescreve se já existir extras)
+  const mapa = campanhas[campanhaAtual].mapa || {};
+  mapa.cols = mapa.cols || currentMapCols || 25; // ajuste currentMapCols conforme seu código
+  mapa.rows = mapa.rows || currentMapRows || 25;
+  mapa.jogador = posAtual ? { q: posAtual.q, r: posAtual.r } : mapa.jogador || null;
+
+  // salva uma cópia de 'terrenos' no formato esperado
+  mapa.hexes = {};
+  Object.keys(terrenos).forEach(k => {
+    const h = terrenos[k];
+    // se você usa apenas string no 'terrenos', transforme em objeto:
+    if (typeof h === 'string') {
+      mapa.hexes[k] = { terreno: h, poi: null, dadosPOI: null, custoPM: custoMovimento[h] ?? 1 };
+    } else {
+      // copia apenas campos essenciais - evita salvar DOM refs etc
+      mapa.hexes[k] = {
+        terreno: h.terreno,
+        poi: h.poi ?? null,
+        dadosPOI: h.dadosPOI ?? null,
+        custoPM: h.custoPM ?? (custoMovimento[h.terreno] ?? 1)
+      };
+    }
+  });
+
+  campanhas[campanhaAtual].mapa = mapa;
+  await salvarCampanhas(); // persiste via firebase + backup local
+  console.log("Mapa salvo na campanha.");
 }

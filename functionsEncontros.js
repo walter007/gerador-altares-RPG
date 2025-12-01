@@ -5,8 +5,8 @@ let ocultarMortos = false;
 
 function gerarEncontro() {
   const bioma = document.getElementById('biomaSelect').value;
-  //const r = rolarD20();
-  const r = 19;
+  const r = rolarD20();
+  //const r = 19;
   let resultado = '';
 
   if (r <= 5) resultado = 'Nenhum encontro — Descanso Seguro.';
@@ -778,7 +778,7 @@ function mostrarFichaInimigo(id) {
     >
     <div>
         <h3 class="mb-0">${ficha.nome}</h3>
-        <small class="text-muted">${ficha.tipo}</small>
+        <h5>${ficha.tipo}<h5>
     </div>
 </div>
 <hr>
@@ -810,7 +810,9 @@ function mostrarFichaInimigo(id) {
     `;
 
     document.getElementById("modalInimigoConteudo").innerHTML = html;
-    new bootstrap.Modal(document.getElementById("modalInimigo")).show();
+    //new bootstrap.Modal(document.getElementById("modalInimigo")).show();
+    abrirModalS("modalInimigo");
+
 }
 
 
@@ -843,7 +845,8 @@ function curarInimigo() {
 function abrirAdicionarInimigo() {
     document.getElementById("buscaInimigo").value = "";
     filtrarInimigos();
-    new bootstrap.Modal(document.getElementById("modalAddInimigo")).show();
+    //new bootstrap.Modal(document.getElementById("modalAddInimigo")).show();
+    abrirModalS("modalAddInimigo");
 }
 
 function filtrarInimigos() {
@@ -948,7 +951,8 @@ function marcarMorto() {
     inimigoSelecionado.morto = true;
 
     // Fecha o modal
-    bootstrap.Modal.getInstance(document.getElementById("modalInimigo")).hide();
+    //bootstrap.Modal.getInstance(document.getElementById("modalInimigo")).hide();
+    fecharModalS("modalInimigo");
 
     // Atualiza a lista na tela (para riscar ou ocultar)
     atualizarListaInimigosTela();

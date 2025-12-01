@@ -42,7 +42,7 @@ function adicionarHabilidadesClasse() {
   });
 }
 
-function abrirHabClasse() {
+function abrirHabClasseOld() {
   const classe = document.getElementById("pjClasse").value;
 
   if (!classe || !habilidadesPorClasse[classe]) {
@@ -60,8 +60,9 @@ function abrirHabClasse() {
     select.appendChild(opt);
   });
 
-  const modal = new bootstrap.Modal(document.getElementById("modalAddHabClasse"));
-  modal.show();
+  //abrirModalS(id)
+  //const modal = new bootstrap.Modal(document.getElementById("modalAddHabClasse"));
+  //modal.show();
 }
 
 function confirmarHabClasse() {
@@ -95,8 +96,9 @@ function confirmarHabClasse() {
 
   lista.appendChild(li);
 
-  const modal = bootstrap.Modal.getInstance(document.getElementById("modalAddHabClasse"));
-  modal.hide();
+  //const modal = bootstrap.Modal.getInstance(document.getElementById("modalAddHabClasse"));
+  //modal.hide();
+  abrirModalS("modalAddHabClasse");
 }
 
 function conectarEventosEquipamentos() {
@@ -264,7 +266,8 @@ function adicionarVestimenta() {
         select.appendChild(op);
     });
 
-    new bootstrap.Modal(document.getElementById("modalSelecionarVestimenta")).show();
+    //new bootstrap.Modal(document.getElementById("modalSelecionarVestimenta")).show();
+    abrirModalS("modalSelecionarVestimenta");
 }
 
 function confirmarVestimenta() {
@@ -308,7 +311,8 @@ function confirmarVestimenta() {
 
     atualizarPVPEEquip();
 
-    bootstrap.Modal.getInstance(document.getElementById("modalSelecionarVestimenta")).hide();
+    //bootstrap.Modal.getInstance(document.getElementById("modalSelecionarVestimenta")).hide();
+    fecharModalS("modalSelecionarVestimenta");
 }
 
 function gerarVestimentaMagica() {
@@ -379,9 +383,10 @@ function gerarVestimentaMagica() {
 
     atualizarPVPEEquip();
 
-    bootstrap.Modal.getInstance(
+    /*bootstrap.Modal.getInstance(
     document.getElementById("modalSelecionarVestimenta")
-    ).hide();
+    ).hide();*/
+    fecharModalS("modalSelecionarVestimenta");
 }
 
 function detalharEspeciaisEscudo(pjIndex, escudoIndex) {
@@ -442,9 +447,10 @@ function detalharEspeciaisEscudo(pjIndex, escudoIndex) {
     }
 
     document.getElementById("conteudoEspeciaisEscudo").innerHTML = html;
-    new bootstrap.Modal(
+    /*new bootstrap.Modal(
         document.getElementById("modalEspeciaisEscudo")
-    ).show();
+    ).show();*/
+    abrirModalS("modalEspeciaisEscudo");
 }
 
 function confirmarEscudo() {
@@ -461,7 +467,8 @@ function confirmarEscudo() {
         `;
         escudosDiv.appendChild(div);
 
-        bootstrap.Modal.getInstance(document.getElementById("modalSelecionarEscudo")).hide();
+        //bootstrap.Modal.getInstance(document.getElementById("modalSelecionarEscudo")).hide();
+        fecharModalS("modalSelecionarEscudo");
         return;
     }
 
@@ -496,7 +503,8 @@ function confirmarEscudo() {
 
     escudosDiv.appendChild(div);
 
-    bootstrap.Modal.getInstance(document.getElementById("modalSelecionarEscudo")).hide();
+    //bootstrap.Modal.getInstance(document.getElementById("modalSelecionarEscudo")).hide();
+    fecharModalS("modalSelecionarEscudo");
 }
 
 function adicionarEscudo() {
@@ -511,7 +519,8 @@ function adicionarEscudo() {
         select.appendChild(op);
     });
 
-    new bootstrap.Modal(document.getElementById("modalSelecionarEscudo")).show();
+    //new bootstrap.Modal(document.getElementById("modalSelecionarEscudo")).show();
+    abrirModalS("modalSelecionarEscudo");
 }
 
 function preencherVestimentaMagica(v) {
@@ -620,9 +629,10 @@ function detalharEspeciaisVestimenta(pjIndex, equipIndex) {
     }
 
     document.getElementById("conteudoEspeciaisVestimenta").innerHTML = html;
-    new bootstrap.Modal(
+    /*new bootstrap.Modal(
         document.getElementById("modalEspeciaisVestimenta")
-    ).show();
+    ).show();*/
+    abrirModalS("modalEspeciaisVestimenta");
 }
 
 function mostrarHabEspecie(especie) {
@@ -639,7 +649,8 @@ function mostrarHabEspecie(especie) {
         `;
     }
 
-    new bootstrap.Modal(document.getElementById("modalHabEspecie")).show();
+    //new bootstrap.Modal(document.getElementById("modalHabEspecie")).show();
+    abrirModalS("modalHabEspecie");
 }
 
 function confirmarHabGeral() {
@@ -665,7 +676,9 @@ function confirmarHabGeral() {
 
     ul.appendChild(li);
 
-    bootstrap.Modal.getInstance(document.getElementById("modalHabGeral")).hide();
+    //document.getElementById("modalHabGeral").style.display = "flex";
+    fecharModalS("modalHabGeral");
+    //bootstrap.Modal.getInstance(document.getElementById("modalHabGeral")).hide();
 }
 
 function abrirHabGeral() {
@@ -692,7 +705,9 @@ function abrirHabGeral() {
         }
     });
 
-    new bootstrap.Modal(document.getElementById("modalHabGeral")).show();
+    //document.getElementById("modalHabGeral").style.display = "block";
+    abrirModalS("modalHabGeral");
+    //new bootstrap.Modal(document.getElementById("modalHabGeral")).show();
 }
 
 function detalharTodasHabilidades(pjIndex) {
@@ -714,7 +729,8 @@ function detalharTodasHabilidades(pjIndex) {
     }
 
     document.getElementById("conteudoDetalhesHabilidades").innerHTML = html;
-    new bootstrap.Modal(document.getElementById("modalDetalhesHabilidades")).show();
+    //new bootstrap.Modal(document.getElementById("modalDetalhesHabilidades")).show();
+    abrirModalS("modalDetalhesHabilidades");
 }
 
 function detalharHabilidade(nome, pe, descricao) {
@@ -754,9 +770,10 @@ function confirmarHabilidadeClasse() {
 
     ul.appendChild(li);
 
-    bootstrap.Modal.getInstance(
+    /*bootstrap.Modal.getInstance(
         document.getElementById("modalHabilidadeClasse")
-    ).hide();
+    ).hide();*/
+    fecharModalS("modalHabilidadeClasse")
 }
 
 function abrirHabClasse() {
@@ -776,9 +793,10 @@ function abrirHabClasse() {
         select.appendChild(op);
     });
 
-    new bootstrap.Modal(
+    /*new bootstrap.Modal(
         document.getElementById("modalHabilidadeClasse")
-    ).show();
+    ).show();*/
+    abrirModalS("modalHabilidadeClasse");
 }
 
 function abrirCriarPJ() {
@@ -788,7 +806,8 @@ function abrirCriarPJ() {
   document.getElementById("modalCriarPjTitulo").innerText = "Criar Novo PJ";
   document.getElementById("salvarPjBtn").onclick = salvarNovoPJ;
 
-  new bootstrap.Modal(document.getElementById("modalCriarPJ")).show();
+  abrirModalS("modalCriarPJ");
+  //new bootstrap.Modal(document.getElementById("modalCriarPJ")).show();
 }
 
 function salvarNovoPJ() {
@@ -805,7 +824,10 @@ function salvarNovoPJ() {
   salvarCampanhas();
   listarPJs();
 
-  bootstrap.Modal.getInstance(document.getElementById("modalCriarPJ")).hide();
+  fecharModalS("modalCriarPJ")
+  //document.getElementById("modalCriarPJ").style.display = "none";
+  console.log("entrou modalCriarPJ");
+  //bootstrap.Modal.getInstance(document.getElementById("modalCriarPJ")).hide();
 }
 
 function coletarArmas() {
@@ -1161,7 +1183,8 @@ function detalharPJ(index) {
         <br>
     `;
 
-    new bootstrap.Modal(document.getElementById("modalDetalhes")).show();
+    //new bootstrap.Modal(document.getElementById("modalDetalhes")).show();
+    abrirModalS("modalDetalhes");
 }
 
 function detalharEspeciaisPJ(pjIndex, armaIndex) {
@@ -1212,19 +1235,14 @@ function detalharEspeciaisPJ(pjIndex, armaIndex) {
     `;
 
     document.getElementById("modalDetalhesEspeciaisCorpo").innerHTML = html;
-    new bootstrap.Modal(document.getElementById("modalDetalhesEspeciais")).show();
+    //new bootstrap.Modal(document.getElementById("modalDetalhesEspeciais")).show();
+    abrirModalS("modalDetalhesEspeciais");
 }
 
 
 function editarPJ(index) {
     console.log(document.getElementById("experiencia").value)
-    const modalElemento = document.getElementById("modalDetalhes");
-    const detalhesModal = bootstrap.Modal.getInstance(modalElemento);
-    if (detalhesModal) {
-        detalhesModal.hide();
-    } else {
-        console.error("Instância do Modal não encontrada.");
-    }
+    fecharModalS("modalDetalhes");
 
     const pj = campanhas[campanhaAtual].pjs[index];
     if (!pj) return;
@@ -1449,8 +1467,8 @@ function editarPJ(index) {
         atualizarPVPEEquip();
         atualizarTotaisPVPE();
     }, 80);
-
-    new bootstrap.Modal(document.getElementById("modalCriarPJ")).show();
+    abrirModalS("modalCriarPJ")
+    //new bootstrap.Modal(document.getElementById("modalCriarPJ")).show();
 }
 
 
@@ -1481,7 +1499,8 @@ function abrirEscolhaArma() {
 
     document.getElementById("previewArma").innerHTML = "";
 
-    new bootstrap.Modal(document.getElementById("modalEscolherArma")).show();
+    //new bootstrap.Modal(document.getElementById("modalEscolherArma")).show();
+    abrirModalS("modalEscolherArma");
 }
 
 document.getElementById("listaArmas").addEventListener("change", function() {
@@ -1534,7 +1553,8 @@ function confirmarEscolhaArma() {
         const ultimo = cards[cards.length - 1];
         ultimo.querySelector(".armaEspecial").dataset.efeitos = JSON.stringify(a.efeitos);
 
-        bootstrap.Modal.getInstance(document.getElementById("modalEscolherArma")).hide();
+        //bootstrap.Modal.getInstance(document.getElementById("modalEscolherArma")).hide();
+        fecharModalS("modalEscolherArma");
         return;
     }
 
@@ -1542,7 +1562,8 @@ function confirmarEscolhaArma() {
 
     adicionarArmaComValores(arma.Nome, arma.Dano, arma.Critico, arma.Especial);
 
-    bootstrap.Modal.getInstance(document.getElementById("modalEscolherArma")).hide();
+    //bootstrap.Modal.getInstance(document.getElementById("modalEscolherArma")).hide();
+    fecharModalS("modalEscolherArma");
 }
 
 function adicionarArmaComValores(nome, dano, critico, especial) {
@@ -1688,7 +1709,9 @@ function detalharItemMochila(pjIndex, itemIndex) {
         <p>${item.descricao}</p>
     `;
 
-    new bootstrap.Modal(document.getElementById("modalItemMochila")).show();
+    abrirModalS("modalItemMochila");
+    //new bootstrap.Modal(document.getElementById("modalItemMochila")).show();
+    //document.getElementById("modalItemMochila").style.display = "flex";
 }
 
 
@@ -1765,6 +1788,7 @@ function reconstruirVestimenta(item) {
 }
 
 function abrirModalAdicionarMochila() {
+    console.log("entrou na function abrir mochila")
     const sel = document.getElementById("selectMochilaItem");
     sel.innerHTML = `<option value="">Selecione um item...</option>`;
 
@@ -1774,25 +1798,8 @@ function abrirModalAdicionarMochila() {
         op.textContent = `${item.nome} — (${item.acesso})`;
         sel.appendChild(op);
     });
-    const modal = new bootstrap.Modal(document.getElementById("modalSelecionarMochila"), {
-        backdrop: 'static',
-        keyboard: false
-    });
 
-    modal.show();
-    document.getElementById("modalSelecionarMochila")
-    .addEventListener("submit", e => e.preventDefault());
-}
-
-function mostrarDetalhesItemMochila(index) {
-    const item = mochilaTemp[index];
-
-    document.getElementById("conteudoItemMochila").innerHTML = `
-        <h5>${item.nome}</h5>
-        <p>${item.descricao}</p>
-    `;
-
-    new bootstrap.Modal(document.getElementById("modalItemMochila")).show();
+    abrirModalS("modalSelecionarMochila");
 }
 
 function editarItemMochila(index) {
@@ -1802,7 +1809,8 @@ function editarItemMochila(index) {
     document.getElementById("mochilaNome").value = item.nome;
     document.getElementById("mochilaDescricao").value = item.descricao;
 
-    new bootstrap.Modal(document.getElementById("modalMochila")).show();
+    //new bootstrap.Modal(document.getElementById("modalMochila")).show();
+    abrirModalS("modalMochila");
 }
 
 function salvarItemMochila() {
@@ -1819,7 +1827,8 @@ function salvarItemMochila() {
         mochilaTemp[mochilaEditIndex] = item;
     }
 
-    bootstrap.Modal.getInstance(document.getElementById("modalMochila")).hide();
+    //bootstrap.Modal.getInstance(document.getElementById("modalMochila")).hide();
+    fecharModalS("modalMochila");
     renderizarMochilaTemp();
 }
 
@@ -1984,7 +1993,8 @@ function confirmarItemMochila() {
         item // salva objeto inteiro para expansões futuras
     });
 
-    bootstrap.Modal.getInstance(document.getElementById("modalSelecionarMochila")).hide();
+    fecharModalS("modalSelecionarMochila")
+    //bootstrap.Modal.getInstance(document.getElementById("modalSelecionarMochila")).hide();
     renderizarMochilaTemp();
 }
 
@@ -2114,18 +2124,20 @@ function descansoCurto(pjIndex) {
 }
 
 function abrirDescansoLongo(pjIndex) {
-    const modal = new bootstrap.Modal(document.getElementById("modalDescansoLongo"));
-    modal.show();
+    //const modal = new bootstrap.Modal(document.getElementById("modalDescansoLongo"));
+    //modal.show();
+
+    abrirModalS("modalDescansoLongo");
 
     // Liga os botões
     document.getElementById("btnZonaSegura").onclick = () => {
         descansoLongo(pjIndex, true);
-        modal.hide();
+        fecharModalS("modalDescansoLongo");
     };
 
     document.getElementById("btnZonaPerigosa").onclick = () => {
         descansoLongo(pjIndex, false);
-        modal.hide();
+        fecharModalS("modalDescansoLongo");
     };
 }
 
@@ -2230,8 +2242,9 @@ function abrirModalDetalhePjs() {
   });
 
   // abre o modal
-  const modal = new bootstrap.Modal(document.getElementById("modalSelecionarPJ"));
-  modal.show();
+  //const modal = new bootstrap.Modal(document.getElementById("modalSelecionarPJ"));
+  //modal.show();
+  abrirModalS("modalSelecionarPJ");
 }
 
 function confirmarSelecionarPJ() {
@@ -2241,6 +2254,7 @@ function confirmarSelecionarPJ() {
   detalharPJ(indice);
 
   // fechar modal
-  const modal = bootstrap.Modal.getInstance(document.getElementById("modalSelecionarPJ"));
-  modal.hide();
+  //const modal = bootstrap.Modal.getInstance(document.getElementById("modalSelecionarPJ"));
+  //modal.hide();
+  fecharModalS("modalSelecionarPJ");
 }

@@ -140,3 +140,96 @@ function limparCidades() {
   salvarCampanhas();
   atualizarListaCidades();
 }
+
+function gerarCidadeMapa() {
+  const roll = Math.floor(Math.random() * 18);
+  const cidade = tabelaCidade[roll];
+
+  const nome = cidade.p1 + cidade.p2;
+  const listaBase = estabelecimentosPorTipo[cidade.tipo];
+  let estabelecimentos = [];
+
+  for (const item of listaBase) {
+    if (typeof item === "string") {
+      estabelecimentos.push(item);
+    } else if (item.simples) {
+      for (let i = 0; i < item.simples; i++) {
+        const r = Math.floor(Math.random() * 6);
+        estabelecimentos.push(tabelaEstabelecimentos[r].simples);
+      }
+    } else if (item.decente) {
+      for (let i = 0; i < item.decente; i++) {
+        const r = Math.floor(Math.random() * 6);
+        estabelecimentos.push(tabelaEstabelecimentos[r].decente);
+      }
+    } else if (item.nobre) {
+      for (let i = 0; i < item.nobre; i++) {
+        const r = Math.floor(Math.random() * 6);
+        estabelecimentos.push(tabelaEstabelecimentos[r].nobre);
+      }
+    }
+  }
+
+  const cidades = campanhas[campanhaAtual].cidades || [];
+  const apelido = String.fromCharCode(65 + cidades.length);
+
+  const cidadeObj = {
+    nome,
+    tipo: cidade.tipo,
+    estabelecimentos,
+    apelido
+  };
+
+  campanhas[campanhaAtual].cidades.push(cidadeObj);
+  salvarCampanhas();
+  atualizarListaCidades();
+
+  // ← IMPORTANTE: retornar o objeto criado
+  return cidadeObj;
+}
+
+function gerarCidadeSilenciosa() {
+  const roll = Math.floor(Math.random() * 18);
+  const cidade = tabelaCidade[roll];
+
+  const nome = cidade.p1 + cidade.p2;
+  const listaBase = estabelecimentosPorTipo[cidade.tipo];
+  let estabelecimentos = [];
+
+  for (const item of listaBase) {
+    if (typeof item === "string") {
+      estabelecimentos.push(item);
+    } else if (item.simples) {
+      for (let i = 0; i < item.simples; i++) {
+        const r = Math.floor(Math.random() * 6);
+        estabelecimentos.push(tabelaEstabelecimentos[r].simples);
+      }
+    } else if (item.decente) {
+      for (let i = 0; i < item.decente; i++) {
+        const r = Math.floor(Math.random() * 6);
+        estabelecimentos.push(tabelaEstabelecimentos[r].decente);
+      }
+    } else if (item.nobre) {
+      for (let i = 0; i < item.nobre; i++) {
+        const r = Math.floor(Math.random() * 6);
+        estabelecimentos.push(tabelaEstabelecimentos[r].nobre);
+      }
+    }
+  }
+
+  const cidades = campanhas[campanhaAtual].cidades || [];
+
+  const apelido = String.fromCharCode(65 + cidades.length);
+
+  const cidadeObj = {
+    nome,
+    tipo: cidade.tipo,
+    estabelecimentos,
+    apelido
+  };
+
+  cidades.push(cidadeObj);
+  campanhas[campanhaAtual].cidades = cidades;
+
+  return cidadeObj;
+}

@@ -33,6 +33,221 @@
     };
 </script>
 
+<style>
+
+/* ---------- BACKDROP ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 99990;
+}
+
+/* ---------- WRAPPER DO MODAL ---------- */
+.modal-wrapper {
+  position: fixed;
+  inset: 0;
+  display: none;                /* por padrão escondido */
+  justify-content: center;
+  align-items: center;
+  z-index: 99991;
+}
+
+/* ---------- CARTA DO MODAL ---------- */
+.modal-card {
+  width: min(880px, 96%);
+  max-height: 84vh;
+  overflow: auto;
+  background: linear-gradient(180deg, #1b1b1b, #0f0f0f);
+  border: 2px solid #6b4b2b;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.8);
+  padding: 14px;
+  border-radius: 12px;
+  color: #f0e9dc;
+  font-family: "Segoe UI", system-ui, -apple-system, "Noto Sans", sans-serif;
+  position: relative;
+  z-index: 99999;
+}
+
+.modal-card .modal-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.modal-card .modal-header h2,
+.modal-card .modal-header h5 {
+  margin:0;
+  font-size:20px;
+  color:#ffdca3;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+}
+
+.modal-card .modal-header button {
+  background:transparent;
+  border:0;
+  color:#ffdca3;
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* ---------- BODY ---------- */
+.modal-card .modal-body {
+  margin-top:10px;
+  color: #f0e9dc;
+}
+
+/* ---------- FOOTER ---------- */
+.modal-card .modal-footer {
+  display:flex;
+  justify-content:flex-end;
+  margin-top:14px;
+}
+
+/* ---------- BOTÕES ---------- */
+.modal-card button.btn {
+  font-weight: 700;
+  border-radius: 10px;
+}
+
+/* ---------- RESPONSIVO ---------- */
+@media (max-width:600px) {
+  .modal-card {
+    width: 94%;
+    padding: 10px;
+  }
+}
+
+
+    #mapa {
+      position: relative;
+      width: 1000px;
+      height: 1000px;
+      background: #222;
+      transform: scale(0.35);
+      transform-origin: top left;
+    }
+
+    .hex {
+      position: absolute;
+      background-size: contain;
+      /* evita cortar */
+      background-repeat: no-repeat;
+      background-position: center;
+      pointer-events: auto;
+      cursor: pointer;
+      image-rendering: crisp-edges;
+      width: var(--w);
+      height: var(--h);
+    }
+
+    .hex.selecionado {
+      outline: 3px solid yellow;
+      z-index: 10;
+    }
+
+    .hex:hover {
+      transform: translateY(-6px)
+    }
+
+    #viewport {
+      width: 100%;
+      height: 600px;
+      overflow: auto;
+      position: relative;
+      background: #111;
+    }
+
+    .token {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background: red;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .hud {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: white;
+    font-family: "Segoe UI";
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 9999;
+}
+
+.hud-icon{
+     width: 60px;
+     height: 60px;
+}
+
+#pmBarContainer {
+    width: 120px;
+    height: 12px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 6px;
+}
+
+#pmBar {
+    height: 100%;
+    width: 100%;
+    background: limegreen;
+    border-radius: 6px;
+    transition: width 0.4s;
+}
+
+/* cidade meta */
+.cidade-meta { display:flex; gap:16px; align-items:center; color:#dcd6c9; margin-bottom:8px; }
+
+/* estabelecimentos grid */
+.estabs-grid { display:flex; flex-wrap:wrap; gap:8px; padding:6px 0; }
+.estab-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding:8px;
+  border-radius:8px;
+  min-width:160px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.estab-card img { width:44px; height:44px; object-fit:cover; border-radius:6px; }
+.estab-card .estab-name { font-size:14px; color:#fff; }
+.estab-card .estab-sub { font-size:12px; color:#cfc6b6; }
+
+/* Botão Ver Cidade estilo */
+#btnVerCidade {
+  background: linear-gradient(180deg,#6b4b2b,#3f2a17);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 2px solid #f1d7aa;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  font-weight: 700;
+}
+
+#btnSairMapa {
+  background: linear-gradient(180deg,#6b4b2b,#3f2a17);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 2px solid #f1d7aa;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  font-weight: 700;
+}
+
+
+
+</style>
+
 </head>
 <body class="bg-light p-4" onload="iniciarApp()">
 
@@ -54,7 +269,9 @@
     <button class="btn btn-dark w-100 my-2" onclick="abrirSecao('pnjSection')">👤 PNJs </button>
     <button class="btn btn-dark w-100 my-2" onclick="abrirSecao('pjSection')">👤 PJs </button>
     <button class="btn btn-primary" onclick="abrirSecao('sec-aventuras')">🧭 Aventuras</button>
+    <button class="btn btn-primary" onclick="abrirSecao('sec-mapa')">🧭 Mapa</button>
     <button class="btn btn-warning" onclick="abrirSecao('sec-campanhas')">📁 Salvar / Carregar Campanha</button>
+    <button class="btn btn-warning mt-2" onclick="regenerarMapa()">Regenerar Mapa</button>
 
   </div>
 
@@ -99,9 +316,7 @@
   <button class="btn btn-info" onclick="gerarInspiracao()">💡 Gerar Inspiração</button>
 
   <button class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#modalAventuras"
-        onclick="atualizarListaAventuras()">
+        onclick="abrirModalAventura(),atualizarListaAventuras()">
     🧭 Ver Aventuras
 </button>
 
@@ -260,6 +475,35 @@
     <button class="btn btn-danger w-100 mb-3" onclick="limparHistoricoMissoes()">🗑️ Limpar Histórico</button>
 
     <button class="btn btn-secondary w-100" onclick="voltarMenu()">⬅️ Voltar</button>
+  </div>
+
+  <div id="sec-mapa" class="secao" style="display:none;">
+    <div id="viewport">
+      <div id="mapa"></div>
+      <div id="token" class="token"></div>
+      <div id="hudPM" class="hud">
+        <!--<img src="icons/movimento.png" class="hud-icon">-->
+        <div id="pmBarContainer">
+            <div id="pmBar"></div>
+        </div>
+        <span id="pmText">PM: 6 / 6</span>
+        <br>
+        <button type="button" onclick="descansar()">Descansar</button>
+      </div>
+    </div>
+    
+    <div id="terrainTooltip"
+      style="
+          position: fixed;
+          padding: 6px 10px;
+          background: rgba(0,0,0,0.75);
+          color: white;
+          font-size: 14px;
+          border-radius: 6px;
+          pointer-events: none;
+          display: none;
+          z-index: 9999;">
+    </div>
   </div>
 
 
@@ -427,707 +671,858 @@
 
 </div>
 
-<div class="modal fade" id="modalDetalhesPNJ" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Detalhes do PNJ</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body" id="conteudoDetalhesPNJ"></div>
-    </div>
+<div id="modalDetalhesPNJ" class="modal-wrapper">
+  
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+    
+    <header class="modal-header">
+      <h2>Detalhes do PNJ</h2>
+      <button id="fecharModalPNJ" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body" id="conteudoDetalhesPNJ">
+      <!-- O conteúdo dinâmico que você já usa continuará carregando aqui -->
+    </main>
+
+    <footer class="modal-footer">
+      <button id="fecharModalPNJBtn" class="btn">Fechar</button>
+    </footer>
+
   </div>
 </div>
 
-<div class="modal fade" id="modalEditarPNJ" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Editar PNJ</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body" id="conteudoEditarPNJ"></div>
-      <div class="modal-footer">
-        <button class="btn btn-success" onclick="salvarEdicaoPNJ()">Salvar</button>
-      </div>
-    </div>
+<div id="modalEditarPNJ" class="modal-wrapper">
+  
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+
+    <header class="modal-header">
+      <h2>Editar PNJ</h2>
+      <button id="fecharModalEditarPNJ" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body" id="conteudoEditarPNJ">
+      <!-- Conteúdo preenchido via JS permanece igual -->
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-success" onclick="salvarEdicaoPNJ()">Salvar</button>
+    </footer>
+
   </div>
+
 </div>
 
 
-<div class="modal fade" id="modalCriarPJ">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
+<div id="modalCriarPJ" class="modal-wrapper">
 
-      <div class="modal-header">
-        <h5 id="modalCriarPjTitulo" class="modal-title">Criar PJ</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+  <div class="modal-backdrop"></div>
 
-      <div class="modal-body">
-        <form id="formCriarPJ">
-          <input type="hidden" id="pjEditando">
-          <h4>Ficha de Personagem</h4>
+  <div class="modal-card modal-xl" style="max-width:1100px;">
 
-          <div class="row">
-            <div class="col">
-              Nome: <input type="text" class="form-control" id="pjNome" required>
-            </div>
-            <div class="col">
-                Espécie:
-                <select id="pjEspecie" class="form-select" onchange="atualizarEspeciePVPE()">
-                    <option disabled selected>Escolha...</option>
-                    <option value="Ruma">Ruma (10 PV / 10 PE)</option>
-                    <option value="Pequenino">Pequenino (8 PV / 12 PE)</option>
-                    <option value="Duarvo">Duarvo (13 PV / 7 PE)</option>
-                    <option value="Kururuh">Kururuh (7 PV / 13 PE)</option>
-                    <option value="Elfo">Elfo (9 PV / 11 PE)</option>
-                    <option value="Silfo">Silfo (5 PV / 13 PE)</option>
-                    <option value="Akridiano">Akridiano (9 PV / 10 PE)</option>
-                    <option value="Diabrante">Diabrante (12 PV / 8 PE)</option>
-                    <option value="Arbóreo">Arbóreo (8 PV / 12 PE)</option>
-                    <option value="Felicato">Felicato (10 PV / 11 PE)</option>
-                    <option value="Javalique">Javalique (14 PV / 6 PE)</option>
-                    <option value="Komodo">Komodo (11 PV / 9 PE)</option>
-                </select>
-            </div>
+    <header class="modal-header">
+      <h2 id="modalCriarPjTitulo">Criar PJ</h2>
+      <button id="fecharModalCriarPJ" title="Fechar">✕</button>
+    </header>
 
-            <div class="col">
-                Origem:
-                <select id="pjOrigem" class="form-select">
-                    <option disabled selected>Escolha...</option>
-                    <option>Urbano</option>
-                    <option>Florestal</option>
-                    <option>Campestre</option>
-                    <option>Pantanoso</option>
-                    <option>Costeiro</option>
-                    <option>Desértico</option>
-                    <option>Pampeiro</option>
-                    <option>Montanhês</option>
-                    <option>Glacial</option>
-                    <option>Vulcânico</option>
-                    <option>Subterrâneo</option>
-                    <option>Nômade</option>
-                </select>
-          </div>
+    <main class="modal-body">
+
+      <form id="formCriarPJ">
+        
+        <input type="hidden" id="pjEditando">
+
+        <h3>Ficha de Personagem</h3>
+
+        <!-- ==================== LINHA 1 ==================== -->
+        <div class="row">
+          <div class="col">
+            Nome:
+            <input type="text" class="form-control" id="pjNome" required>
           </div>
 
-          <div class="row mt-2">
-            <div class="col">
-                Classe:
-                <select id="pjClasse" class="form-select" onchange="atualizarPVPEClasse()">
-                    <option disabled selected>Escolha...</option>
-                    <option>Arqueiro</option>
-                    <option>Bardo</option>
-                    <option>Berserker</option>
-                    <option>Cavaleiro</option>
-                    <option>Duelista</option>
-                    <option>Druida</option>
-                    <option>Mago</option>
-                    <option>Ladrão</option>
-                    <option>Patrulheiro</option>
-                    <option>Necromante</option>
-                    <option>Protetor</option>
-                    <option>Soldado</option>
-                </select>
-            </div>
-            <div class="col">
-                Foco:
-                <select id="pjFoco" class="form-select">
-                    <option disabled selected>Escolha...</option>
-                    <option>Força</option>
-                    <option>Saúde</option>
-                    <option>Rapidez</option>
-                    <option>Sutileza</option>
-                    <option>Concentração</option>
-                    <option>Comunicação</option>
-                </select>
-            </div>
-            <div class="col">
-              Motivação: <input type="text" class="form-control" id="pjMotivacao">
-            </div>
+          <div class="col">
+            Espécie:
+            <select id="pjEspecie" class="form-select" onchange="atualizarEspeciePVPE()">
+              <option disabled selected>Escolha...</option>
+              <option value="Ruma">Ruma (10 PV / 10 PE)</option>
+              <option value="Pequenino">Pequenino (8 PV / 12 PE)</option>
+              <option value="Duarvo">Duarvo (13 PV / 7 PE)</option>
+              <option value="Kururuh">Kururuh (7 PV / 13 PE)</option>
+              <option value="Elfo">Elfo (9 PV / 11 PE)</option>
+              <option value="Silfo">Silfo (5 PV / 13 PE)</option>
+              <option value="Akridiano">Akridiano (9 PV / 10 PE)</option>
+              <option value="Diabrante">Diabrante (12 PV / 8 PE)</option>
+              <option value="Arbóreo">Arbóreo (8 PV / 12 PE)</option>
+              <option value="Felicato">Felicato (10 PV / 11 PE)</option>
+              <option value="Javalique">Javalique (14 PV / 6 PE)</option>
+              <option value="Komodo">Komodo (11 PV / 9 PE)</option>
+            </select>
           </div>
 
-          <hr>
-          <h5>Pontos de Vida</h5>
+          <div class="col">
+            Origem:
+            <select id="pjOrigem" class="form-select">
+              <option disabled selected>Escolha...</option>
+              <option>Urbano</option>
+              <option>Florestal</option>
+              <option>Campestre</option>
+              <option>Pantanoso</option>
+              <option>Costeiro</option>
+              <option>Desértico</option>
+              <option>Pampeiro</option>
+              <option>Montanhês</option>
+              <option>Glacial</option>
+              <option>Vulcânico</option>
+              <option>Subterrâneo</option>
+              <option>Nômade</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ==================== LINHA 2 ==================== -->
+        <div class="row mt-2">
+          <div class="col">
+            Classe:
+            <select id="pjClasse" class="form-select" onchange="atualizarPVPEClasse()">
+              <option disabled selected>Escolha...</option>
+              <option>Arqueiro</option>
+              <option>Bardo</option>
+              <option>Berserker</option>
+              <option>Cavaleiro</option>
+              <option>Duelista</option>
+              <option>Druida</option>
+              <option>Mago</option>
+              <option>Ladrão</option>
+              <option>Patrulheiro</option>
+              <option>Necromante</option>
+              <option>Protetor</option>
+              <option>Soldado</option>
+            </select>
+          </div>
+
+          <div class="col">
+            Foco:
+            <select id="pjFoco" class="form-select">
+              <option disabled selected>Escolha...</option>
+              <option>Força</option>
+              <option>Saúde</option>
+              <option>Rapidez</option>
+              <option>Sutileza</option>
+              <option>Concentração</option>
+              <option>Comunicação</option>
+            </select>
+          </div>
+
+          <div class="col">
+            Motivação:
+            <input type="text" class="form-control" id="pjMotivacao">
+          </div>
+        </div>
+
+        <hr>
+        <h4>Pontos de Vida</h4>
 
         <div class="row">
-        <div class="col">
+          <div class="col">
             <label class="form-label">PV da Espécie</label>
             <input class="form-control" id="pjPVEspecie">
-        </div>
+          </div>
 
-        <div class="col">
+          <div class="col">
             <label class="form-label">PV da Classe</label>
             <input class="form-control" id="pjPVClasse">
-        </div>
+          </div>
 
-        <div class="col">
+          <div class="col">
             <label class="form-label">PV de Equipamentos</label>
             <input class="form-control" id="pjPVEquip">
-        </div>
+          </div>
 
-        <div class="col">
+          <div class="col">
             <label class="form-label">PV Máximo</label>
             <input class="form-control" id="pjPVMax">
-        </div>
+          </div>
 
-        <div class="col">
+          <div class="col">
             <label class="form-label">PV Atual</label>
             <input class="form-control" id="pjPVAtual">
-        </div>
+          </div>
         </div>
 
-
-          <hr>
-          <h5>Pontos de Energia</h5>
+        <hr>
+        <h4>Pontos de Energia</h4>
 
         <div class="row">
-        <div class="col">
+          <div class="col">
             <label class="form-label">PE da Espécie</label>
             <input class="form-control" id="pjPEEspecie">
-        </div>
+          </div>
 
-        <div class="col">
+          <div class="col">
             <label class="form-label">PE da Classe</label>
             <input class="form-control" id="pjPEClasse">
-        </div>
+          </div>
 
-        <div class="col">
+          <div class="col">
             <label class="form-label">PE de Equipamentos</label>
             <input class="form-control" id="pjPEEquip">
-        </div>
+          </div>
 
-        <div class="col">
+          <div class="col">
             <label class="form-label">PE Máximo</label>
             <input class="form-control" id="pjPEMax">
-        </div>
+          </div>
 
-        <div class="col">
+          <div class="col">
             <label class="form-label">PE Atual</label>
             <input class="form-control" id="pjPEAtual">
+          </div>
         </div>
+
+        <hr>
+        <h4>Armas em Mãos (até 3)</h4>
+        <div id="pjArmas"></div>
+        <button type="button" class="btn btn-secondary mt-2" onclick="abrirEscolhaArma()">Adicionar Arma</button>
+
+        <hr>
+        <h4>Escudo / Ferramenta</h4>
+        <div id="pjEscudos"></div>
+        <button type="button" class="btn btn-secondary mt-2" onclick="adicionarEscudo()">Adicionar Escudo</button>
+
+        <hr>
+        <h4>Equipamento Vestido</h4>
+        <div id="pjEquipVestido"></div>
+        <button type="button" class="btn btn-secondary mt-2" onclick="adicionarVestimenta()">Adicionar Vestimenta</button>
+
+        <hr>
+        <h4>Conhecimentos (até 8)</h4>
+
+        <div class="d-flex gap-2">
+          <select id="pjConhecimentoAdd" class="form-select">
+            <option disabled selected>Escolha um conhecimento...</option>
+            <option>Anatomia</option>
+            <option>Alquimia</option>
+            <option>Animais</option>
+            <option>Crime</option>
+            <option>Dança</option>
+            <option>Estudos</option>
+            <option>Forja</option>
+            <option>Guerra</option>
+            <option>História</option>
+            <option>Magia</option>
+            <option>Mecanismos</option>
+            <option>Música</option>
+            <option>Nobreza</option>
+            <option>Plantas</option>
+            <option>Sobrevivência</option>
+          </select>
+
+          <button type="button" class="btn btn-secondary" onclick="addConhecimento()">Adicionar</button>
         </div>
 
-          <hr>
-          <h5>Armas em Mãos (até 3)</h5>
-
-          <div id="pjArmas"></div>
-          <button type="button" class="btn btn-secondary mt-2" onclick="abrirEscolhaArma()">Adicionar Arma 2</button>
-
-          <hr>
-          <h5>Escudo / Ferramenta (múltiplos)</h5>
-          
-          <div id="pjEscudos"></div>
-          <button type="button" class="btn btn-secondary mt-2" onclick="adicionarEscudo()">Adicionar Escudo</button>
-
-          <hr>
-          <h5>Equipamento Vestido</h5>
-
-          <div id="pjEquipVestido"></div>
-
-         <button type="button" class="btn btn-secondary mt-2" onclick="adicionarVestimenta()">Adicionar Vestimenta</button>
-
-          <hr>
-          <h5>Conhecimentos (até 8)</h5>
-          <div class="d-flex gap-2">
-            <select id="pjConhecimentoAdd" class="form-select">
-                <option disabled selected>Escolha um conhecimento...</option>
-                <option>Anatomia</option>
-                <option>Alquimia</option>
-                <option>Animais</option>
-                <option>Crime</option>
-                <option>Dança</option>
-                <option>Estudos</option>
-                <option>Forja</option>
-                <option>Guerra</option>
-                <option>História</option>
-                <option>Magia</option>
-                <option>Mecanismos</option>
-                <option>Música</option>
-                <option>Nobreza</option>
-                <option>Plantas</option>
-                <option>Sobrevivência</option>
-            </select>
-
-            <button type="button" class="btn btn-secondary" onclick="addConhecimento()">Adicionar</button>
-        </div>
         <ul id="pjListaConhecimentos" class="list-group mt-2"></ul>
 
-          <hr>
-          <h5>Habilidades (até 12)</h5>
-          <div class="d-flex gap-2">
-            <button type="button" class="btn btn-primary" onclick="abrirHabClasse()">
-                Adicionar habilidade da classe
-            </button>
-            <button type="button" class="btn btn-secondary" onclick="abrirHabGeral()">
-                Adicionar habilidade geral
-            </button>
+        <hr>
+        <h4>Habilidades (até 12)</h4>
 
-          </div>
-          <ul id="pjListaHabilidades" class="list-group mt-2"></ul>
-
-          <hr>
-          <h5>Mochila (até 10)</h5>
-          <div class="mt-3">
-            <label class="form-label"><b>Mochila</b></label>
-            <div id="listaMochila"></div>
-            <button type="button" class="btn btn-sm btn-primary mt-2" onclick="abrirModalAdicionarMochila()">
-                Adicionar Item
-            </button>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-primary" onclick="abrirHabClasse()">Habilidade da Classe</button>
+          <button type="button" class="btn btn-secondary" onclick="abrirHabGeral()">Habilidade Geral</button>
         </div>
-        </form>
-      </div>
 
-      <input type="hidden" id="experiencia" name="experiencia" >
-      <input type="hidden" id="riquesas" name="riquesas" >
+        <ul id="pjListaHabilidades" class="list-group mt-2"></ul>
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button id="salvarPjBtn" class="btn btn-primary">Salvar</button>
-      </div>
+        <hr>
+        <h4>Mochila (até 10)</h4>
 
-    </div>
+        <div id="listaMochila"></div>
+        <button type="button" class="btn btn-primary mt-2" onclick="abrirModalAdicionarMochila()">Adicionar Item</button>
+
+      </form>
+
+      <input type="hidden" id="experiencia">
+      <input type="hidden" id="riquesas">
+
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="cancelarCriarPJ">Cancelar</button>
+      <button class="btn btn-primary" id="salvarPjBtn">Salvar</button>
+    </footer>
+
   </div>
+
 </div>
 
 <!-- MODAL ADICIONAR/EDITAR MOCHILA -->
-<div class="modal fade" id="modalMochila" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Item da Mochila</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+<div id="modalMochila" class="modal-wrapper">
 
-      <div class="modal-body">
+  <div class="modal-backdrop"></div>
 
-        <label class="form-label">Nome</label>
-        <input id="mochilaNome" class="form-control">
+  <div class="modal-card">
 
-        <label class="form-label mt-3">Descrição</label>
-        <textarea id="mochilaDescricao" rows="3" class="form-control"></textarea>
+    <header class="modal-header">
+      <h2>Item da Mochila</h2>
+      <button id="fecharModalMochila" title="Fechar">✕</button>
+    </header>
 
-      </div>
+    <main class="modal-body">
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-success" onclick="salvarItemMochila()">Salvar</button>
-      </div>
+      <label class="form-label">Nome</label>
+      <input id="mochilaNome" class="form-control">
 
-    </div>
+      <label class="form-label mt-3">Descrição</label>
+      <textarea id="mochilaDescricao" rows="3" class="form-control"></textarea>
+
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnCancelarMochila">Cancelar</button>
+      <button class="btn btn-success" onclick="salvarItemMochila()">Salvar</button>
+    </footer>
+
   </div>
+
 </div>
 
 
 <!-- Modal para escolher habilidade da classe -->
-<div class="modal fade" id="modalAddHabClasse" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      
-      <div class="modal-header">
-        <h5 class="modal-title">Adicionar Habilidade da Classe</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+<div id="modalAddHabClasse" class="modal-wrapper" tabindex="-1">
 
-      <div class="modal-body">
+  <div class="modal-backdrop"></div>
 
-        <label class="form-label">Selecione uma habilidade:</label>
-        <select id="selectHabClasse" class="form-select"></select>
+  <div class="modal-card">
 
-      </div>
+    <header class="modal-header">
+      <h2>Adicionar Habilidade da Classe</h2>
+      <button id="fecharModalAddHabClasse" title="Fechar">✕</button>
+    </header>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="confirmarHabClasse()">Adicionar</button>
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
-      </div>
+    <main class="modal-body">
 
-    </div>
+      <label class="form-label">Selecione uma habilidade:</label>
+      <select id="selectHabClasse" class="form-select"></select>
+
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" onclick="confirmarHabClasse()">Adicionar</button>
+      <button class="btn btn-outline-secondary" id="fecharModalAddHabClasseBtn">Fechar</button>
+    </footer>
+
   </div>
+
 </div>
 
-<div class="modal fade" id="modalHabGeral">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+<div id="modalHabGeral" class="modal-wrapper">
 
-      <div class="modal-header">
-        <h5 class="modal-title">Habilidades Gerais Disponíveis</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+  <div class="modal-backdrop"></div>
 
-      <div class="modal-body">
-        <select id="selectHabGeral" class="form-select"></select>
-      </div>
+  <div class="modal-card">
 
-      <div class="modal-footer">
-        <button class="btn btn-primary" onclick="confirmarHabGeral()">Adicionar</button>
-      </div>
+    <header class="modal-header">
+      <h2>Habilidades Gerais Disponíveis</h2>
+      <button id="fecharModalHabGeral" title="Fechar">✕</button>
+    </header>
 
-    </div>
+    <main class="modal-body">
+      <select id="selectHabGeral" class="form-select"></select>
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-primary" onclick="confirmarHabGeral()">Adicionar</button>
+    </footer>
+
   </div>
+
+</div>
+
+<div id="modalEscolherArma" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+
+    <header class="modal-header">
+      <h2>Escolher Arma</h2>
+      <button id="fecharModalEscolherArma" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body">
+
+      <select id="listaArmas" class="form-select mb-3">
+        <option value="">Selecione uma arma</option>
+        <option value="MAGICA">✨ Arma Mágica</option>
+      </select>
+
+      <div id="previewArma"></div>
+
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnCancelarEscolherArma">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarEscolhaArma()">Adicionar</button>
+    </footer>
+
+  </div>
+
 </div>
 
 
-<div class="modal fade" id="modalDetalhes" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+<div id="modalSelecionarEscudo" class="modal-wrapper">
 
-      <div class="modal-header">
-        <h5 id="modalDetalhesTitulo" class="modal-title">Detalhes do PJ</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+  <div class="modal-backdrop"></div>
 
-      <div class="modal-body" id="modalDetalhesCorpo">
-        <!-- conteúdo preenchido dinamicamente -->
-      </div>
+  <div class="modal-card">
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal" onclick="limparBackdrops()">Fechar</button>
-      </div>
+    <header class="modal-header">
+      <h2>Escolher Escudo</h2>
+      <button id="fecharModalSelecionarEscudo" title="Fechar">✕</button>
+    </header>
 
-    </div>
+    <main class="modal-body">
+      <select id="selectEscudo" class="form-select">
+        <!-- Preenchido via JS -->
+      </select>
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharModalSelecionarEscudo">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarEscudo()">Adicionar</button>
+    </footer>
+
   </div>
+
 </div>
 
-<div class="modal fade" id="modalEscolherArma">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+<div id="modalSelecionarVestimenta" class="modal-wrapper">
 
-      <div class="modal-header">
-        <h5 class="modal-title">Escolher Arma</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+  <div class="modal-backdrop"></div>
 
-      <div class="modal-body">
-        <select id="listaArmas" class="form-select mb-3">
-          <option value="">Selecione uma arma</option>
-          <option value="MAGICA">✨ Arma Mágica</option>
-        </select>
+  <div class="modal-card">
 
-        <div id="previewArma"></div>
-      </div>
+    <header class="modal-header">
+      <h2>Escolher Vestimenta</h2>
+      <button id="fecharModalSelecionarVestimenta" title="Fechar">✕</button>
+    </header>
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" onclick="confirmarEscolhaArma()">Adicionar</button>
-      </div>
+    <main class="modal-body">
+      <select id="selectVestimenta" class="form-select"></select>
+    </main>
 
-    </div>
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharModalSelecionarVestimenta">Cancelar</button>
+      <!-- Mesmo botão especial do original -->
+      <button class="btn btn-warning" id="btnGerarVestimentaMagica" onclick="gerarVestimentaMagica()">
+        ✨ Gerar Vestimenta Mágica
+      </button>
+
+      <button class="btn btn-primary" onclick="confirmarVestimenta()">Adicionar</button>
+    </footer>
+
   </div>
-</div>
 
-<!-- Modal: Detalhes dos Especiais da Arma -->
-<div class="modal fade" id="modalDetalhesEspeciais" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">Especiais da Arma</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body" id="modalDetalhesEspeciaisCorpo">
-        <!-- preenchido via JS -->
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- Modal: Selecionar Escudo -->
-<div class="modal fade" id="modalSelecionarEscudo" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">Escolher Escudo</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-        <select id="selectEscudo" class="form-select">
-          <!-- Preenchido via JS -->
-        </select>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-primary" onclick="confirmarEscudo()">Adicionar</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalSelecionarVestimenta" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">Escolher Vestimenta</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-        <select id="selectVestimenta" class="form-select"></select>
-      </div>
-
-      <div class="modal-footer">
-        <!-- ⭐ BOTÃO NOVO AQUI ⭐ -->
-        <button class="btn btn-warning" onclick="gerarVestimentaMagica()">
-          ✨ Gerar Vestimenta Mágica
-        </button>
-
-        <button class="btn btn-primary" onclick="confirmarVestimenta()">Adicionar</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalEspeciaisVestimenta">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">Especiais da Vestimenta</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body" id="conteudoEspeciaisVestimenta"></div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-      </div>
-
-    </div>
-  </div>
 </div>
 
 <!-- Modal Selecionar Habilidade -->
-<div class="modal fade" id="modalHabilidadeClasse">
-  <div class="modal-dialog">
-    <div class="modal-content">
+<div id="modalHabilidadeClasse" class="modal-wrapper">
 
-      <div class="modal-header">
-        <h5 class="modal-title">Selecionar Habilidade da Classe</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+  <div class="modal-backdrop"></div>
 
-      <div class="modal-body">
-        <select id="selectHabilidadeClasse" class="form-select"></select>
-      </div>
+  <div class="modal-card">
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" onclick="confirmarHabilidadeClasse()">Adicionar</button>
-      </div>
+    <header class="modal-header">
+      <h2>Selecionar Habilidade da Classe</h2>
+      <button id="fecharModalHabilidadeClasse" title="Fechar">✕</button>
+    </header>
 
-    </div>
+    <main class="modal-body">
+      <select id="selectHabilidadeClasse" class="form-select"></select>
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnCancelarHabClasse">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarHabilidadeClasse()">Adicionar</button>
+    </footer>
+
   </div>
+
 </div>
 
-<div class="modal fade" id="modalDetalhesHabilidades">
-  <div class="modal-dialog">
-    <div class="modal-content">
 
-      <div class="modal-header">
-        <h5 class="modal-title">Detalhes das Habilidades</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+<div id="modalSelecionarMochila" class="modal-wrapper">
 
-      <div class="modal-body" id="conteudoDetalhesHabilidades">
-      </div>
+  <div class="modal-backdrop"></div>
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-      </div>
+  <div class="modal-card">
 
-    </div>
+    <header class="modal-header">
+      <h2>Adicionar Item à Mochila</h2>
+      <button id="fecharModalSelecionarMochila" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body">
+
+      <label class="form-label fw-bold">Selecione um item:</label>
+      <select id="selectMochilaItem" class="form-select mb-3">
+        <option value="">Selecione um item...</option>
+      </select>
+
+      <div id="previewMochilaItem"></div>
+
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-primary" onclick="confirmarItemMochila()">Adicionar</button>
+    </footer>
+
   </div>
+
 </div>
 
-<div class="modal fade" id="modalHabEspecie">
-  <div class="modal-dialog">
-    <div class="modal-content">
+<div id="modalDetalhes" class="modal-wrapper">
 
-      <div class="modal-header">
-        <h5 class="modal-title">Habilidade da Espécie</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+  <div class="modal-backdrop"></div>
 
-      <div class="modal-body" id="conteudoHabEspecie">
-      </div>
+  <div class="modal-card modal-large">
 
-    </div>
+    <header class="modal-header">
+      <h2 id="modalDetalhesTitulo">Detalhes do PJ</h2>
+      <button id="fecharModalDetalhes" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body" id="modalDetalhesCorpo">
+      <!-- conteúdo preenchido dinamicamente -->
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharDetalhes" onclick="limparBackdrops()">Fechar</button>
+    </footer>
+
   </div>
+
 </div>
 
-<div class="modal fade" id="modalItemMochila">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Item da Mochila</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+<div id="modalItemMochila" class="modal-wrapper">
 
-      <div class="modal-body" id="conteudoItemMochila"></div>
-    </div>
-  </div>
-</div>
+  <div class="modal-backdrop"></div>
 
-<div class="modal fade" id="modalSelecionarMochila" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
+  <div class="modal-card">
 
-      <div class="modal-header">
-        <h5 class="modal-title">Adicionar Item à Mochila</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+    <header class="modal-header">
+      <h2>Item da Mochila</h2>
+      <button id="fecharModalItemMochila" title="Fechar">✕</button>
+    </header>
 
-      <div class="modal-body">
+    <main class="modal-body" id="conteudoItemMochila"></main>
 
-        <label class="form-label fw-bold">Selecione um item:</label>
-        <select id="selectMochilaItem" class="form-select mb-3">
-          <option value="">Selecione um item...</option>
-        </select>
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharModalItemMochila">Cancelar</button>
+    </footer>
 
-        <div id="previewMochilaItem"></div>
-
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-primary" onclick="confirmarItemMochila()">Adicionar</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalEspeciaisEscudo">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Especiais do Escudo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body" id="conteudoEspeciaisEscudo"></div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalDescansoLongo">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">Descanso Longo</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-        <p>Você está em zona segura?</p>
-
-        <button id="btnZonaSegura" class="btn btn-success w-100 mb-2">
-          ✔ Zona Segura
-        </button>
-
-        <button id="btnZonaPerigosa" class="btn btn-danger w-100">
-          ⚠ Zona Perigosa
-        </button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalInimigo">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Ficha do Inimigo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body" id="modalInimigoConteudo"></div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalAddInimigo">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">Adicionar Inimigo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-        <input type="text" id="buscaInimigo" class="form-control" placeholder="Digite para buscar…" oninput="filtrarInimigos()">
-
-        <ul id="listaResultadosInimigos" class="list-group mt-2"></ul>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalSelecionarPJ" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">Selecionar Personagem</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-        <label for="selectPJ" class="form-label">Escolha um personagem:</label>
-        <select id="selectPJ" class="form-select"></select>
-        <ul id="listaPjModal" class="list-group"></ul>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" onclick="confirmarSelecionarPJ()">OK</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalAventuras" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">Aventuras Descobertas</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-        <div id="listaAventuras"></div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-      </div>
-
-    </div>
   </div>
 </div>
 
 
+<!-- Modal: Detalhes dos Especiais da Arma -->
+<div id="modalDetalhesEspeciais" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card modal-large">
+
+    <header class="modal-header">
+      <h2>Especiais da Arma</h2>
+      <button id="fecharModalDetalhesEspeciais" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body" id="modalDetalhesEspeciaisCorpo">
+      <!-- preenchido via JS -->
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharDetalhesEspeciais">Fechar</button>
+    </footer>
+
+  </div>
+
+</div>
+
+<div id="modalEspeciaisEscudo" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+
+    <header class="modal-header">
+      <h2>Especiais do Escudo</h2>
+      <button id="fecharModalEspeciaisEscudo" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body" id="conteudoEspeciaisEscudo"></main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharEspeciaisEscudo">Fechar</button>
+    </footer>
+
+  </div>
+
+</div>
+
+<div id="modalEspeciaisVestimenta" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+
+    <header class="modal-header">
+      <h2>Especiais da Vestimenta</h2>
+      <button id="fecharModalEspeciaisVestimenta" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body" id="conteudoEspeciaisVestimenta"></main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharEspeciaisVestimenta">Fechar</button>
+    </footer>
+
+  </div>
+
+</div>
+
+
+<div id="modalDetalhesHabilidades" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+
+    <header class="modal-header">
+      <h2>Detalhes das Habilidades</h2>
+      <button id="fecharModalDetalhesHabilidades" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body" id="conteudoDetalhesHabilidades">
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharDetalhesHabilidades">Fechar</button>
+    </footer>
+
+  </div>
+</div>
+
+<div id="modalHabEspecie" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+
+    <header class="modal-header">
+      <h2>Habilidade da Espécie</h2>
+      <button id="fecharModalHabEspecie" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body" id="conteudoHabEspecie">
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharModalHabEspecie">Fechar</button>
+    </footer>
+
+  </div>
+
+</div>
+
+<div id="modalDescansoLongo" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card modal-small">
+
+    <header class="modal-header">
+      <h2>Descanso Longo</h2>
+      <button id="fecharModalDescansoLongo" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body">
+      <p>Você está em zona segura?</p>
+
+      <button id="btnZonaSegura" class="btn btn-success w-100 mb-2">
+        ✔ Zona Segura
+      </button>
+
+      <button id="btnZonaPerigosa" class="btn btn-danger w-100">
+        ⚠ Zona Perigosa
+      </button>
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharModalDescansoLongo">Fechar</button>
+    </footer>
+
+  </div>
+
+</div>
+
+<div id="modalInimigo" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card modal-large">
+
+    <header class="modal-header">
+      <h2>Ficha do Inimigo</h2>
+      <button id="fecharModalInimigo" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body" id="modalInimigoConteudo">
+      <!-- conteúdo preenchido via JS -->
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharModalInimigo">Fechar</button>
+    </footer>
+
+  </div>
+
+</div>
+
+<div id="modalAddInimigo" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+
+    <header class="modal-header">
+      <h2>Adicionar Inimigo</h2>
+      <button id="fecharModalAddInimigo" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body">
+
+      <input type="text" id="buscaInimigo" class="form-control" 
+             placeholder="Digite para buscar…" 
+             oninput="filtrarInimigos()">
+
+      <ul id="listaResultadosInimigos" class="list-group mt-2"></ul>
+
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharModalAddInimigo">Fechar</button>
+    </footer>
+
+
+  </div>
+
+</div>
+
+
+<div id="modalSelecionarPJ" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+
+    <header class="modal-header">
+      <h2>Selecionar Personagem</h2>
+      <button id="fecharModalSelecionarPJ" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body">
+      <label for="selectPJ" class="form-label">Escolha um personagem:</label>
+      <select id="selectPJ" class="form-select"></select>
+
+      <ul id="listaPjModal" class="list-group mt-2"></ul>
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnCancelarSelecionarPJ">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarSelecionarPJ()">OK</button>
+    </footer>
+
+  </div>
+
+</div>
+
+<div id="modalAventuras" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card modal-large modal-scroll">
+
+    <header class="modal-header">
+      <h2>Aventuras Descobertas</h2>
+      <button id="fecharModalAventuras" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body" id="listaAventuras">
+      <!-- conteúdo via JS -->
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnFecharAventuras">Fechar</button>
+    </footer>
+
+  </div>
+
+</div>
+
+<button id="btnVerCidade" style="display:none; position:fixed; bottom:22px; right:22px; z-index:99999;"
+        class="btn btn-lg btn-primary">Ver Cidade</button>
+
+<button id="btnSairMapa" style="display:none; position:fixed; bottom:22px; right:160px; z-index:99999;"
+        class="btn btn-lg btn-primary" onclick="voltarMenu()">Sair</button>
+
+<!-- Modal de cidade -->
+<div id="modalCidade" class="modal-wrapper">
+  <div class="modal-backdrop"></div>
+  <div class="modal-card">
+    <header class="modal-header">
+      <h2 id="cidadeNome">Cidade</h2>
+      <button id="fecharModalCidade" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body">
+      <div class="cidade-meta">
+        <div><b>Tipo:</b> <span id="cidadeTipo"></span></div>
+        <div><b>Apelido:</b>
+          <input id="cidadeApelidoInput" type="text" maxlength="4" style="width:70px;margin-left:6px;">
+          <button id="salvarApelidoCidade" class="btn btn-sm btn-outline-light">Salvar</button>
+        </div>
+      </div>
+
+      <section>
+        <h3>Estabelecimentos</h3>
+        <div id="listaEstabelecimentos" class="estabs-grid"></div>
+      </section>
+
+      <section style="margin-top:12px;">
+        <h3>Resumo</h3>
+        <div id="cidadeResumo" style="white-space:pre-wrap;"></div>
+      </section>
+    </main>
+
+    <footer class="modal-footer">
+      <button id="fecharModalCidadeBtn" class="btn">Fechar</button>
+    </footer>
+  </div>
+</div>
 
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="tabelas.js"></script>
 <script src="tabelasAventuras.js"></script>
+<script src="tabelasGeracaoTerreno.js"></script>
+<script src="tabelasCidades.js"></script>
 <script src="functionsCampanha-prod.js"></script>
+<script src="functionsFerramentas.js"></script>
+<script src="functionsMapa.js"></script>
 <!-- <script src="functionsCampanha-dev.js"></script> -->
 <script src="functionsCenas.js"></script>
 <script src="functionsCidades.js"></script>
@@ -1199,17 +1594,20 @@ function abrirSecao(id) {
   }else if (id === 'sec-aventuras') {
     atualizarAventuraUI();
     atualizarListaAventuras();
+  }else if (id === 'sec-mapa') {
+    abrirMapa();
   }
 }
 
 function voltarMenu() {
   // esconder seções
   document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
-
   // mostrar o menu corretamente
   const menu = document.getElementById('menu');
   menu.classList.remove('d-none');
   menu.classList.add('d-grid');
+  atualizarSairMapa();
+  atualizarBotaoCidadeAtual();
 }
 
 

@@ -115,7 +115,8 @@ function detalharPNJ(i) {
     <b>Conhecimentos:</b> ${p.conhecimentos.join(", ")}<br>
   `;
 
-  new bootstrap.Modal(document.getElementById("modalDetalhesPNJ")).show();
+  document.getElementById("modalDetalhesPNJ").style.display = "flex";
+  //new bootstrap.Modal(document.getElementById("modalDetalhesPNJ")).show();
 }
 
 let pnjEditando = null;
@@ -138,7 +139,8 @@ function editarPNJ(i) {
     <textarea id="editConhecimentos" class="form-control">${p.conhecimentos.join(", ")}</textarea>
   `;
 
-  new bootstrap.Modal(document.getElementById("modalEditarPNJ")).show();
+  //new bootstrap.Modal(document.getElementById("modalEditarPNJ")).show();
+  abrirModalS("modalEditarPNJ");
 }
 
 function salvarEdicaoPNJ() {
@@ -157,7 +159,7 @@ function salvarEdicaoPNJ() {
   setPNJs(lista);
   listarPNJs();
 
-  bootstrap.Modal.getInstance(document.getElementById("modalEditarPNJ")).hide();
+  document.getElementById("modalEditarPNJ").style.display = "none";
 }
 
 function adicionarPNJ_ao_Oraculo(i) {

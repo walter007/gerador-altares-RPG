@@ -217,7 +217,7 @@ window.chanceTipoPontoInteresse = [
   {
     terreno: "Planície",
     tipoPI: [
-      { nome: "Assentamento", chance: "1-5" },
+      { nome: "Cidade", chance: "1-5" },
       { nome: "Monstruoso", chance: "6-7" },
       { nome: "NPC", chance: "8-10" },
       { nome: "Divino", chance: "11-12" },
@@ -230,7 +230,7 @@ window.chanceTipoPontoInteresse = [
   {
     terreno: "Costeiro",
     tipoPI: [
-      { nome: "Assentamento", chance: "1-8" },
+      { nome: "Cidade", chance: "1-8" },
       { nome: "Monstruoso", chance: "9-10" },
       { nome: "NPC", chance: "11-14" },
       { nome: "Divino", chance: "15" },
@@ -251,7 +251,7 @@ window.chanceTipoPontoInteresse = [
   {
     terreno: "Deserto",
     tipoPI: [
-      { nome: "Assentamento", chance: "1-2" },
+      { nome: "Cidade", chance: "1-2" },
       { nome: "Monstruoso", chance: "3-9" },
       { nome: "NPC", chance: "10-12" },
       { nome: "Divino", chance: "13" },
@@ -264,7 +264,7 @@ window.chanceTipoPontoInteresse = [
   {
     terreno: "Floresta",
     tipoPI: [
-      { nome: "Assentamento", chance: "1-4" },
+      { nome: "Cidade", chance: "1-4" },
       { nome: "Monstruoso", chance: "5-8" },
       { nome: "NPC", chance: "9-11" },
       { nome: "Divino", chance: "12" },
@@ -277,7 +277,7 @@ window.chanceTipoPontoInteresse = [
   {
     terreno: "Colinas",
     tipoPI: [
-      { nome: "Assentamento", chance: "1-4" },
+      { nome: "Cidade", chance: "1-4" },
       { nome: "Monstruoso", chance: "5-8" },
       { nome: "NPC", chance: "9-11" },
       { nome: "Divino", chance: "12-13" },
@@ -290,7 +290,7 @@ window.chanceTipoPontoInteresse = [
   {
     terreno: "Selva",
     tipoPI: [
-      { nome: "Assentamento", chance: "1" },
+      { nome: "Cidade", chance: "1" },
       { nome: "Monstruoso", chance: "2-10" },
       { nome: "NPC", chance: "11-12" },
       { nome: "Divino", chance: "13" },
@@ -303,7 +303,7 @@ window.chanceTipoPontoInteresse = [
   {
     terreno: "Montanha",
     tipoPI: [
-      { nome: "Assentamento", chance: "1" },
+      { nome: "Cidade", chance: "1" },
       { nome: "Monstruoso", chance: "2-7" },
       { nome: "NPC", chance: "8-10" },
       { nome: "Divino", chance: "11-12" },
@@ -316,7 +316,7 @@ window.chanceTipoPontoInteresse = [
   {
     terreno: "Pântano",
     tipoPI: [
-      { nome: "Assentamento", chance: "1" },
+      { nome: "Cidade", chance: "1" },
       { nome: "Monstruoso", chance: "2-8" },
       { nome: "NPC", chance: "9-10" },
       { nome: "Divino", chance: "11" },
