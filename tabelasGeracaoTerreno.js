@@ -217,26 +217,28 @@ window.chanceTipoPontoInteresse = [
   {
     terreno: "Planície",
     tipoPI: [
-      { nome: "Cidade", chance: "1-5" },
-      { nome: "Monstruoso", chance: "6-7" },
-      { nome: "NPC", chance: "8-10" },
-      { nome: "Divino", chance: "11-12" },
-      { nome: "Militar", chance: "13-14" },
-      { nome: "Mágico", chance: "15-16" },
-      { nome: "Geográfico", chance: "17-18" },
+      { nome: "Cidade", chance: "1-4" },
+      { nome: "Monstruoso", chance: "8-6" },
+      { nome: "NPC", chance: "7-8" },
+      { nome: "Divino", chance: "9-10" },
+      { nome: "Militar", chance: "11-12" },
+      { nome: "Mágico", chance: "13-14" },
+      { nome: "Geográfico", chance: "15-16" },
+      { nome: "Dungeon", chance: "17-18" },
       { nome: "Aventura", chance: "19-20" }
     ]
   },
   {
     terreno: "Costeiro",
     tipoPI: [
-      { nome: "Cidade", chance: "1-8" },
-      { nome: "Monstruoso", chance: "9-10" },
-      { nome: "NPC", chance: "11-14" },
-      { nome: "Divino", chance: "15" },
-      { nome: "Militar", chance: "16" },
-      { nome: "Mágico", chance: "17" },
-      { nome: "Geográfico", chance: "18" },
+      { nome: "Cidade", chance: "1-7" },
+      { nome: "Monstruoso", chance: "8-9" },
+      { nome: "NPC", chance: "10-12" },
+      { nome: "Divino", chance: "13" },
+      { nome: "Militar", chance: "14" },
+      { nome: "Mágico", chance: "15" },
+      { nome: "Geográfico", chance: "16" },
+      { nome: "Dungeon", chance: "17-18" },
       { nome: "Aventura", chance: "19-20" }
     ]
   },
@@ -244,7 +246,8 @@ window.chanceTipoPontoInteresse = [
     terreno: "Aquático",
     tipoPI: [
       { nome: "Monstruoso", chance: "1-8" },
-      { nome: "NPC", chance: "9-15" },
+      { nome: "NPC", chance: "9-13" },
+      { nome: "Dungeon", chance: "14-15" },
       { nome: "Geográfico", chance: "16-20" }
     ]
   },
@@ -257,20 +260,22 @@ window.chanceTipoPontoInteresse = [
       { nome: "Divino", chance: "13" },
       { nome: "Militar", chance: "14" },
       { nome: "Mágico", chance: "15" },
-      { nome: "Geográfico", chance: "16-18" },
-      { nome: "Aventura", chance: "19-20" }
+      { nome: "Geográfico", chance: "16-17" },
+      { nome: "Dungeon", chance: "18-19" },
+      { nome: "Aventura", chance: "20" }
     ]
   },
   {
     terreno: "Floresta",
     tipoPI: [
-      { nome: "Cidade", chance: "1-4" },
-      { nome: "Monstruoso", chance: "5-8" },
-      { nome: "NPC", chance: "9-11" },
-      { nome: "Divino", chance: "12" },
-      { nome: "Militar", chance: "13" },
-      { nome: "Mágico", chance: "14" },
-      { nome: "Geográfico", chance: "15-18" },
+      { nome: "Cidade", chance: "1-3" },
+      { nome: "Monstruoso", chance: "4-7" },
+      { nome: "NPC", chance: "8-10" },
+      { nome: "Divino", chance: "11" },
+      { nome: "Militar", chance: "12" },
+      { nome: "Mágico", chance: "13" },
+      { nome: "Geográfico", chance: "14-16" },
+      { nome: "Dungeon", chance: "17-18" },
       { nome: "Aventura", chance: "19-20" }
     ]
   },
@@ -279,11 +284,12 @@ window.chanceTipoPontoInteresse = [
     tipoPI: [
       { nome: "Cidade", chance: "1-4" },
       { nome: "Monstruoso", chance: "5-8" },
-      { nome: "NPC", chance: "9-11" },
-      { nome: "Divino", chance: "12-13" },
-      { nome: "Militar", chance: "14-15" },
-      { nome: "Mágico", chance: "16" },
-      { nome: "Geográfico", chance: "17-18" },
+      { nome: "NPC", chance: "9-10" },
+      { nome: "Divino", chance: "11" },
+      { nome: "Militar", chance: "12-13" },
+      { nome: "Mágico", chance: "14" },
+      { nome: "Geográfico", chance: "15-16" },
+      { nome: "Dungeon", chance: "17-18" },
       { nome: "Aventura", chance: "19-20" }
     ]
   },
@@ -296,7 +302,8 @@ window.chanceTipoPontoInteresse = [
       { nome: "Divino", chance: "13" },
       { nome: "Militar", chance: "14" },
       { nome: "Mágico", chance: "15" },
-      { nome: "Geográfico", chance: "16-19" },
+      { nome: "Geográfico", chance: "16-17" },
+      { nome: "Dungeon", chance: "18-19" },
       { nome: "Aventura", chance: "20" }
     ]
   },
@@ -306,10 +313,11 @@ window.chanceTipoPontoInteresse = [
       { nome: "Cidade", chance: "1" },
       { nome: "Monstruoso", chance: "2-7" },
       { nome: "NPC", chance: "8-10" },
-      { nome: "Divino", chance: "11-12" },
-      { nome: "Militar", chance: "13-14" },
-      { nome: "Mágico", chance: "15" },
-      { nome: "Geográfico", chance: "16-18" },
+      { nome: "Divino", chance: "11" },
+      { nome: "Militar", chance: "12-13" },
+      { nome: "Mágico", chance: "14" },
+      { nome: "Geográfico", chance: "15" },
+      { nome: "Dungeon", chance: "16-18" },
       { nome: "Aventura", chance: "19-20" }
     ]
   },
@@ -322,20 +330,21 @@ window.chanceTipoPontoInteresse = [
       { nome: "Divino", chance: "11" },
       { nome: "Militar", chance: "12" },
       { nome: "Mágico", chance: "13" },
-      { nome: "Geográfico", chance: "14-18" },
-      { nome: "Aventura", chance: "19-20" }
+      { nome: "Geográfico", chance: "14-17" },
+      { nome: "Dungeon", chance: "18-19" },
+      { nome: "Aventura", chance: "20" }
     ]
   }
 ];
 
 const custoMovimento = {
-  "Planície": 1,
+  "Planície": 2,
   "Costeiro": 2,
-  "Aquático": 3,
-  "Deserto": 2,
-  "Floresta": 2,
-  "Colinas": 2,
-  "Selva": 3,
-  "Montanha": 3,
-  "Pântano": 3
+  "Aquático": 4,
+  "Deserto": 3,
+  "Floresta": 3,
+  "Colinas": 3,
+  "Selva": 6,
+  "Montanha": 6,
+  "Pântano": 6
 };

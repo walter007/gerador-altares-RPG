@@ -226,3 +226,73 @@ document.getElementById("fecharModalSelecionarVestimenta").onclick =
 document.getElementById("btnFecharModalSelecionarVestimenta").onclick = () => {
     document.getElementById("modalSelecionarVestimenta").style.display = "none";
 };
+
+document.getElementById("fecharModalPOI").onclick =
+document.getElementById("btnFecharModalPOI").onclick = () => {
+    document.getElementById("modalPOI").style.display = "none";
+};
+
+document.getElementById("fecharModalOraculo").onclick =
+document.getElementById("btnCancelarOraculo").onclick = () => {
+    document.getElementById("modalOraculo").style.display = "none";
+};
+
+document.getElementById("fecharModalMissoes").onclick =
+document.getElementById("btnVoltarMissoes").onclick = () => {
+    document.getElementById("modalMissoes").style.display = "none";
+};
+
+document.getElementById("fecharModalBoatos").onclick =
+document.getElementById("btnVoltarBoatos").onclick = () => {
+    document.getElementById("modalBoatos").style.display = "none";
+};
+
+function abrirSecao(id) {
+  // esconder menu corretamente
+  document.getElementById('menu').classList.add('d-none');
+
+  // esconder outras seções
+  document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
+
+  // mostrar seção escolhida
+  document.getElementById(id).style.display = 'block';
+
+  // carregamentos dinâmicos por seção
+  if (id === 'sec-campanhas') {
+    mostrarCampanhas();
+    document.getElementById("campanhaAtualNome").innerText = campanhaAtual;
+  } 
+  else if (id === 'missoes') {
+    atualizarListasMissoes();
+  } 
+  else if (id === 'sec-boatos') {
+    atualizarListaRumores();
+  }
+  else if (id === 'sec-cidade') {
+    atualizarListaCidades();
+  }
+  else if (id === 'sec-pi') {
+    atualizarListaPI(); // <-- AQUI ESTÁ A CORREÇÃO!
+  } else if (id === "sec-dungeon"){
+  } else if (id === "sec-diario") {
+    atualizarListaCenas();
+    atualizarCenaAtual()
+  }else if (id === "sec-tabelas-oraculo") {
+    atualizarTabelasOraculo();
+  }else if (id === "pnjSection") {
+    listarPNJs();
+  }else if (id === "pjSection") {
+    atualizarPJs();
+  }else if (id === 'sec-aventuras') {
+    atualizarAventuraUI();
+    atualizarListaAventuras();
+  }else if (id === 'sec-mapa') {
+    abrirMapa();
+  }
+}
+
+function voltarMapa(){
+  abrirSecao("sec-mapa");
+  const div = document.getElementById("encontrosDungeon");
+  div.innerHTML = ""
+}

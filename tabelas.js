@@ -3582,6 +3582,94 @@ const piMilitar = [
   }
 ];
 
+const piDivino = [
+  {
+    descricao: "Templo do Véu Luminar, onde sacerdotes conduzem rituais de purificação e bênçãos.",
+    combate: "Romper as defesas do templo exige enfrentar guardiões sagrados e clérigos treinados.",
+    paz: "Mostrar devoção, oferecer ajuda ou apresentar um símbolo da fé concede acesso seguro.",
+    ganchos: "Um ritual está prestes a falhar; um sacerdote desapareceu; um relicário foi roubado.",
+    variacoes: "Templo lotado em festividades, templo vazio em jejum, templo protegido por magia silenciosa."
+  },
+  {
+    descricao: "Pequeno santuário de pedra dedicado ao Espírito da Aurora.",
+    combate: "Nada guarda o santuário, mas destruir sua energia atrai criaturas etéreas.",
+    paz: "Orar ao amanhecer concede breve proteção divina ou pistas sobre o futuro.",
+    ganchos: "Um peregrino busca algo deixado no santuário; um culto rival tenta profanar o local.",
+    variacoes: "Santuário quebrado, santuário brilhando com luz sobrenatural, santuário escondido na mata."
+  },
+  {
+    descricao: "Túmulo selado de um antigo profeta cujas visões moldaram a fé local.",
+    combate: "Espectros protetores e armadilhas místicas guardam o repouso do profeta.",
+    paz: "Recitar passagens sagradas ou oferecer tributo permite acesso sem conflito.",
+    ganchos: "Profecias esquecidas estão enterradas aqui; o corpo do profeta não é o que parece.",
+    variacoes: "Túmulo desmoronado, túmulo intacto e imaculado, túmulo profanado por necromantes."
+  },
+  {
+    descricao: "Relicário dourado que guarda o dedo mumificado de uma santa venerada.",
+    combate: "Guardas fanáticos e golems sagrados impedem o roubo da relíquia.",
+    paz: "Convencer o prior de que a relíquia é necessária para outro ritual urgente.",
+    ganchos: "A relíquia está corrompida; um culto quer roubá-la; ela concede visões enigmáticas.",
+    variacoes: "Relíquia brilhante, relíquia silenciosa, relíquia que sussurra à noite."
+  },
+  {
+    descricao: "Local sagrado no topo de uma colina onde um deus teria caminhado entre mortais.",
+    combate: "Criaturas divinas menores protegem o lugar contra intrusos violentos.",
+    paz: "Recriar um antigo gesto ritual para acessar o santuário sem riscos.",
+    ganchos: "A marca do deus reapareceu; um eclipse está prestes a ativar o altar.",
+    variacoes: "Colina desolada, colina repleta de flores eternas, colina envolta em brumas mágicas."
+  },
+  {
+    descricao: "Escritório regional da fé, responsável por armazenar registros, mapas e decretos sagrados.",
+    combate: "Clérigos, escribas e guardas resistem, mas não são guerreiros formidáveis.",
+    paz: "Acesso pode ser obtido com boa justificativa, pedidos formais ou falsificação convincente.",
+    ganchos: "Arquivos secretos mencionam uma heresia esquecida ou um artefato antigo.",
+    variacoes: "Arquivo superlotado, arquivo recém-organizado, arquivo parcialmente queimado."
+  },
+  {
+    descricao: "Centro de Doutrinação, onde convertidos treinam e estudam sob vigilância rígida.",
+    combate: "Líderes militantes ordenam que acólitos defendam o local com fervor.",
+    paz: "Permitir 'visita guiada', subornar instrutores ou resgatar alguém sem ser notado.",
+    ganchos: "Um prisioneiro importante busca fuga; um dogma novo está sendo implantado à força.",
+    variacoes: "Centro militarizado, centro quase monástico, centro subterrâneo."
+  },
+  {
+    descricao: "Templo abandonado tomado pela natureza, onde ecos de antigas orações ainda ressoam.",
+    combate: "Criaturas espirituais e restos de defesas automáticas atacam invasores.",
+    paz: "Oferecer restauração ao templo acalma as presenças e revela segredos.",
+    ganchos: "Uma praga começou após o abandono; algo vive no altar antigo.",
+    variacoes: "Ruínas cobertas de vinhas, templo inundado, templo tomado por musgo brilhante."
+  },
+  {
+    descricao: "Santuário nômade mantido por peregrinos viajantes que erguem e desmontam altares móveis.",
+    combate: "Os peregrinos são pacíficos, mas protetores — ataques atraem a ira do patrono divino.",
+    paz: "Ajudar no ritual de montagem garante informações, poções ou bênçãos.",
+    ganchos: "O santuário desapareceu da rota; peregrinos foram sequestrados.",
+    variacoes: "Caravana colorida, caravana silenciosa, caravana protegida por espíritos."
+  },
+  {
+    descricao: "Cripta subterrânea contendo dezenas de heróis canonizados.",
+    combate: "Mortos-vivos sagrados, defensivos e não malignos, atacam apenas invasores.",
+    paz: "Responder a perguntas espirituais ou deixar oferendas abre passagens seguras.",
+    ganchos: "Um fantasma pede ajuda; ossos importantes foram roubados.",
+    variacoes: "Cripta seca, cripta inundada, cripta iluminada por luz celestial."
+  },
+  {
+    descricao: "Altares gêmeos representando duas divindades rivais que disputam devotos.",
+    combate: "Manifestos elementais das duas divindades competem entre si — e contra intrusos.",
+    paz: "Equilibrar oferendas ou recitar o cântico correto harmoniza o local.",
+    ganchos: "Um dos altares está 'ganhando', causando fenômenos na região.",
+    variacoes: "Altares intactos, altares rachados, altares brilhando alternadamente."
+  },
+  {
+    descricao: "Capela discreta dentro de uma aldeia, protegida por uma única sacerdotisa idosa.",
+    combate: "A sacerdotisa invoca um espírito guardião se ameaçada.",
+    paz: "Conversar com a sacerdotisa revela histórias, itens secretos e bênçãos suaves.",
+    ganchos: "A sacerdotisa perdeu a memória; um item sagrado foi escondido nela.",
+    variacoes: "Capela aconchegante, capela deteriorada, capela que ecoa cânticos invisíveis."
+  }
+];
+
+
 const temploProfanado = {
   "1-1": {
     lugar: "Nave principal com pilares quebrados",
@@ -4709,80 +4797,6 @@ const criptaAssombrada = {
     obstaculo: "O Chefe realiza seu ritual aqui"
   }
 };
-
-const tabelaCidade = [
-  { tipo: "Aldeia", p1: "Olden", p2: "lann" },
-  { tipo: "Aldeia", p1: "Ulin", p2: "nash" },
-  { tipo: "Vilarejo", p1: "Naig", p2: "bur" },
-  { tipo: "Vilarejo", p1: "Soler", p2: "brid" },
-  { tipo: "Vilarejo", p1: "Casti", p2: "valis" },
-  { tipo: "Vilarejo", p1: "Morin", p2: "beine" },
-  { tipo: "Vilarejo", p1: "Ester", p2: "don" },
-  { tipo: "Forte", p1: "Arch", p2: "mor" },
-  { tipo: "Forte", p1: "Vlan", p2: "cree" },
-  { tipo: "Forte", p1: "Teran", p2: "lond" },
-  { tipo: "Porto", p1: "Lang", p2: "bar" },
-  { tipo: "Porto", p1: "Dakk", p2: "nor" },
-  { tipo: "Porto", p1: "Notum", p2: "held" },
-  { tipo: "Burgo", p1: "Morden", p2: "gar" },
-  { tipo: "Burgo", p1: "Krud", p2: "dorf" },
-  { tipo: "Burgo", p1: "Rosdar", p2: "velon" },
-  { tipo: "Grande", p1: "Glon", p2: "krum" },
-  { tipo: "Metrópole", p1: "Crak", p2: "ia" }
-];
-
-const estabelecimentosPorTipo = {
-  "Aldeia": [
-    "Taverna",
-    "Fazenda"
-  ],
-  "Vilarejo": [
-    "Taverna",
-    { simples: 2 }
-  ],
-  "Forte": [
-    "Taverna",
-    "Estábulo",
-    "Quartel",
-    { simples: 2 },
-    { decente: 1 }
-  ],
-  "Porto": [
-    "Taverna",
-    "Cais",
-    "Estaleiro",
-    { simples: 1 },
-    { decente: 2 }
-  ],
-  "Burgo": [
-    "Palácio",
-    "Hospedaria",
-    { simples: 1 },
-    { decente: 1 },
-    { nobre: 1 }
-  ],
-  "Grande": [
-    "Palácio",
-    "Hospedaria",
-    { simples: 2 },
-    { decente: 2 },
-    { nobre: 2 }
-  ],
-  "Metrópole": [
-    "Taverna", "Fazenda", "Estábulo", "Cais", "Estaleiro", "Palácio", "Hospedaria",
-    "Mercearia", "Ferreiro", "Alfaiate", "Templo", "Quartel", "Guilda", "Bazar",
-    "Luteiro", "Torre", "Apotecário", "Arena", "Laboratório", "Biblioteca", "Academia"
-  ]
-};
-
-const tabelaEstabelecimentos = [
-  { simples: "Taverna", decente: "Hospedaria", nobre: "Apotecário" },
-  { simples: "Mercearia", decente: "Quartel", nobre: "Arena" },
-  { simples: "Ferreiro", decente: "Guilda", nobre: "Laboratório" },
-  { simples: "Alfaiate", decente: "Bazar", nobre: "Biblioteca" },
-  { simples: "Estábulo", decente: "Luteiro", nobre: "Palácio" },
-  { simples: "Templo", decente: "Torre", nobre: "Academia" }
-];
 
 const tabelaFormatos = {
   1: "Corredor longo (1x6) com duas portas.",

@@ -13,7 +13,7 @@
     let posAtual = null;
 
 
-    let maxPM = 6;     // PM total do personagem por dia
+    let maxPM = 999;     // PM total do personagem por dia
     let pm = maxPM; 
 
     const mapa = document.getElementById("mapa");
@@ -103,7 +103,9 @@
       centralizarCamera(atual);
       positionToken()
       atualizarBotaoCidadeAtual();
-      atualizarSairMapa();
+      atualizarBotaoPOIAtual();
+      atualizarBotaoDungeonAtual();
+      atualizarBotaoAventura();
     }
 
     function centralizarCamera(elemento) {
@@ -240,10 +242,10 @@ function gerarPontoInteresseMapa(terreno) {
 
   const [min, max] = entrada.intervalo;
   const roll = rolarD20();
-  console.log("Rolagem POI=" + roll)
-  console.log("Tipo Terreno=" + terreno)
-  console.log("min" + min)
-  console.log("min" + max)
+  //console.log("Rolagem POI=" + roll)
+  //console.log("Tipo Terreno=" + terreno)
+  //console.log("min" + min)
+  //console.log("min" + max)
   
 
   return (roll >= min && roll <= max);
@@ -626,11 +628,52 @@ function gerarMapaDados() {
                 poi = "Cidade";
             }
 
+            console.log("POI na hora de montar o mapa= " + poi)
             if (poi === "Cidade") {
                 dadosPOI = {
                     tipo: "Cidade",
                     cidade: gerarCidadeSilenciosa()
                 };
+            }
+            if (poi === "Monstruoso") {
+                const pi = gerarPISilencioso("monstruoso", terrenoFinal.toLowerCase());
+                if (pi) dadosPOI = { tipo: "monstruoso", pi };
+            }
+
+            if (poi === "NPC") {
+                const pi = gerarPISilencioso("npc", terrenoFinal.toLowerCase());
+                if (pi) dadosPOI = { tipo: "npc", pi };
+            }
+
+            if (poi === "Divino") {
+                const pi = gerarPISilencioso("divino", terrenoFinal.toLowerCase());
+                if (pi) dadosPOI = { tipo: "divino", pi };
+            }
+
+            if (poi === "Mágico") {
+                const pi = gerarPISilencioso("magico", terrenoFinal.toLowerCase());
+                if (pi) dadosPOI = { tipo: "magico", pi };
+            }
+
+            if (poi === "Militar") {
+                const pi = gerarPISilencioso("militar", terrenoFinal.toLowerCase());
+                if (pi) dadosPOI = { tipo: "militar", pi };
+            }
+
+            if (poi === "Geográfico") {
+                const pi = gerarPISilencioso("geografico", terrenoFinal.toLowerCase());
+                if (pi) dadosPOI = { tipo: "geografico", pi };
+            }
+
+            
+            if (poi === "Dungeon") {
+                const pi = gerarDungeonAutomatica();
+                if (pi) dadosPOI = { tipo: "dungeon", pi };
+            }
+
+            if (poi === "Aventura") {
+                const pi =  GerarAventura(terrenoFinal);
+                if (pi) dadosPOI = { tipo: "aventura", pi };
             }
 
             hexes[k] = {
@@ -672,6 +715,9 @@ function regenerarMapa() {
         alert("Nenhuma campanha carregada.");
         return;
     }
+
+    limparCidades();
+    limparPI();
 
     // 1. gera novos dados lógicos do mapa
     const novoMapa = gerarMapaDados();
@@ -823,18 +869,6 @@ function atualizarBotaoCidadeAtual() {
   }
 }
 
-function atualizarSairMapa() {
-  const mapaAtivo = document.getElementById("sec-mapa")?.style.display !== "none";
-    if (!mapaAtivo) {
-        btnSairMapa.style.display = "none";
-        return;
-    }
-
-    if(mapaAtivo){
-       btnSairMapa.style.display = "block";
-    }
-}
-
 // hook: chame atualizarBotaoCidadeAtual() dentro de marcarPosicaoAtual()
 // (se já existir marcarPosicaoAtual, apenas adicione a chamada no final)
 (function patchMarcarPosicaoAtual() {
@@ -843,10 +877,188 @@ function atualizarSairMapa() {
     window.marcarPosicaoAtual = function () {
       orig();
       atualizarBotaoCidadeAtual();
-      atualizarSairMapa();
+      atualizarBotaoPOIAtual();
     };
   } else {
     // se marcarPosicaoAtual ainda não definida quando este bloco rodar, podemos sobrescrever depois.
     // mas normalmente seu código já tem a função quando adicionamos este script.
   }
 })();
+
+function abrirModalPOIPorHex(q, r) {
+  const h = terrenos[key(q, r)];
+  if (!h || !h.dadosPOI || !h.dadosPOI.pi) {
+    alert("Nenhum Ponto de Interesse neste hex.");
+    return;
+  }
+
+  const pi = h.dadosPOI.pi;
+  const tipo = pi.tipo;
+  const bioma = pi.bioma;
+  const apelido = pi.apelido;
+
+  document.getElementById("poiTitulo").innerText = pi.descricao || "Ponto de Interesse";
+  document.getElementById("poiTipo").innerText = tipo;
+  document.getElementById("poiBioma").innerText = bioma;
+  document.getElementById("poiApelidoInput").value = apelido || "";
+
+  document.getElementById("poiDescricao").innerText = pi.descricao || "";
+  document.getElementById("poiCombate").innerText = pi.combate || "";
+  document.getElementById("poiPaz").innerText = pi.paz || "";
+  document.getElementById("poiGanchos").innerText = pi.ganchos || "";
+  document.getElementById("poiVariacoes").innerText = pi.variacoes || "";
+
+  abrirModalS("modalPOI");
+}
+
+document.getElementById("salvarApelidoPOI").onclick = () => {
+  const novo = document.getElementById("poiApelidoInput").value.trim().toUpperCase();
+  if (!novo) return alert("Apelido inválido.");
+
+  const h = terrenos[key(posAtual.q, posAtual.r)];
+  if (!h || !h.dadosPOI || !h.dadosPOI.pi) return;
+
+  const pi = h.dadosPOI.pi;
+
+  pi.apelido = novo;
+
+  salvarCampanhas(); 
+  alert("Apelido salvo.");
+};
+
+const btnVerPOI = document.getElementById("btnVerPOI");
+btnVerPOI.onclick = () => {
+  abrirModalPOIPorHex(posAtual.q, posAtual.r);
+};
+
+function atualizarBotaoPOIAtual() {
+  const mapaAtivo = document.getElementById("sec-mapa")?.style.display !== "none";
+
+  if (!mapaAtivo) {
+    btnVerPOI.style.display = "none";
+    return;
+  }
+
+  if (!posAtual) {
+    btnVerPOI.style.display = "none";
+    return;
+  }
+
+  const h = terrenos[key(posAtual.q, posAtual.r)];
+
+  console.log(h.poi)
+  console.log(h)
+
+  if (h && h.poi && h.poi !== "Cidade" && h.poi !== "Dungeon" && h.poi !== "Aventura") {
+    btnVerPOI.style.display = "block";
+  } else {
+    btnVerPOI.style.display = "none";
+  }
+}
+
+const btnEntrarDungeon = document.getElementById("btnEntrarDungeon");
+function atualizarBotaoDungeonAtual() {
+  const mapaAtivo = document.getElementById("sec-mapa")?.style.display !== "none";
+
+  if (!mapaAtivo || !posAtual) {
+    btnEntrarDungeon.style.display = "none";
+    return;
+  }
+
+  const h = terrenos[key(posAtual.q, posAtual.r)];
+
+  if (h && h.poi === "Dungeon") {
+    btnEntrarDungeon.style.display = "block";
+  } else {
+    btnEntrarDungeon.style.display = "none";
+  }
+}
+
+const btnEntrarAventura = document.getElementById("btnEntrarAventura");
+function atualizarBotaoAventura() {
+  const mapaAtivo = document.getElementById("sec-mapa")?.style.display !== "none";
+
+  if (!mapaAtivo || !posAtual) {
+    btnEntrarDungeon.style.display = "none";
+    return;
+  }
+
+  const h = terrenos[key(posAtual.q, posAtual.r)];
+
+  if (h && h.poi === "Aventura") {
+    btnEntrarAventura.style.display = "block";
+  } else {
+    btnEntrarAventura.style.display = "none";
+  }
+}
+
+document.getElementById("btnEntrarDungeon").onclick = abrirDungeonDoHex;
+
+function abrirDungeonDoHex() {
+  if (!posAtual) return alert("Posição do jogador desconhecida.");
+  const h = terrenos[key(posAtual.q, posAtual.r)];
+  if (!h || !h.dadosPOI || h.dadosPOI.tipo !== "dungeon" || !h.dadosPOI.pi) {
+    alert("Nenhuma dungeon neste hex.");
+    return;
+  }
+
+  // carrega a dungeon atual diretamente do dadosPOI.pi
+  dungeonAtual = h.dadosPOI.pi;
+
+  // contadorSalas deve ser a quantidade atual de salas
+  contadorSalas = dungeonAtual.salas ? dungeonAtual.salas.length : 0;
+
+  // Oculta elementos antigos da UI de criação (se existirem)
+
+  // mostra a seção da dungeon (usa sua função de troca de seção)
+  abrirSecao("sec-dungeon");
+
+  //atualizarDungeonAtual();
+
+  atualizarBotaoDungeonAtual()
+
+  abrirDungeonUI()
+
+
+  //document.getElementById("dungeonAtual").style.display = "block";
+
+  /*const div = document.getElementById("encontrosDungeon");
+  div.innerHTML += 
+  `
+    <div id="listaInimigosAtivos"></div>
+    <div class="d-flex mb-2">
+        <button class="btn btn-primary btn-sm mb-2" onclick="abrirAdicionarInimigo()">
+          Adicionar Inimigo
+        </button>
+        <button class="btn btn-secondary btn-sm mb-2" onclick="alternarMortos()">
+            Ocultar Mortos
+        </button>
+    </div>
+  `*/
+}
+
+
+document.getElementById("btnEntrarAventura").onclick = abrirAventuraDoHex;
+
+function abrirAventuraDoHex() {
+  if (!posAtual) return alert("Posição do jogador desconhecida.");
+  const h = terrenos[key(posAtual.q, posAtual.r)];
+  if (!h || !h.dadosPOI || h.dadosPOI.tipo !== "aventura" || !h.dadosPOI.pi) {
+    alert("Nenhuma aventura neste hex.");
+    return;
+  }
+
+  // carrega a dungeon atual diretamente do dadosPOI.pi
+  aventuraAtual = h.dadosPOI.pi;
+
+
+  // Oculta elementos antigos da UI de criação (se existirem)
+
+  // mostra a seção da dungeon (usa sua função de troca de seção)
+  abrirSecao('sec-aventuras')
+
+  //atualizarDungeonAtual();
+
+  atualizarBotaoAventura()
+
+}

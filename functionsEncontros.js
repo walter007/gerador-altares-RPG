@@ -5,8 +5,8 @@ let ocultarMortos = false;
 
 function gerarEncontro() {
   const bioma = document.getElementById('biomaSelect').value;
-  const r = rolarD20();
-  //const r = 19;
+  //const r = rolarD20();
+  const r = 19;
   let resultado = '';
 
   if (r <= 5) resultado = 'Nenhum encontro — Descanso Seguro.';
@@ -576,6 +576,8 @@ function gerarEncontroEspecial() {
     //aventuraAtual = aventuras[Math.floor(Math.random() * aventuras.length)];
     aventuraAtual = aventuras[0];
 
+    console.log("Aventura Atual= " + aventuraAtual)
+
     registrarAventuraDescoberta(aventuraAtual,bioma)
 
     texto = `
@@ -609,6 +611,15 @@ function gerarEncontroEspecial() {
   document.getElementById("resultadoEncontro").style.display = "block";
   document.getElementById("resultadoEncontro").innerHTML = `
     <div class="card mt-3"><div class="card-body">${texto}</div></div>`;
+}
+
+function GerarAventura(biomaMapa){
+    aventuraAtual = aventuras[0];
+
+    console.log("Aventura Atual= " + aventuraAtual)
+
+    registrarAventuraDescoberta(aventuraAtual,biomaMapa)
+    return aventuraAtual
 }
 
 function gerarEncontroEspecialOld() {
@@ -893,7 +904,8 @@ function adicionarInimigoManual(nome) {
 
 
 function atualizarListaInimigosTela() {
-    const container = document.getElementById("listaInimigosAtivos");
+    //const container = document.getElementById("listaInimigosAtivos");
+    const container = document.getElementById("listaInimigosAtivosUI");
 
     container.innerHTML = inimigosAtivos
         .filter(i => !(ocultarMortos && i.morto))

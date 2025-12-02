@@ -175,7 +175,7 @@ function carregarCampanha(nome) {
   atualizarListasMissoes();
   atualizarListaRumores();
   mostrarCampanhas();
-  atualizarListaDungeons();
+  //atualizarListaDungeons();
   atualizarListaCenas();
   atualizarListaCidades();
   atualizarListaPI();

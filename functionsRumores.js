@@ -33,7 +33,7 @@ function salvarRumores() {
 
 function atualizarListaRumores() {
   const data = campanhas[campanhaAtual];
-  const ul = document.getElementById("listaRumores");
+  const ul = document.getElementById("listaRumoresModal");
   ul.innerHTML = "";
   data.rumores.forEach(r => ul.innerHTML += `<li>${r}</li>`);
 }

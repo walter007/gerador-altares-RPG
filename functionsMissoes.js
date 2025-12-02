@@ -43,8 +43,8 @@ function limparHistoricoMissoes() {
 function atualizarListasMissoes() {
   const data = campanhas[campanhaAtual];
 
-  const ulAtivas = document.getElementById("listaMissoesAtivas");
-  const ulConcluidas = document.getElementById("listaMissoesConcluidas");
+  const ulAtivas = document.getElementById("listaMissoesAtivasModal");
+  const ulConcluidas = document.getElementById("listaMissoesConcluidasModal");
 
   ulAtivas.innerHTML = "";
   data.missoesAtivas.forEach((m,i) => {

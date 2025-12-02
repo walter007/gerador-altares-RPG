@@ -98,6 +98,12 @@ function editarApelidoCidade(index, novoApelido) {
 }
 
 function limparCidades() {
+  campanhas[campanhaAtual].cidades = [];
+  salvarCampanhas();
+  atualizarListaCidades();
+}
+
+function limparCidadesOld() {
   if (!confirm("Deseja remover TODAS as cidades desta campanha?")) return;
   campanhas[campanhaAtual].cidades = [];
   salvarCampanhas();

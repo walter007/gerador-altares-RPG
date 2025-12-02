@@ -2,6 +2,9 @@ function gerarPontoInteresse() {
   const tipo = document.getElementById('tipoPiSelect').value;
   const bioma = document.getElementById('biomaSelectPI').value;
 
+  console.log(tipo)
+  console.log(bioma)
+
   const data = campanhas[campanhaAtual];
 
   // garantir estrutura
@@ -120,9 +123,85 @@ function editarApelidoPI(tipo, index, novoApelido) {
 }
 
 function limparPI() {
+  const data = campanhas[campanhaAtual];
+  Object.keys(data.pontosInteresse).forEach(tipo => data.pontosInteresse[tipo] = []);
+  salvarCampanhas();
+  atualizarListaPI();
+}
+
+function limparPIOld() {
   if (!confirm("Deseja apagar todos os pontos de interesse da campanha?")) return;
   const data = campanhas[campanhaAtual];
   Object.keys(data.pontosInteresse).forEach(tipo => data.pontosInteresse[tipo] = []);
   salvarCampanhas();
   atualizarListaPI();
 }
+
+function gerarPISilencioso(tipo, bioma) {
+    const data = campanhas[campanhaAtual];
+    if (!data || !data.pontosInteresse) return null;
+
+    if(bioma === "planície") bioma = "planicie"
+    if(bioma === "pântano") bioma = "pantano"
+    if(bioma === "aquático") bioma = "marinho"
+      
+    let tabela;
+
+    console.log("Tipo= " + tipo)
+    console.log("bioma= " + bioma)
+
+    // Tabelas especiais
+    if (tipo === "magico") {
+        tabela = piMagico;
+    } else if (tipo === "militar") {
+        tabela = piMilitar;
+    }else if (tipo === "divino") {
+        tabela = piDivino;
+    }
+    else {
+        // Tipos dependentes de bioma
+        tabela = tabelasPI?.[bioma]?.[tipo];
+    }
+
+    console.log("Sera que a tabela vei preenchida?")
+    console.log(tabela)
+    if (!tabela) return null;
+
+    let pi;
+    let tentativas = 0;
+
+    // Evita duplicatas
+    do {
+        pi = tabela[rolarD12() - 1];
+        tentativas++;
+    } while (
+        data.pontosInteresse[tipo].some(p => p.descricao === pi.descricao) &&
+        tentativas < 25
+    );
+
+    if (tentativas >= 25) {
+        console.warn("Não foi possível gerar PI único para", tipo, "em", bioma);
+        return null;
+    }
+
+    // Apelido: A, B, C, D...
+    const lista = data.pontosInteresse[tipo];
+    const apelido = String.fromCharCode(65 + lista.length);
+
+    const piObj = {
+        ...pi,
+        tipo,
+        bioma,
+        apelido
+    };
+    
+
+    // Salva na campanha
+    lista.push(piObj);
+    //salvarCampanhas();
+
+    campanhas[campanhaAtual].pontosInteresse[tipo] = lista;
+
+    return piObj;
+}
+

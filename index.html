@@ -33,308 +33,266 @@
     };
 </script>
 
-<style>
-
-/* ---------- BACKDROP ---------- */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.65);
-  z-index: 99990;
-}
-
-/* ---------- WRAPPER DO MODAL ---------- */
-.modal-wrapper {
-  position: fixed;
-  inset: 0;
-  display: none;                /* por padrão escondido */
-  justify-content: center;
-  align-items: center;
-  z-index: 99991;
-}
-
-/* ---------- CARTA DO MODAL ---------- */
-.modal-card {
-  width: min(880px, 96%);
-  max-height: 84vh;
-  overflow: auto;
-  background: linear-gradient(180deg, #1b1b1b, #0f0f0f);
-  border: 2px solid #6b4b2b;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.8);
-  padding: 14px;
-  border-radius: 12px;
-  color: #f0e9dc;
-  font-family: "Segoe UI", system-ui, -apple-system, "Noto Sans", sans-serif;
-  position: relative;
-  z-index: 99999;
-}
-
-.modal-card .modal-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-}
-
-.modal-card .modal-header h2,
-.modal-card .modal-header h5 {
-  margin:0;
-  font-size:20px;
-  color:#ffdca3;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.6);
-}
-
-.modal-card .modal-header button {
-  background:transparent;
-  border:0;
-  color:#ffdca3;
-  font-size:18px;
-  cursor:pointer;
-}
-
-/* ---------- BODY ---------- */
-.modal-card .modal-body {
-  margin-top:10px;
-  color: #f0e9dc;
-}
-
-/* ---------- FOOTER ---------- */
-.modal-card .modal-footer {
-  display:flex;
-  justify-content:flex-end;
-  margin-top:14px;
-}
-
-/* ---------- BOTÕES ---------- */
-.modal-card button.btn {
-  font-weight: 700;
-  border-radius: 10px;
-}
-
-/* ---------- RESPONSIVO ---------- */
-@media (max-width:600px) {
-  .modal-card {
-    width: 94%;
-    padding: 10px;
-  }
-}
-
-
-    #mapa {
-      position: relative;
-      width: 1000px;
-      height: 1000px;
-      background: #222;
-      transform: scale(0.35);
-      transform-origin: top left;
-    }
-
-    .hex {
-      position: absolute;
-      background-size: contain;
-      /* evita cortar */
-      background-repeat: no-repeat;
-      background-position: center;
-      pointer-events: auto;
-      cursor: pointer;
-      image-rendering: crisp-edges;
-      width: var(--w);
-      height: var(--h);
-    }
-
-    .hex.selecionado {
-      outline: 3px solid yellow;
-      z-index: 10;
-    }
-
-    .hex:hover {
-      transform: translateY(-6px)
-    }
-
-    #viewport {
-      width: 100%;
-      height: 600px;
-      overflow: auto;
-      position: relative;
-      background: #111;
-    }
-
-    .token {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      background: red;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 20;
-    }
-
-    .hud {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background: rgba(0,0,0,0.6);
-    padding: 10px 15px;
-    border-radius: 10px;
-    color: white;
-    font-family: "Segoe UI";
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 9999;
-}
-
-.hud-icon{
-     width: 60px;
-     height: 60px;
-}
-
-#pmBarContainer {
-    width: 120px;
-    height: 12px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 6px;
-}
-
-#pmBar {
-    height: 100%;
-    width: 100%;
-    background: limegreen;
-    border-radius: 6px;
-    transition: width 0.4s;
-}
-
-/* cidade meta */
-.cidade-meta { display:flex; gap:16px; align-items:center; color:#dcd6c9; margin-bottom:8px; }
-
-/* estabelecimentos grid */
-.estabs-grid { display:flex; flex-wrap:wrap; gap:8px; padding:6px 0; }
-.estab-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.06);
-  padding:8px;
-  border-radius:8px;
-  min-width:160px;
-  display:flex;
-  gap:8px;
-  align-items:center;
-}
-.estab-card img { width:44px; height:44px; object-fit:cover; border-radius:6px; }
-.estab-card .estab-name { font-size:14px; color:#fff; }
-.estab-card .estab-sub { font-size:12px; color:#cfc6b6; }
-
-/* Botão Ver Cidade estilo */
-#btnVerCidade {
-  background: linear-gradient(180deg,#6b4b2b,#3f2a17);
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: 2px solid #f1d7aa;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-  font-weight: 700;
-}
-
-#btnSairMapa {
-  background: linear-gradient(180deg,#6b4b2b,#3f2a17);
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: 2px solid #f1d7aa;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-  font-weight: 700;
-}
-
-
-
-</style>
+<link rel="stylesheet" href="modalCss.css">
 
 </head>
-<body class="bg-light p-4" onload="iniciarApp()">
+<body class="bg-light pt-4" onload="iniciarApp()">
 
 <div class="container">
 
-  <!-- MENU PRINCIPAL -->
-  <h1 class="text-center mb-4">Gerador Altaris</h1>
+  <div id="menu" class="rpg-menu">
+  <h1 class="rpg-title">Gerador Altaris</h1>
 
-  <div id="menu" class="container d-grid gap-3">
-    <button class="btn btn-primary" onclick="abrirSecao('missoes')">📜 Missões</button>
-    <button class="btn btn-secondary" onclick="abrirSecao('sec-encontros')">⚔️ Encontros</button>
-    <button class="btn btn-success" onclick="abrirSecao('sec-pi')">🌍 Pontos de Interesse</button>
-    <button class="btn btn-info" onclick="abrirSecao('sec-boatos')">💬 Boatos</button>
-    <button class="btn btn-dark" onclick="abrirSecao('sec-dungeon')">🗝️ Dungeon</button>
-    <button class="btn btn-primary" onclick="abrirSecao('sec-cidade')">🏙️ Cidades</button>
-    <button class="btn btn-secondary" onclick="abrirSecao('sec-diario')">📘 Diário</button>
-    <button class="btn btn-warning" onclick="abrirSecao('sec-oraculo')">🔮 Oráculo</button>
-    <button class="btn btn-warning" onclick="abrirSecao('sec-tabelas-oraculo')">📚 Tabelas do Oráculo</button>
-    <button class="btn btn-dark w-100 my-2" onclick="abrirSecao('pnjSection')">👤 PNJs </button>
-    <button class="btn btn-dark w-100 my-2" onclick="abrirSecao('pjSection')">👤 PJs </button>
-    <button class="btn btn-primary" onclick="abrirSecao('sec-aventuras')">🧭 Aventuras</button>
-    <button class="btn btn-primary" onclick="abrirSecao('sec-mapa')">🧭 Mapa</button>
-    <button class="btn btn-warning" onclick="abrirSecao('sec-campanhas')">📁 Salvar / Carregar Campanha</button>
-    <button class="btn btn-warning mt-2" onclick="regenerarMapa()">Regenerar Mapa</button>
+  <div class="rpg-menu-grid">
+
+    <button class="rpg-menu-card" onclick="abrirSecao('sec-mapa')">
+      <div class="rpg-icon">📜</div>
+      <h3>Mapa</h3>
+      <p>Mapa do mundo.</p>
+    </button>
+
+    <button class="rpg-menu-card" onclick="abrirSecao('sec-diario')">
+      <div class="rpg-icon">📘</div>
+      <h3>Diário</h3>
+      <p>Anotações das cenas da campanha.</p>
+    </button>
+
+    <button class="rpg-menu-card" onclick="abrirSecao('pjSection')">
+      <div class="rpg-icon">👤</div>
+      <h3>PJ</h3>
+      <p>Personagens Jogaveis.</p>
+    </button>
+
+    <button class="rpg-menu-card" onclick="abrirSecao('sec-encontros')">
+      <div class="rpg-icon">👤</div>
+      <h3>NPC</h3>
+      <p>Personagens não Jogaveis.</p>
+    </button>
+
+    <button class="rpg-menu-card" onclick="abrirSecao('sec-tabelas-oraculo')">
+      <div class="rpg-icon">⚙️</div>
+      <h3>Tabela Oraculo</h3>
+      <p>Tabelas usadas para geração de evento do oraculo.</p>
+    </button>
+
+    <button class="rpg-menu-card" onclick="abrirSecao('sec-campanhas')">
+      <div class="rpg-icon">📁</div>
+      <h3>Criar / Carregar Campanha</h3>
+      <p>Gerenciamento das Campanhas</p>
+    </button>
+
+    <button class="rpg-menu-card" onclick="regenerarMapa()">
+      <div class="rpg-icon">📁</div>
+      <h3>Refazer Mapa</h3>
+      <p>Refazer o mapa</p>
+    </button>
+
+     <button class="rpg-menu-card" onclick="abrirSecao('sec-aventuras')">
+      <div class="rpg-icon">📁</div>
+      <h3>Aventuras</h3>
+      <p>Aventuras</p>
+    </button>
 
   </div>
+</div>
 
-<section id="pjSection" class="secao" style="display:none">
 
-  <h3 class="mt-3">Personagens Jogadores (PJ)</h3>
+<section id="pjSection" class="secao" style="display:none; padding:15px;">
 
-  <button class="btn btn-success my-2" onclick="abrirCriarPJ()">➕ Criar PJ</button>
+  <!-- Top Bar -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <button class="btn btn-outline-secondary" onclick="voltarMenu()">⬅ Voltar</button>
 
-  <ul id="listaPJs" class="list-group"></ul>
-  <button class="btn btn-dark mt-4" onclick="voltarMenu()">⬅ Voltar</button>
+    <div class="text-end">
+      <h2 class="mb-0">Personagens Jogadores</h2>
+      <small class="text-muted">Gerenciamento de PJs</small>
+    </div>
+  </div>
+
+  <div class="row g-3">
+
+    <!-- COLUNA ESQUERDA: Lista de PJs -->
+    <div class="col-lg-7 col-12">
+
+      <!-- Lista de PJs -->
+      <div class="card p-3 mb-3 rpg-card">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h4 class="mb-0">👥 Personagens</h4>
+          <button class="btn btn-sm btn-success" onclick="abrirCriarPJ()">➕ Criar PJ</button>
+        </div>
+
+        <div id="pjListaContainer" class="mt-2 p-2 card rpg-inner-card">
+          <ul id="listaPJs" class="list-group list-group-flush"></ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLUNA DIREITA: Ações do Personagem -->
+    <div class="col-lg-5 col-12">
+
+      <!-- Ações com PJ -->
+      <div class="card p-3 mb-3 rpg-card">
+        <h4 class="mb-2">⚔️ Ações do PJ</h4>
+
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <button class="btn btn-primary" onclick="abrirCriarPJ()">➕ Novo PJ</button>
+          <button class="btn btn-warning" onclick="exportarPJs()">📤 Exportar</button>
+          <button class="btn btn-dark" onclick="importarPJs()">📥 Importar</button>
+        </div>
+
+        <div class="card p-3 rpg-inner-card">
+          <small class="text-muted">
+            Gerencie fichas, exporte para backup e adicione novos PJs à campanha.
+          </small>
+        </div>
+      </div>
+
+      <!-- Navegação -->
+      <div class="card p-3 rpg-card">
+        <h5 class="mb-2">📚 Navegação</h5>
+        <button class="btn btn-outline-secondary w-100" onclick="voltarMenu()">⬅ Voltar ao Menu</button>
+      </div>
+
+    </div>
+  </div>
 
 </section>
 
 <div id="sec-aventuras" class="secao" style="display:none; padding: 15px;">
 
-  <button class="btn btn-secondary mb-3" onclick="voltarMenu()">⬅️ Voltar ao Menu</button>
+  <!-- Top Bar -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <button class="btn btn-outline-secondary" onclick="voltarMenu()">⬅ Voltar</button>
 
-  <h3 id="aventuraTitulo"></h3>
-
-  <div class="my-3">
-    <button class="btn btn-primary" onclick="detalharAventura()">📘 Detalhar Aventura</button>
+    <div class="text-end">
+      <h2 id="aventuraTitulo" class="mb-0">Aventura</h2>
+      <small class="text-muted">Gerenciamento de Aventuras</small>
+    </div>
   </div>
 
-  <div id="aventuraDetalhes" style="display:none;" class="mb-4 card p-3"></div>
+  <div class="row g-3">
 
-  <hr>
+    <!-- COLUNA ESQUERDA – Aventura + Cenas -->
+    <div class="col-lg-7 col-12">
 
-  <h4>Cenas</h4>
+      <!-- Aventura / Resumo -->
+      <div class="card p-3 mb-3 rpg-card">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h4 class="mb-0">📘 Aventura</h4>
+          <button class="btn btn-sm btn-primary" onclick="detalharAventura()">Detalhar</button>
+        </div>
 
-  <button class="btn btn-success me-2" onclick="gerarCena()">🎲 Gerar Cena</button>
-  <button class="btn btn-danger" onclick="gerarCenaFinal()">🔥 Gerar Cena Final</button>
+        <div id="aventuraDetalhes" style="display:none;" class="mt-2 p-3 card rpg-inner-card"></div>
+      </div>
 
-  <div id="resultadoCena" class="card p-3 mt-3"></div>
+      <!-- Cenas -->
+      <div class="card p-3 mb-3 rpg-card">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h4 class="mb-0">🎭 Cenas</h4>
+        </div>
 
-  <hr>
+        <div class="mb-2 d-flex gap-2 flex-wrap">
+          <button class="btn btn-success" onclick="gerarCena()">🎲 Gerar Cena</button>
+          <button class="btn btn-danger" onclick="gerarCenaFinal()">🔥 Cena Final</button>
+        </div>
 
-  <h4>Ações Extras</h4>
+        <div id="resultadoCena" class="card p-3 rpg-inner-card mt-2"></div>
+      </div>
 
-  <button class="btn btn-warning me-2" onclick="fazerBusca()">🧭 Fazer Busca</button>
-  <button class="btn btn-danger me-2" onclick="gerarComplicacao()">⚠️ Complicação</button>
-  <button class="btn btn-info" onclick="gerarInspiracao()">💡 Gerar Inspiração</button>
+    </div>
 
-  <button class="btn btn-primary"
-        onclick="abrirModalAventura(),atualizarListaAventuras()">
-    🧭 Ver Aventuras
-</button>
+    <!-- COLUNA DIREITA – Ações Extras / Navegação -->
+    <div class="col-lg-5 col-12">
 
-  <div id="resultadoExtras" class="card p-3 mt-3"></div>
+      <!-- Ações Extras -->
+      <div class="card p-3 mb-3 rpg-card">
+        <h4 class="mb-2">⚔️ Ações Extras</h4>
+
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <button class="btn btn-warning" onclick="fazerBusca()">🧭 Busca</button>
+          <button class="btn btn-danger" onclick="gerarComplicacao()">⚠ Complicação</button>
+          <button class="btn btn-info" onclick="gerarInspiracao()">💡 Inspiração</button>
+        </div>
+
+        <div id="resultadoExtras" class="card p-3 rpg-inner-card"></div>
+      </div>
+
+      <!-- Ver Aventuras -->
+      <div class="card p-3 rpg-card">
+        <h5 class="mb-2">📚 Histórico de Aventuras</h5>
+
+        <button class="btn btn-primary w-100"
+                onclick="abrirModalAventura(); atualizarListaAventuras();">
+          🧭 Ver Aventuras
+        </button>
+      </div>
+
+    </div>
+
+  </div>
 
 </div>
 
 <!--    SECTION: PNJs          -->
-<section id="pnjSection" class="secao" style="display:none">
-  <h3 class="mb-3">👤 Gerenciamento de PNJs</h3>
+<section id="pnjSection" class="secao" style="display:none; padding:15px;">
 
-  <div class="d-flex gap-2 mb-3">
-    <button class="btn btn-primary" onclick="gerarPNJ_UI()">➕ Criar PNJ</button>
+  <!-- Top Bar -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <button class="btn btn-outline-secondary" onclick="voltarMenu()">⬅ Voltar</button>
+
+    <div class="text-end">
+      <h2 class="mb-0">Personagens Não-Jogadores</h2>
+      <small class="text-muted">Gerenciamento de PNJs</small>
+    </div>
   </div>
 
-  <div id="pnjLista" class="mt-3"></div>
+  <div class="row g-3">
 
-  <button class="btn btn-dark mt-4" onclick="voltarMenu()">⬅ Voltar</button>
+    <!-- COLUNA ESQUERDA – Lista de PNJs -->
+    <div class="col-lg-7 col-12">
+
+      <div class="card p-3 mb-3 rpg-card">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h4 class="mb-0">👤 PNJs</h4>
+          <button class="btn btn-sm btn-primary" onclick="gerarPNJ_UI()">➕ Criar PNJ</button>
+        </div>
+
+        <div class="mt-2 card p-2 rpg-inner-card">
+          <div id="pnjLista" class="list-group list-group-flush"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLUNA DIREITA – Ações do sistema -->
+    <div class="col-lg-5 col-12">
+
+      <div class="card p-3 mb-3 rpg-card">
+        <h4 class="mb-2">⚙️ Ações Extras</h4>
+
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <button class="btn btn-success" onclick="gerarPNJ_UI()">➕ Novo PNJ</button>
+          <button class="btn btn-warning" onclick="exportarPNJs()">📤 Exportar</button>
+          <button class="btn btn-dark" onclick="importarPNJs()">📥 Importar</button>
+        </div>
+
+        <div class="card p-3 rpg-inner-card">
+          <small class="text-muted">
+            Gere PNJs rapidamente, mantenha registros organizados e exporte para backup da campanha.
+          </small>
+        </div>
+      </div>
+
+      <!-- Navegação -->
+      <div class="card p-3 rpg-card">
+        <h5 class="mb-2">📚 Navegação</h5>
+        <button class="btn btn-outline-secondary w-100" onclick="voltarMenu()">⬅ Voltar ao Menu</button>
+      </div>
+
+    </div>
+  </div>
+
 </section>
 
 <!-- ================= SEÇÃO ORÁCULO (Nova!) ================= -->
@@ -399,36 +357,70 @@
 </div>
 
   <!-- ================= SEÇÃO TABELAS DO ORÁCULO ================= -->
-<div id="sec-tabelas-oraculo" class="secao" style="display:none;">
-  <h2>📚 Tabelas do Oráculo</h2>
+<div id="sec-tabelas-oraculo" class="secao" style="display:none; padding: 15px;">
 
-  <p class="text-muted">Essas tabelas são salvas por campanha e usadas nos eventos aleatórios.</p>
+  <!-- Top Bar -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <button class="btn btn-outline-secondary" onclick="voltarMenu()">⬅ Voltar</button>
 
-  <!-- ==== TRAMAS ==== -->
-  <h4>📘 Tabela de Tramas</h4>
-  <div class="input-group mb-2">
-    <input id="novaTrama" type="text" class="form-control" placeholder="Descrição da trama">
-    <button class="btn btn-success" onclick="adicionarTrama()">Adicionar</button>
+    <div class="text-end">
+      <h2 class="mb-0">📚 Tabelas do Oráculo</h2>
+      <small class="text-muted">Elementos narrativos usados pelo sistema</small>
+    </div>
   </div>
-  <ul id="listaTramas" class="list-group mb-3"></ul>
 
-  <!-- ==== PNJ ==== -->
-  <h4>🧍 Tabela de PNJ</h4>
-  <div class="input-group mb-2">
-    <input id="novoPNJ" type="text" class="form-control" placeholder="Nome do PNJ">
-    <button class="btn btn-success" onclick="adicionarPNJ()">Adicionar</button>
+  <div class="row g-3">
+
+    <!-- COLUNA ESQUERDA -->
+    <div class="col-lg-6 col-12">
+
+      <!-- TRAMAS -->
+      <div class="card p-3 mb-3 rpg-card">
+        <h4 class="mb-2">📘 Tramas</h4>
+        <p class="text-muted mb-2">Ganchos narrativos que afetam eventos da aventura.</p>
+
+        <div class="input-group mb-2">
+          <input id="novaTrama" type="text" class="form-control" placeholder="Descrição da trama">
+          <button class="btn btn-success" onclick="adicionarTrama()">Adicionar</button>
+        </div>
+
+        <ul id="listaTramas" class="list-group rpg-inner-card"></ul>
+      </div>
+
+      <!-- PJs -->
+      <div class="card p-3 mb-3 rpg-card">
+        <h4 class="mb-2">🧝 Personagens Jogadores</h4>
+        <p class="text-muted mb-2">Nomes que o oráculo pode mencionar como aliados ou alvos.</p>
+
+        <div class="input-group mb-2">
+          <input id="novoPJ" type="text" class="form-control" placeholder="Nome do PJ">
+          <button class="btn btn-success" onclick="adicionarPJ()">Adicionar</button>
+        </div>
+
+        <ul id="listaPJ" class="list-group rpg-inner-card"></ul>
+      </div>
+
+    </div>
+
+    <!-- COLUNA DIREITA -->
+    <div class="col-lg-6 col-12">
+
+      <!-- PNJs -->
+      <div class="card p-3 mb-3 rpg-card">
+        <h4 class="mb-2">🧍 PNJs</h4>
+        <p class="text-muted mb-2">Figuras recorrentes usadas em complicações e encontros.</p>
+
+        <div class="input-group mb-2">
+          <input id="novoPNJ" type="text" class="form-control" placeholder="Nome do PNJ">
+          <button class="btn btn-success" onclick="adicionarPNJ()">Adicionar</button>
+        </div>
+
+        <ul id="listaPNJ" class="list-group rpg-inner-card"></ul>
+      </div>
+
+    </div>
+
   </div>
-  <ul id="listaPNJ" class="list-group mb-3"></ul>
-
-  <!-- ==== PJ ==== -->
-  <h4>🧝 Tabela de PJ</h4>
-  <div class="input-group mb-2">
-    <input id="novoPJ" type="text" class="form-control" placeholder="Nome do personagem jogador">
-    <button class="btn btn-success" onclick="adicionarPJ()">Adicionar</button>
-  </div>
-  <ul id="listaPJ" class="list-group mb-3"></ul>
-
-  <button class="btn btn-outline-secondary mt-3" onclick="voltarMenu()">⬅ Voltar</button>
 </div>
 
   <!-- ================= SEÇÃO DIÁRIO (Atualizada) ================= -->
@@ -481,16 +473,39 @@
     <div id="viewport">
       <div id="mapa"></div>
       <div id="token" class="token"></div>
-      <div id="hudPM" class="hud">
-        <!--<img src="icons/movimento.png" class="hud-icon">-->
-        <div id="pmBarContainer">
+    <div id="mapHUDTop">
+        <div class="hud-pm">
+          <div id="pmBarContainer">
             <div id="pmBar"></div>
+          </div>
+          <span id="pmText">PM: 6 / 6</span>
+          <button id="btnDescansar" onclick="descansar()">⏳ Descansar</button>
         </div>
-        <span id="pmText">PM: 6 / 6</span>
-        <br>
-        <button type="button" onclick="descansar()">Descansar</button>
-      </div>
     </div>
+    <nav id="mapSideMenu">
+
+      <button class="side-btn" onclick="abrirModalS('modalOraculo')" title="Oráculo">
+        🔮
+      </button>
+
+      <button class="side-btn" onclick="abrirModalS('modalMissoes')" title="Missões">
+        📜
+      </button>
+
+      <button class="side-btn" onclick="abrirModalS('modalBoatos')" title="Boatos">
+        💬
+      </button>
+
+      <button class="side-btn" onclick="abrirModalDetalhePjs()" title="Personagem">
+        👤
+      </button>
+
+      <button class="side-btn danger" onclick="voltarMenu()" title="Sair do Mapa">
+        X
+      </button>
+
+  </nav>
+  </div>
     
     <div id="terrainTooltip"
       style="
@@ -599,56 +614,137 @@
 
 
   <!-- ================= SEÇÃO DUNGEON ================= -->
-  <div id="sec-dungeon" class="secao" style="display:none;">
-    <h2>🗝️ Dungeon</h2>
+  <div id="sec-dungeon" class="secao" style="display:none; padding:12px;">
+  <div class="dungeon-wrapper">
 
-    <select id="dungeonSelect" class="form-select mb-3">
-      <option value="temploProfanado">Templo Profanado</option>
-      <option value="cidadelaAbandonada">Cidadela Abandonada</option>
-      <option value="antigoLaboratorio">Antigo Laboratório</option>
-      <option value="calaboucoArruinado">Calabouço Arruinado</option>
-      <option value="criptaAssombrada">Cripta Assombrada</option>
-      <option value="cavernaComum">Caverna Comum</option>
-    </select>
-
-    <h4>🧱 Criação de Dungeon</h4>
-
-    <div class="mb-2">
-        <button class="btn btn-secondary" onclick="novaDungeon()">Nova Dungeon</button>
-        <button class="btn btn-primary" onclick="gerarSalaDungeon()">Gerar Sala</button>
-        <button class="btn btn-success" onclick="finalizarDungeon()">Finalizar Dungeon</button>
+    <!-- Top bar / título -->
+    <div class="dungeon-topbar d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h2 id="dungeonTitulo" class="mb-0">🗝️ Dungeon</h2>
+        <h6 id="dungeonSubtitulo" >Tipo: —</h6>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-secondary" onclick="voltarMapa()">⬅ Voltar</button>
+        <button id="btnFinalizarDungeon" class="btn btn-success" onclick="finalizarDungeon()">Finalizar</button>
+      </div>
     </div>
 
-    <div id="dungeonAtual" class="card p-3 mb-3" style="display:none;"></div>
-    <br>
-    <div>
-        <h5>Encontros</h5>
-        <div id="encontrosDungeon" class="card p-3 mb-3"></div><br>
+    <div class="row g-3">
+
+      <!-- Left column: painel principal com salas -->
+      <div class="col-lg-7 col-12">
+        <div class="card p-3 mb-3 dungeon-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>
+              <h5 class="mb-0" id="dungeonNomeDisplay">Nome: —</h5>
+              <small id="dungeonTipoDisplay" class="text-muted">—</small>
+            </div>
+
+            <div class="d-flex gap-2 align-items-center">
+              <button id="btnGerarSala" class="btn btn-primary" onclick="gerarSalaDungeon()">➕ Gerar Sala</button>
+              <button id="btnReiniciarContador" class="btn btn-outline-warning" onclick="resetarContadorSalas()">🔁 Reiniciar</button>
+            </div>
+          </div>
+
+          <div id="dungeonControlsInfo" class="mb-2 text-muted">
+            Use <strong>Gerar Sala</strong> para acrescentar uma nova sala. Salve a dungeon com Finalizar.
+          </div>
+
+          <div id="dungeonSalasList" class="list-group"></div>
+        </div>
+
+        <!-- Encontros / inimigos -->
+        <div class="card p-3 dungeon-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0">Encontros</h5>
+            <button class="btn btn-sm btn-primary" onclick="abrirAdicionarInimigo()">➕ Inimigo</button>
+          </div>
+
+          <div id="listaInimigosAtivosUI"></div>
+        </div>
+      </div>
+
+      <!-- Right column: mini-map + detalhes rápidos -->
+      <div class="col-lg-5 col-12">
+        <div class="card p-3 mb-3 dungeon-card">
+          <h5 class="mb-2">Mini-Mapa</h5>
+          <div id="dungeonMiniMap" class="dungeon-minimap mb-2"></div>
+          <small class="text-muted">Cada sala aparece como um nó (A, B, C...). Clique para focar.</small>
+        </div>
+
+        <div class="card p-3 dungeon-card">
+          <h5 class="mb-2">Detalhes Rápidos</h5>
+          <div><b>Salas:</b> <span id="dungeonContadorSalas">0</span></div>
+          <div><b>Tipo:</b> <span id="dungeonTipoQuick">—</span></div>
+          <div><b>Nome:</b> <span id="dungeonNomeQuick">—</span></div>
+
+          <hr>
+          <div class="d-flex gap-2 mt-2">
+            <button class="btn btn-sm btn-outline-secondary" onclick="exportarDungeonJSON()">Exportar JSON</button>
+            <button class="btn btn-sm btn-outline-danger" onclick="removerDungeonAtual()">Remover (do mapa)</button>
+          </div>
+        </div>
+
+      </div>
     </div>
-
-    <h5>Dungeons Criadas</h5>
-    <ul id="listaDungeons" class="list-group"></ul>
-
-    <div id="resultadoDungeon"></div>
-
-    <button class="btn btn-outline-secondary" onclick="voltarMenu()">⬅ Voltar</button>
   </div>
+</div>
 
   <!-- ================= SEÇÃO CAMPANHAS ================= -->
-<div id="sec-campanhas" class="secao" style="display:none;">
-  <h2>📁 Salvar / Carregar Campanha</h2>
+<div id="sec-campanhas" class="secao" style="display:none; padding: 15px;">
 
-  <p><b>Campanha Atual:</b> <span id="campanhaAtualNome"></span></p>
+  <!-- Top Bar -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <button class="btn btn-outline-secondary" onclick="voltarMenu()">⬅ Voltar</button>
 
-  <h4>Campanhas Existentes</h4>
-  <ul id="listaCampanhas" class="list-group mb-3"></ul>
-
-  <div class="input-group mb-3">
-    <input id="novaCampanhaNome" type="text" class="form-control" placeholder="Nome da nova campanha">
-    <button class="btn btn-success" onclick="criarCampanha()">Criar</button>
+    <div class="text-end">
+      <h2 class="mb-0">📁 Campanhas</h2>
+      <small class="text-muted">Salvar, carregar e gerenciar progresso</small>
+    </div>
   </div>
 
-  <button class="btn btn-outline-secondary" onclick="voltarMenu()">⬅ Voltar</button>
+  <div class="row g-3">
+
+    <!-- COLUNA ESQUERDA -->
+    <div class="col-lg-7 col-12">
+
+      <!-- Campanha Atual -->
+      <div class="card p-3 mb-3 rpg-card">
+        <h4 class="mb-2">🎯 Campanha Atual</h4>
+
+        <div class="p-3 rpg-inner-card">
+          <p class="mb-0">
+            <b>Nome:</b> <span id="campanhaAtualNome" class="text-info"></span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Criar Campanha -->
+      <div class="card p-3 mb-3 rpg-card">
+        <h4 class="mb-2">➕ Criar Nova Campanha</h4>
+
+        <div class="input-group">
+          <input id="novaCampanhaNome" type="text" class="form-control" placeholder="Nome da nova campanha">
+          <button class="btn btn-success" onclick="criarCampanha()">Criar</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLUNA DIREITA -->
+    <div class="col-lg-5 col-12">
+
+      <!-- Campanhas Existentes -->
+      <div class="card p-3 mb-3 rpg-card">
+        <h4 class="mb-2">📚 Campanhas Existentes</h4>
+
+        <ul id="listaCampanhas" class="list-group rpg-inner-card"></ul>
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
 
 <!-- ================= SEÇÃO CIDADES ================= -->
@@ -1475,8 +1571,18 @@
 <button id="btnVerCidade" style="display:none; position:fixed; bottom:22px; right:22px; z-index:99999;"
         class="btn btn-lg btn-primary">Ver Cidade</button>
 
-<button id="btnSairMapa" style="display:none; position:fixed; bottom:22px; right:160px; z-index:99999;"
-        class="btn btn-lg btn-primary" onclick="voltarMenu()">Sair</button>
+<button id="btnVerPOI" style="display:none; position:fixed; bottom:22px; right:22px; z-index:99999;"
+        class="btn btn-lg btn-primary">Ver POI</button>
+
+<button id="btnEntrarDungeon" style="display:none; position:fixed; bottom:22px; right:22px; z-index:99999;"
+        class="btn btn-lg btn-primary">Entrar na Dungeon</button>
+
+<button id="btnEntrarAventura" style="display:none; position:fixed; bottom:22px; right:22px; z-index:99999;"
+        class="btn btn-lg btn-primary">Entrar na Aventura</button>
+
+
+
+
 
 <!-- Modal de cidade -->
 <div id="modalCidade" class="modal-wrapper">
@@ -1511,6 +1617,213 @@
       <button id="fecharModalCidadeBtn" class="btn">Fechar</button>
     </footer>
   </div>
+</div>
+
+<div id="modalPOI" class="modal-wrapper">
+  <div class="modal-backdrop"></div>
+  <div class="modal-card">
+    <header class="modal-header">
+      <h2 id="poiTitulo">Ponto de Interesse</h2>
+      <button id="fecharModalPOI" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body">
+
+      <div class="cidade-meta">
+        <div><b>Tipo:</b> <span id="poiTipo"></span></div>
+        <div><b>Bioma:</b> <span id="poiBioma"></span></div>
+        <div><b>Apelido:</b>
+          <input id="poiApelidoInput" type="text" maxlength="4" style="width:70px;margin-left:6px;">
+          <button id="salvarApelidoPOI" class="btn btn-sm btn-outline-light">Salvar</button>
+        </div>
+      </div>
+
+      <section style="margin-top:12px;">
+        <h3>Descrição</h3>
+        <div id="poiDescricao" style="white-space:pre-wrap;"></div>
+      </section>
+
+      <section style="margin-top:12px;">
+        <h3>Interações</h3>
+        <b>Combate:</b>
+        <div id="poiCombate" style="white-space:pre-wrap;"></div>
+
+        <b style="margin-top:10px; display:block;">Paz:</b>
+        <div id="poiPaz" style="white-space:pre-wrap;"></div>
+      </section>
+
+      <section style="margin-top:12px;">
+        <h3>Ganchos</h3>
+        <div id="poiGanchos" style="white-space:pre-wrap;"></div>
+      </section>
+
+      <section style="margin-top:12px;">
+        <h3>Variações</h3>
+        <div id="poiVariacoes" style="white-space:pre-wrap;"></div>
+      </section>
+
+    </main>
+
+    <footer class="modal-footer">
+      <button id="btnFecharModalPOI" class="btn">Fechar</button>
+    </footer>
+  </div>
+</div>
+
+<div id="modalOraculo" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+
+    <!-- Header -->
+    <header class="modal-header">
+      <h2>🔮 Oráculo do Destino</h2>
+      <button id="fecharModalOraculo" title="Fechar">✕</button>
+    </header>
+
+    <!-- Body -->
+    <main class="modal-body">
+
+      <p class="text-muted mb-3">Sistema completo baseado no Mythic.</p>
+
+      <!-- ================= CONSULTA AO ORÁCULO ================= -->
+      <div class="card p-3 mb-4 rpg-card">
+        <h4 class="mb-3">⚖️ Consulta ao Oráculo</h4>
+
+        <label class="form-label fw-bold">Probabilidade</label>
+        <select id="oraculoProbModal" class="form-select mb-3">
+          <option value="50_50">50/50</option>
+          <option value="provavel">Provável</option>
+          <option value="muito_provavel">Muito Provável</option>
+          <option value="quase_certeza">Quase Certeza</option>
+          <option value="certeza">Certeza</option>
+          <option value="improvavel">Improvável</option>
+          <option value="muito_improvavel">Muito Improvável</option>
+          <option value="quase_impossivel">Quase Impossível</option>
+          <option value="impossivel">Impossível</option>
+        </select>
+
+        <label class="form-label fw-bold">Fator Caos</label>
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <input id="oraculoChaosModal" type="number" min="1" max="10" value="5" class="form-control w-auto">
+          <small class="text-muted">(1–10)</small>
+        </div>
+
+        <button class="btn btn-primary w-100 mt-2" onclick="consultarDestino()">🔍 Consultar Destino</button>
+
+        <button id="salvarOraculoBtn" class="btn btn-success w-100 mt-2" style="display:none;"
+                onclick="salvarResultadoOraculo()">💾 Salvar no Diário</button>
+
+        <div id="resultadoOraculoModal" class="mt-3 rpg-inner-card p-3"></div>
+      </div>
+
+      <!-- ================= DESCRITORES ================= -->
+      <div class="card p-3 rpg-card">
+        <h4 class="mb-3">📚 Gerar Descritores</h4>
+
+        <label class="form-label fw-bold">Tema</label>
+        <select id="temaDescritorModal" class="form-select mb-3">
+          <option value="">Selecione...</option>
+          <option value="acao">Ação</option>
+          <option value="descritor">Descrições</option>
+          <option value="elemento">Elementos</option>
+        </select>
+
+        <label class="form-label fw-bold">Tabela</label>
+        <select id="tabelaDescritorModal" class="form-select mb-3">
+          <option value="">Escolha um tema primeiro</option>
+        </select>
+
+        <button class="btn btn-primary w-100" onclick="gerarDescritor()">🎲 Gerar Descritor</button>
+
+        <div id="resultadoDescritorModal" class="mt-3 rpg-inner-card p-3" style="display:none;"></div>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnCancelarOraculo">Fechar</button>
+    </footer>
+
+  </div>
+</div>
+
+<div id="modalMissoes" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+
+    <header class="modal-header">
+      <h2>📜 Missões</h2>
+      <button id="fecharModalMissoes" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body">
+
+      <!-- MISSÕES ATIVAS -->
+      <h4 class="mb-2">🟡 Missões Ativas</h4>
+      <ul id="listaMissoesAtivasModal" class="list-group mb-4"></ul>
+
+      <!-- MISSÕES CONCLUÍDAS -->
+      <h4 class="mb-2">✅ Missões Concluídas</h4>
+      <ul id="listaMissoesConcluidasModal" class="list-group mb-4"></ul>
+
+      <!-- AÇÕES -->
+      <button class="btn btn-primary w-100 mb-3" onclick="gerarMissao()">
+        🎲 Gerar Missão
+      </button>
+
+      <button class="btn btn-danger w-100 mb-3" onclick="limparHistoricoMissoes()">
+        🗑️ Limpar Histórico
+      </button>
+
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnVoltarMissoes">Voltar</button>
+    </footer>
+
+  </div>
+
+</div>
+
+<div id="modalBoatos" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+
+    <header class="modal-header">
+      <h2>💬 Boatos</h2>
+      <button id="fecharModalBoatos" title="Fechar">✕</button>
+    </header>
+
+    <main class="modal-body">
+
+      <!-- Botão gerar boato -->
+      <button class="btn btn-warning w-100 mb-3" onclick="gerarBoato()">
+        Gerar Boato
+      </button>
+
+      <!-- Lista de rumores -->
+      <h4 class="mb-2">Rumores Descobertos</h4>
+      <ul id="listaRumoresModal" class="list-group mb-3"></ul>
+
+      <button class="btn btn-danger btn-sm" onclick="limparRumores()">
+        Limpar
+      </button>
+
+    </main>
+
+    <footer class="modal-footer">
+      <button class="btn btn-secondary" id="btnVoltarBoatos">Voltar</button>
+    </footer>
+
+  </div>
+
 </div>
 
 </body>
@@ -1554,50 +1867,7 @@ function rolar(lista) {
     return lista[Math.floor(Math.random() * lista.length)];
 }
 
-function abrirSecao(id) {
-  // esconder menu corretamente
-  document.getElementById('menu').classList.add('d-none');
 
-  // esconder outras seções
-  document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
-
-  // mostrar seção escolhida
-  document.getElementById(id).style.display = 'block';
-
-  // carregamentos dinâmicos por seção
-  if (id === 'sec-campanhas') {
-    mostrarCampanhas();
-    document.getElementById("campanhaAtualNome").innerText = campanhaAtual;
-  } 
-  else if (id === 'missoes') {
-    atualizarListasMissoes();
-  } 
-  else if (id === 'sec-boatos') {
-    atualizarListaRumores();
-  }
-  else if (id === 'sec-cidade') {
-    atualizarListaCidades();
-  }
-  else if (id === 'sec-pi') {
-    atualizarListaPI(); // <-- AQUI ESTÁ A CORREÇÃO!
-  } else if (id === "sec-dungeon"){
-    atualizarListaDungeons();
-  } else if (id === "sec-diario") {
-    atualizarListaCenas();
-    atualizarCenaAtual()
-  }else if (id === "sec-tabelas-oraculo") {
-    atualizarTabelasOraculo();
-  }else if (id === "pnjSection") {
-    listarPNJs();
-  }else if (id === "pjSection") {
-    atualizarPJs();
-  }else if (id === 'sec-aventuras') {
-    atualizarAventuraUI();
-    atualizarListaAventuras();
-  }else if (id === 'sec-mapa') {
-    abrirMapa();
-  }
-}
 
 function voltarMenu() {
   // esconder seções
@@ -1606,8 +1876,10 @@ function voltarMenu() {
   const menu = document.getElementById('menu');
   menu.classList.remove('d-none');
   menu.classList.add('d-grid');
-  atualizarSairMapa();
   atualizarBotaoCidadeAtual();
+  atualizarBotaoPOIAtual();
+  atualizarBotaoDungeonAtual();
+  atualizarBotaoAventura();
 }
 
 

@@ -4,8 +4,13 @@
 
 function consultarDestino() {
 
-  const prob = document.getElementById("oraculoProb").value;
-  const caos = parseInt(document.getElementById("oraculoChaos").value);
+  console.log("Entrou no oraculo")
+
+  const prob = document.getElementById("oraculoProbModal").value;
+  const caos = parseInt(document.getElementById("oraculoChaosModal").value);
+
+  console.log(prob)
+  console.log(caos)
 
   if (!destinoTabela[prob]) {
     alert("Probabilidade inválida!");
@@ -61,7 +66,7 @@ function consultarDestino() {
   // Montar a saída para o HTML
   // -------------------------------------
   let html = `
-    <div class="card p-3 mt-3">
+    <div class="card p-3 mt-3 rpg-card">
       <h5>🔮 Resultado do Destino</h5>
 
       <b>Probabilidade:</b> ${destinoProbabilidades[prob]}<br>
@@ -79,7 +84,7 @@ function consultarDestino() {
   // -------------------------------------
   if (eventoAleatorio) {
     html += `
-      <div class="alert alert-danger mt-3">
+      <div class="alert alert-danger mt-3 rpg-card">
         ⚠️ <b>EVENTO ALEATÓRIO!</b><br>
         Dados repetidos (${d1}, ${d2}) ≥ Caos (${caos})<br>
         <b>Foco (${focoData.d100}):</b> ${focoData.foco}<br>
@@ -96,7 +101,7 @@ function consultarDestino() {
 
   html += `</div>`;
 
-  const box = document.getElementById("resultadoOraculo");
+  const box = document.getElementById("resultadoOraculoModal");
   box.innerHTML = html;
   box.style.display = "block";
 
@@ -260,9 +265,9 @@ function setPNJs(lista) {
   salvarCampanhas();
 }
 
-document.getElementById("temaDescritor").addEventListener("change", function() {
+document.getElementById("temaDescritorModal").addEventListener("change", function() {
     const tema = this.value;
-    const selectTabela = document.getElementById("tabelaDescritor");
+    const selectTabela = document.getElementById("tabelaDescritorModal");
 
     selectTabela.innerHTML = "";
 
@@ -282,9 +287,9 @@ document.getElementById("temaDescritor").addEventListener("change", function() {
 });
 
 function gerarDescritor() {
-    const tema = document.getElementById("temaDescritor").value;
-    const tabelaKey = document.getElementById("tabelaDescritor").value;
-    const box = document.getElementById("resultadoDescritor");
+    const tema = document.getElementById("temaDescritorModal").value;
+    const tabelaKey = document.getElementById("tabelaDescritorModal").value;
+    const box = document.getElementById("resultadoDescritorModal");
 
     if (!tema || !tabelaKey) {
         alert("Escolha um tema e uma tabela primeiro!");
@@ -303,7 +308,7 @@ function gerarDescritor() {
     const palavra2 = rolar();
 
     box.innerHTML = `
-        <div class="alert alert-info">
+        <div class="alert alert-info rpg-card">
             <h5>🎲 Descritor Gerado</h5>
             <b>${palavra1}</b> — <b>${palavra2}</b>
         </div>
