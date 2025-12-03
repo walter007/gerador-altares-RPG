@@ -2057,10 +2057,13 @@ function alterarPV(pjIndex, delta) {
     atual = Math.max(0, Math.min(max, atual + delta));
 
     pj.pv.atual = atual;
-    document.getElementById("pvAtualDisplay").value = atual;
+    document.getElementById("pvAtualDisplay").textContent = atual;
 
     salvarCampanhas();
 }
+
+
+
 
 function alterarExp(pjIndex, delta) {
     const pj = campanhas[campanhaAtual].pjs[pjIndex];
@@ -2121,6 +2124,33 @@ function descansoCurto(pjIndex) {
     document.getElementById("peAtualDisplay").textContent = pj.pe.atual;
 
     alert("Descanso curto concluído! PE totalmente recuperado.");
+}
+
+function descansoPerigosoMapa() {
+   let pj = "";
+   let metadePV = "";
+    campanhas[campanhaAtual].pjs.forEach((pj, i) => {
+        metadePV = Math.floor(pj.pv.max / 2);
+        pj.pv.atual = Math.min(pj.pv.max, pj.pv.atual + metadePV);
+        pj.pe.atual = pj.pe.max;
+    });
+
+    salvarCampanhas();
+
+    showToast("Descanso Perigoso concluído! Recupeado metade do PV max e Totalmente  o PE!.")
+}
+
+function descansoSeguroMapa() {
+    let pj = "";
+    campanhas[campanhaAtual].pjs.forEach((pj, i) => {
+        pj = campanhas[campanhaAtual].pjs[i]
+        pj.pv.atual = pj.pv.max;
+        pj.pe.atual = pj.pe.max;
+  });
+
+    salvarCampanhas();
+
+    showToast("Descanso Seguro Concluído! PE e PV totalmente recuperados.")
 }
 
 function abrirDescansoLongo(pjIndex) {

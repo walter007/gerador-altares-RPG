@@ -1,17 +1,19 @@
+
+
 let inimigoSelecionado = null;
 let aventuraAtual = null;
 let inimigosAtivos = [];
 let ocultarMortos = false;
 
-function gerarEncontro() {
-  const bioma = document.getElementById('biomaSelect').value;
-  //const r = rolarD20();
-  const r = 19;
+function gerarEncontro(bioma) {
+  if(bioma == null) bioma = "planicie"
+  const r = rolarD20();
+  //const r = 19;
   let resultado = '';
-
-  if (r <= 5) resultado = 'Nenhum encontro — Descanso Seguro.';
-  else if (r <= 10) resultado = 'Nenhum encontro — Viagem Tranquila.';
-  else if (r <= 12) resultado = 'Nenhum encontro — Tensão Crescente (próxima rolagem com desvantagem).';
+  console.log("Bioma dentro do gerar Encontro" + bioma)
+  if (r <= 1) resultado = 1;
+  else if (r <= 10) resultado = 2;
+  else if (r <= 12) resultado = 3;
   else if (r <= 14) resultado = gerarNPCEncontro();
   else if (r <= 17) resultado = gerarMonstroEstrada(bioma);
   else if (r === 18) return gerarEncontroAmbiental(bioma);
@@ -23,17 +25,23 @@ function gerarEncontro() {
     else resultado = gerarMonstroEncontro(bioma) + ' (Surpresa)';
   }
 
+  if(resultado === 1){
+    console.log("Resultado 1 dentro de encontros")
+    descansoSeguroMapa();
+    showToast("Nenhum encontro — Descanso Seguro", "success"); return;
+  }
+  if(resultado === 2 || resultado === 3){
+    console.log("Resultado 2 ou 3 dentro de encontros")
+    descansoPerigosoMapa();
+    showToast("Nenhum encontro — Viagem Tranquila.", "success"); return;
+  }
+
   const box = document.getElementById('resultadoEncontro');
   const boxEncontro = document.getElementById('encontrosAmbientais');
   box.style.display = 'block';
   box.innerHTML = `
-  <div class="card mt-3">
-    <div class="card-body">
-      <h5 class="card-title">⚔️ Encontro</h5>
       <p>${resultado}</p>
-      <div id="listaInimigosAtivos"></div>
-    </div>
-  </div>`;
+ `;
   boxEncontro.innerHTML = `
     <br>
       <div class="d-flex mb-2">
@@ -45,9 +53,11 @@ function gerarEncontro() {
         </button>
       </div>
   `
+  abrirModalS('modalEncontros');
 }
 
 function gerarEncontroAmbiental(bioma) {
+  console.log("Bioma Encontro Ambiental= " + bioma)
   let tabela = (bioma === "planicie") ? cenasPlanicie :
              (bioma === "floresta") ? cenasFloresta :
              (bioma === "selva") ? cenasSelva :
@@ -287,7 +297,6 @@ function gerarMonstroEstradaCenas(bioma) {
 }
 
 function gerarMonstroErrante(bioma) {
-  // Usa a tabela que já criamos!
   return gerarMonstroEncontro(bioma);
 }
 
@@ -307,7 +316,13 @@ function gerarMonstroEncontro(bioma) {
 
   console.log(encontro)
 
-  return montarHTMLComInimigos(encontro);
+  montarHTMLComInimigos(encontro);
+
+  return `
+    👹 <b>Monstro Errante</b><br>
+    d4 = ${linha+1}, d20 = ${dificuldade}<br>
+    ➡ <b>${encontro}</b>
+  `;
 }
 
 function gerarMonstroEncontroCenas(bioma) {
@@ -1152,4 +1167,9 @@ function finalizarAventura(id) {
     atualizarListaAventuras();
 }
 
+
+function fecharModalEncontro(){
+  fecharModalS("modalEncontros");
+  descansoPerigosoMapa();
+}
 

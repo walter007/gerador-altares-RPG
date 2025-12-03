@@ -296,3 +296,99 @@ function voltarMapa(){
   const div = document.getElementById("encontrosDungeon");
   div.innerHTML = ""
 }
+
+function showToast(message, type = "info", duration = 3000) {
+  // garante container
+  let container = document.getElementById("toastContainer");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "toastContainer";
+    document.body.appendChild(container);
+    console.warn("Toast container não existia — criado dinamicamente.");
+  }
+
+  // cria toast
+  const toast = document.createElement("div");
+  toast.className = `alt-toast ${type}`;
+  toast.setAttribute("role", "status");
+
+  // ícones simples (pode trocar por SVGs se preferir)
+  const icons = {
+    info: "ℹ",
+    success: "✔",
+    warning: "⚠",
+    danger: "✖"
+  };
+
+  toast.innerHTML = `
+    <div class="alt-icon">${icons[type] ?? "•"}</div>
+    <div class="alt-body">${message}</div>
+  `;
+
+  // append no topo do container (último aparece em cima)
+  container.prepend(toast);
+
+  // debug: se quiser ver no console
+  // console.log("Toast shown:", message, type);
+
+  // temporizador de saída
+  const visibleMs = Math.max(800, duration); // mínimo 800ms
+  const outAnimMs = 360;
+
+  // remover após tempo + animação de saída
+  const removeTimeout = setTimeout(() => {
+    toast.style.animation = `altaris_toast_out ${outAnimMs}ms cubic-bezier(.2,.9,.3,1) forwards`;
+    // remove do DOM após a animação
+    setTimeout(() => {
+      toast.remove();
+    }, outAnimMs + 10);
+  }, visibleMs);
+
+  // permitir click para fechar imediatamente
+  toast.addEventListener("click", () => {
+    clearTimeout(removeTimeout);
+    toast.style.animation = `altaris_toast_out ${outAnimMs}ms cubic-bezier(.2,.9,.3,1) forwards`;
+    setTimeout(() => toast.remove(), outAnimMs + 10);
+  });
+
+  return toast;
+}
+
+
+let loadingInterval = null;
+
+function showLoading(texto = "Carregando...", duracao = 1500) {
+  const overlay = document.getElementById("loadingOverlay");
+  const bar = document.querySelector(".loadingBar");
+  const text = document.getElementById("loadingText");
+
+  text.textContent = texto;
+  bar.style.width = "0%";
+
+  overlay.style.display = "flex";
+  setTimeout(() => overlay.classList.add("active"), 10);
+
+  // animação incremental da barra
+  let progresso = 0;
+  clearInterval(loadingInterval);
+  loadingInterval = setInterval(() => {
+    progresso += 3; // velocidade da barra
+    if (progresso >= 100) progresso = 100;
+    bar.style.width = progresso + "%";
+  }, 50);
+
+  // ocultar depois do tempo definido (se quiser)
+  if (duracao > 0) {
+    setTimeout(() => hideLoading(), duracao);
+  }
+}
+
+function hideLoading() {
+  const overlay = document.getElementById("loadingOverlay");
+
+  overlay.classList.remove("active");
+  setTimeout(() => {
+    overlay.style.display = "none";
+    clearInterval(loadingInterval);
+  }, 400);
+}

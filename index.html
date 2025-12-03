@@ -36,6 +36,7 @@
 <link rel="stylesheet" href="modalCss.css">
 
 </head>
+<div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 <body class="bg-light pt-4" onload="iniciarApp()">
 
 <div class="container">
@@ -95,7 +96,6 @@
 
   </div>
 </div>
-
 
 <section id="pjSection" class="secao" style="display:none; padding:15px;">
 
@@ -500,6 +500,10 @@
         👤
       </button>
 
+      <button class="side-btn" onclick="abrirModalS('modalEncontros')" title="Encontros">
+        E
+      </button>
+
       <button class="side-btn danger" onclick="voltarMenu()" title="Sair do Mapa">
         X
       </button>
@@ -542,10 +546,10 @@
 
     <button class="btn btn-primary w-100 mb-3" onclick="gerarEncontro()">Gerar Encontro</button>
 
-    <div id="resultadoEncontro"></div>
+    <div id="resultadoEncontroModal"></div>
 
     <div>
-        <div id="encontrosAmbientais" class="card p-3 mb-3"></div><br>
+        <div id="encontrosAmbientaisModal" class="card p-3 mb-3"></div><br>
     </div>
 
     
@@ -660,7 +664,7 @@
             <button class="btn btn-sm btn-primary" onclick="abrirAdicionarInimigo()">➕ Inimigo</button>
           </div>
 
-          <div id="listaInimigosAtivosUI"></div>
+          <div id="listaInimigosAtivosUI1"></div>
         </div>
       </div>
 
@@ -764,6 +768,57 @@
 
   <button class="btn btn-outline-secondary mt-3" onclick="voltarMenu()">⬅ Voltar</button>
 </div>
+
+</div>
+
+<div id="modalEncontros" class="modal-wrapper">
+
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-card">
+
+    <!-- HEADER -->
+    <header class="modal-header">
+      <h2>⚔️ Encontro</h2>
+    </header>
+
+    <!-- BODY -->
+    <main class="modal-body">
+
+      <!-- Bioma detectado automaticamente -->
+      <p class="text-muted mb-2" id="pEncontros">
+        <strong>Bioma:</strong> <span id="encontroBiomaDisplay">—</span>
+      </p>
+
+      <!-- Resultado principal do encontro -->
+      <div id="resultadoEncontro" class="rpg-card p-3 rpg-inner-card mb-3">
+        <!-- Conteúdo adicionado via JS -->
+      </div>
+
+      <div id="listaInimigosAtivosUI" class="rpg-card p-3 mb-3"></div>
+
+      <!-- Encontro ambiental -->
+      <div id="encontrosAmbientais" class="card p-3 rpg-inner-card mb-3">
+        <!-- Conteúdo via JS -->
+      </div>
+
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="modal-footer d-flex justify-content-between">
+
+      <button class="btn btn-outline-warning" onclick="abrirModalDetalhePjs()">
+        👤 Ver Personagem
+      </button>
+
+      <button class="btn btn-secondary" onclick="fecharModalEncontro()">
+        Encerrar Encontro
+      </button>
+
+    </footer>
+
+  </div>
 
 </div>
 
@@ -1826,6 +1881,19 @@
 
 </div>
 
+<div id="loadingOverlay">
+  <div class="loadingCard">
+
+    <img id="loadingImage" src="assets/img/load/loading-bg.png" alt="Loading Art">
+
+    <div class="loadingBarContainer">
+      <div class="loadingBar"></div>
+    </div>
+
+    <p id="loadingText">Carregando...</p>
+  </div>
+</div>
+
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -1842,13 +1910,15 @@
 <script src="functionsDungeon.js"></script>
 <script src="functionsMissoes.js"></script>
 <script src="functionsRumores.js"></script>
+<script src="functionsPJ.js"></script>
 <script src="functionsEncontros.js"></script>
 <script src="functionsPontosInteresse.js"></script>
 <script src="functionsOraculo.js"></script>
 <script src="functionsPNJ.js"></script>
-<script src="functionsPJ.js"></script>
 
 <script>
+
+showLoading("Carregando mapa...", 1800);
 
 
 let mochilaEditIndex = null;

@@ -293,9 +293,30 @@ function custoDoHex(q, r) {
 }
 
 function descansar() {
+  let biomaC
+  const h = terrenos[key(posAtual.q, posAtual.r)];
   pm = maxPM;
   updateHUD();
   console.log("Você descansou e recuperou todos os PM.");
+  console.log(h.terreno);
+  document.getElementById("encontroBiomaDisplay").innerHTML = h.terreno;
+
+    if(h.terreno === "Planície") biomaC = "planicie"
+    if(h.terreno === "Pântano") biomaC = "pantano"
+    if(h.terreno === "Aquático") biomaC = "marinho"
+    if(h.terreno === "Montanha") biomaC = "montanha"
+    if(h.terreno === "Deserto") biomaC = "deserto"
+    if(h.terreno === "Colina") biomaC = "colina"
+    if(h.terreno === "Selva") biomaC = "selva"
+    if(h.terreno === "Floresta") biomaC = "floresta"
+
+  document.getElementById("listaInimigosAtivosUI").innerHTML = "";
+
+  if(h.poi === "Cidade"){
+    descansoSeguroMapa();
+  }else{
+    gerarEncontro(biomaC);
+  }
 }
 
 function attachTerrainTooltip(hexElement, terrenoData) {

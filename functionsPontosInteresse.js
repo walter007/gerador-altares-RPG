@@ -144,6 +144,7 @@ function gerarPISilencioso(tipo, bioma) {
     if(bioma === "planície") bioma = "planicie"
     if(bioma === "pântano") bioma = "pantano"
     if(bioma === "aquático") bioma = "marinho"
+    if(bioma == null) bioma = "planicie"
       
     let tabela;
 
