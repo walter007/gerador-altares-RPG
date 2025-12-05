@@ -769,3 +769,37 @@ body.modo-mapa {
   margin-top: 8px;
   font-style: italic;
 }
+
+.missao-marker {
+  font-size: 200px;
+  color: #ffcb2f;
+  text-shadow: 1px 1px 3px black;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 300001;
+}
+
+
+.hex .missao-marker {
+  position: absolute;
+  left: 50%;
+  top: 6%;
+  transform: translate(-50%, 0);
+  pointer-events: none;
+  z-index: 20; /* acima do ícone do POI mas abaixo de token se token tiver z-index maior */
+  display: none;
+  font-size: 200px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+
+/* se houver múltiplas missões, mostramos um badge com contagem */
+.hex .missao-marker .count {
+  display: inline-block;
+  margin-left: 6px;
+  background: rgba(255, 203, 47, 0.95);
+  color: #000;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 12px;
+}

@@ -576,6 +576,19 @@ function reconstruirMapaVisual(mapaData) {
         adicionarIconePOI(div, terrenos[k].poi);
       }
 
+      const marker = document.createElement("div");
+      marker.className = "missao-marker";
+      marker.innerHTML = `❗<span class="count" style="display:none">0</span>`;
+      div.appendChild(marker);
+
+      // se já existe missões no dados do hex (persistidos), atualiza o marcador
+      if (terrenos[k].missoes && terrenos[k].missoes.length > 0) {
+        marker.style.display = "block";
+        const cnt = marker.querySelector('.count');
+        cnt.style.display = "inline-block";
+        cnt.innerText = terrenos[k].missoes.length;
+      }
+
       mapa.appendChild(div);
     }
   }
@@ -598,6 +611,7 @@ function reconstruirMapaVisual(mapaData) {
 
   marcarPosicaoAtual();
   updateHUD && updateHUD();
+  atualizarMarcadoresMissoes();
 }
 
 function gerarMapaDados() {
@@ -701,7 +715,8 @@ function gerarMapaDados() {
                 terreno: terrenoFinal,
                 poi,
                 dadosPOI,
-                custoPM
+                custoPM,
+                missoes: []
             };
         }
     }
