@@ -1,27 +1,7 @@
 
 
 // Tabelas
-const precisa = [
-  "Recuperar","Proteger","Investigar","Destruir","Libertar","Escoltar","Resgatar","Impedir",
-  "Descobrir","Purificar","Capturar","Entregar","Explorar","Reativar","Roubar","Convencer",
-  "Selar","Libertar","Despertar","Erradicar"
-];
 
-const objeto = [
-  "Artefato","Espírito","Monstro","Cidade","Relíquia","Maldição","Amigo","Livro","Herdeiro","Animal",
-  "Pessoa","Feiticeiro","Herói","Vilão","Monstro","Fortaleza","Cidade","Orbe","Portal","Arma"
-];
-
-const situacao = [
-  "Roubado","Perdido","Corrompido","Esquecido","Selado","Destruído","Invocado","Traído","Profanado","Escondido",
-  "Transformado","Atacado","Amaldiçoado","Guardado","Contaminado","Raptado","Enfeitiçado","Silenciado","Dividido","Preso"
-];
-
-const local = [
-  "Em uma floresta","Em uma planície","Em uma montanha","Em um deserto","Em um pântano","Em uma caverna","Sob as águas","Em uma cidade",
-  "Em uma caverna","Em uma Dungeon","Em um templo","Em um Ponto Geográfico","Em um Ponto Militar","Em um Ponto Monstruoso","Em uma vila",
-  "Em uma aldeia","Em um local esquecido","Em outro Plano","Em um Ponto Mágico","Submerso"
-];
 
 
 //Encontros

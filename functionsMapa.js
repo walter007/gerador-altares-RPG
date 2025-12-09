@@ -611,7 +611,6 @@ function reconstruirMapaVisual(mapaData) {
 
   marcarPosicaoAtual();
   updateHUD && updateHUD();
-  atualizarMarcadoresMissoes();
 }
 
 function gerarMapaDados() {
@@ -740,6 +739,7 @@ function abrirMapa() {
     }
 
     reconstruirMapaVisual(campanhas[campanhaAtual].mapa);
+    atualizarMarcadoresMissoes();
 }
 
 function regenerarMapa() {

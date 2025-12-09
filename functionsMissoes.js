@@ -18,6 +18,55 @@ function gerarMissaoOld() {
 function gerarMissao() {
   const data = campanhas[campanhaAtual];
 
+  // --- Sorteios coerentes ---
+  let p, o, s, l;
+  do {
+    p = precisa[rolarD20()-1];
+    o = objeto[rolarD20()-1];
+    s = situacao[rolarD20()-1];
+  } while (!validarCoerencia(p, o, s));
+  l = local[rolarD20()-1];
+
+  // --- descrição avançada (IA leve) ---
+  const descricao = gerarDescricaoAvancada(p, o, s, l);
+
+  const categoria = classificarMissao(p, o, s, l);
+  const etapas = gerarEtapasPorCategoria(categoria, o, l);
+
+  const missao = {
+    id: "MIS-" + Math.floor(Math.random()*999999),
+    titulo: gerarTituloAvancado(p, o),
+    descricao,
+    categoria,
+    dificuldade: calcularDificuldadeBase(categoria),
+    etapas,
+    destino: null,
+    poiLigado: null,
+    expiracao: null,
+    ativa: true,
+    dataCriacao: Date.now()
+  };
+
+  // salva temporariamente na campanha para persistência antes da integração com o mapa
+  //data.missoesAtivas.push(missao);
+  //salvarCampanhas();
+  //atualizarListasMissoes();
+
+  // chama a sua integração com mapa — mantenha essa função existente
+  // OBS: você pediu que integrarMissaoAoMapa continuasse funcionando; aqui chamamos.
+  if (typeof integrarMissaoAoMapa === "function") {
+    integrarMissaoAoMapa(missao);
+  } else {
+    console.warn("integrarMissaoAoMapa não encontrada. Missão criada mas não ligada ao mapa.");
+  }
+  console.log(missao.descricao)  
+  //return missao;
+}
+
+
+function gerarMissaoOld() {
+  const data = campanhas[campanhaAtual];
+
   // Sorteios
   const p = precisa[rolarD20()-1];
   const o = objeto[rolarD20()-1];
@@ -54,11 +103,56 @@ function gerarMissao() {
 }
 
 
+function gerarMissaoOld2() {
+  const data = campanhas[campanhaAtual];
+
+  // --- Sorteios ---
+  let p, o, s, l;
+
+  // Garantir coerência
+  do {
+    p = precisa[rolarD20()-1];
+    o = objeto[rolarD20()-1];
+    s = situacao[rolarD20()-1];
+  } while (!validarCoerencia(p, o, s));
+
+  l = local[rolarD20()-1];
+
+  // --- DESCRIÇÃO IA ---
+  const descricao = criarDescricaoIA(p, o, s, l);
+
+  // --- Categoria ---
+  const categoria = classificarMissao(p, o, s, l);
+
+  // --- Etapas baseadas na categoria ---
+  const etapas = gerarEtapasPorCategoria(categoria, o, l);
+
+  // --- Montagem final ---
+  const missao = {
+    id: "MIS-" + Math.floor(Math.random()*99999),
+    titulo: gerarTituloMissao(p, o),
+    descricao,
+    categoria,
+    dificuldade: calcularDificuldadeBase(categoria),
+    etapas,
+    destino: null,
+    poiLigado: null,
+    expiracao: null,
+    ativa: true,
+    dataCriacao: Date.now()
+  };
+
+  console.log(missao.descricao)
+  // 🔥 Mantemos exatamente como você pediu
+  //integrarMissaoAoMapa(missao);
+}
+
+
+
 function concluirMissao(i) {
   const data = campanhas[campanhaAtual];
   const m = data.missoesAtivas.splice(i,1)[0];
   data.missoesConcluidas.push(m);
-  removerMissaoDoHex();
   salvarCampanhas();
   atualizarListasMissoes();
 }
@@ -277,10 +371,13 @@ function concluirMissaoPorId(id) {
   const idx = data.missoesAtivas.findIndex(m => m.id === id);
   if (idx === -1) return false;
   const [m] = data.missoesAtivas.splice(idx, 1);
+  if (m && m.destino) {
+    removerMissaoDoHex(m.destino.q, m.destino.r, m.id);
+  }
   m.status = "concluida";
   data.missoesConcluidas.push(m);
-  salvarCampanhas && salvarCampanhas();
-  atualizarListasMissoesModal && atualizarListasMissoesModal();
+  salvarCampanhas();
+  atualizarListasMissoesModal();
   return true;
 }
 
@@ -290,7 +387,7 @@ function removerMissaoPorId(id) {
   if (!data) return false;
   const idx = (data.missoesAtivas || []).findIndex(m => m.id === id);
   if (idx === -1) return false;
-  data.missoesAtivas.splice(idx, 1);
+  const m = data.missoesAtivas.splice(idx, 1);
   salvarCampanhas && salvarCampanhas();
   atualizarListasMissoesModal && atualizarListasMissoesModal();
   return true;
@@ -318,8 +415,8 @@ function atualizarListasMissoesModal() {
       <div style="display:flex; justify-content:space-between; align-items:center">
         <div>
           <b>${escapeHtml(m.titulo)}</b><br>
-          <small class="text-muted">${m.categoria} • Criada ${new Date(m.criadoEm).toLocaleString()}</small>
-          <div style="margin-top:6px">${m.fraseNarrativa}</div>
+          <small class="text-muted">${m.categoria} • Criada ${new Date(m.dataCriacao).toLocaleString()}</small>
+          <div style="margin-top:6px">${m.descricao}</div>
           ${etapasHtml}
         </div>
         <div style="display:flex; flex-direction:column; gap:6px; margin-left:10px">
@@ -333,11 +430,12 @@ function atualizarListasMissoesModal() {
   ulConcluidas.innerHTML = "";
   (data.missoesConcluidas || []).forEach(m => {
     ulConcluidas.innerHTML += `<li class="list-group-item text-muted">
-      <b>${escapeHtml(m.titulo)}</b> <small>• concluída ${new Date(m.criadoEm).toLocaleString()}</small><br>
-      <div style="margin-top:6px">${m.fraseNarrativa}</div>
+      <b>${escapeHtml(m.titulo)}</b> <small>• concluída ${new Date(m.dataCriacao).toLocaleString()}</small><br>
+      <div style="margin-top:6px">${m.descricao}</div>
     </li>`;
   });
 }
+
 
 // util pequeno para escapar HTML em strings de título/etapa
 function escapeHtml(s) {
@@ -520,7 +618,8 @@ function tipoNecessarioParaMissao(localTexto) {
   if (localTexto.includes("montanha")) return { tipo: "bioma", valor: "Montanha" };
   if (localTexto.includes("deserto")) return { tipo: "bioma", valor: "Deserto" };
   if (localTexto.includes("pântano")) return { tipo: "bioma", valor: "Pântano" };
-  if (localTexto.includes("Sob as águas")) return { tipo: "bioma", valor: "marinho" };
+  if (localTexto.includes("Sob as águas")) return { tipo: "bioma", valor: "Aquático" };
+  if (localTexto.includes("Submerso")) return { tipo: "bioma", valor: "Aquático" };
 
 
   
@@ -528,6 +627,56 @@ function tipoNecessarioParaMissao(localTexto) {
 
   if (localTexto.includes("cidade") || localTexto.includes("vila")) 
     return { tipo: "poi", categoria: "Cidade" };
+
+  if (localTexto.includes("Dungeon"))
+    return { tipo: "poi", categoria: "Dungeon" };
+
+  if (localTexto.includes("caverna"))
+    return { tipo: "poi", categoria: "Geográfico" };
+
+  if (localTexto.includes("templo") || localTexto.includes("divino"))
+    return { tipo: "poi", categoria: "Divino" };
+
+  if (localTexto.includes("Ponto Militar"))
+    return { tipo: "poi", categoria: "Militar" };
+
+  if (localTexto.includes("Ponto Mágico"))
+    return { tipo: "poi", categoria: "Mágico" };
+
+  if (localTexto.includes("Ponto Geográfico"))
+    return { tipo: "poi", categoria: "Geográfico" };
+
+  if (localTexto.includes("Ponto Monstruoso"))
+    return { tipo: "poi", categoria: "monstruoso" };
+
+  return { tipo: "bioma", valor: null }; // fallback
+
+
+}
+
+
+
+function tipoNecessarioFallbackPOI(localTexto) {
+
+  console.log("Texto da missão= " + localTexto)
+
+  if (localTexto.includes("Planície")) return { tipo: "bioma", valor: "planicie" };
+  if (localTexto.includes("Floresta")) return { tipo: "bioma", valor: "floresta" };
+  if (localTexto.includes("Montanha")) return { tipo: "bioma", valor: "montanha" };
+  if (localTexto.includes("Deserto")) return { tipo: "bioma", valor: "deserto" };
+  if (localTexto.includes("Pântano")) return { tipo: "bioma", valor: "pantano" };
+  if (localTexto.includes("Aquático")) return { tipo: "bioma", valor: "marinho" };
+  if (localTexto.includes("Selva")) return { tipo: "bioma", valor: "selva" };
+  if (localTexto.includes("Colina")) return { tipo: "bioma", valor: "colina" };
+  if (localTexto.includes("Costeiro")) return { tipo: "bioma", valor: "costeiro" };
+
+
+
+  
+  
+
+  if (localTexto.includes("Cidade") || localTexto.includes("vila")) 
+    return { tipo: "poi", categoria: "cidade" };
 
   if (localTexto.includes("Dungeon"))
     return { tipo: "poi", categoria: "Dungeon" };
@@ -553,87 +702,70 @@ function tipoNecessarioParaMissao(localTexto) {
 }
 
 function encontrarNoMapa(campanha, tipo, valor, destino) {
+  console.log("Tipo= " + tipo)
+  console.log("valor= " + valor)
+  console.log("destinoQ= " + destino.q)
+  console.log("destinoR= " + destino.r)
+
   const mapa = campanha.mapa || {};
+  // valida destino
+  if (!destino || isNaN(Number(destino.q)) || isNaN(Number(destino.r))) {
+    return { encontrado: false };
+  }
+  const q = Number(destino.q);
+  const r = Number(destino.r);
 
-  // 1) Procurar por POI primeiro (se for POI)
+  // muro: verificar se está dentro dos limites do mapa (se disponível)
+  if (mapa.cols && mapa.rows) {
+    if (q < 0 || r < 0 || q >= mapa.cols || r >= mapa.rows) {
+      console.log("fora dos limites")
+      return { encontrado: false, motivo: "fora-limites" };
+    }
+  }
+
+  const chave = key(q, r);
+
+  // 1) POI: se pediram 'poi' procure diretamente no mapa.hexes[chave] antes de vasculhar listas
   if (tipo === "poi") {
-    // tenta lista centralizada primeiro (campanha.pontosInteresse[tipoNome])
-    const listaGlobal = campanha.pontosInteresse && campanha.pontosInteresse[valor];
+    // 1.a: mapa.hexes
+    const hex = mapa.hexes && mapa.hexes[chave];
+    if (hex && hex.dadosPOI) {
+      const tipoHex = (hex.dadosPOI.tipo || (hex.dadosPOI.pi && hex.dadosPOI.pi.tipo) || "").toLowerCase();
+      if (tipoHex === String(valor).toLowerCase()) {
+        return { encontrado: true, poi: hex.dadosPOI.pi || hex.dadosPOI, origem: "mapa", q, r };
+      }
+    }
 
-    /*if (Array.isArray(listaGlobal)) {
+    // 1.b: lista global de pontos de interesse (campanha.pontosInteresse)
+    const listaGlobal = campanha.pontosInteresse && campanha.pontosInteresse[valor];
+    if (Array.isArray(listaGlobal)) {
       for (const poi of listaGlobal) {
-        if (poi.q === destino.q && poi.r === destino.r) {
+        if (Number(poi.q) === q && Number(poi.r) === r) {
           return { encontrado: true, poi, origem: "global" };
         }
       }
-    }*/
-
-    // fallback: varre o mapa.hexes (objeto chaveado) procurando dadosPOI compatível
-    if (mapa.hexes && typeof mapa.hexes === "object") {
-      for (const keyHex of Object.keys(mapa.hexes)) {
-        const hex = mapa.hexes[keyHex];
-        if (!hex || !hex.dadosPOI) continue;
-
-        // estrutura que você usa: dadosPOI: { tipo: "monstruoso", pi: {...} }
-        const tipoHex = hex.dadosPOI.tipo || (hex.dadosPOI.pi && hex.dadosPOI.pi.tipo);
-        if (!tipoHex) continue;
-
-        // converte chave "q,r" caso o mapa use esse formato
-        let q = hex.q, r = hex.r;
-        if (q === undefined || r === undefined) {
-          const parts = keyHex.split(/[,_]/).map(n => Number(n));
-          if (parts.length >= 2) { q = parts[0]; r = parts[1]; }
-        }
-
-        if (tipoHex.toLowerCase() === valor.toLowerCase()
-            && Number(q) === Number(destino.q)
-            && Number(r) === Number(destino.r)) {
-          // devolve o objeto pi (dadosPOI.pi) se disponível, senão o dadosPOI inteiro
-          return { encontrado: true, poi: hex.dadosPOI.pi || hex.dadosPOI, origem: "mapa", q, r };
-        }
-      }
     }
 
-    return { encontrado: false };
+    return { encontrado: false, hex: Object.assign({ q, r }, hex) };
   }
 
-  // ---------- procura por bioma ----------
-  // normaliza mapa para iterável
-  let mapaArray = [];
-
-  // caso: mapa já é array de hexes [{q,r,terreno}, ...]
-  if (Array.isArray(mapa)) {
-    mapaArray = mapa;
-  }
-  // caso: mapa.hexes é array
-  else if (mapa.hexes && Array.isArray(mapa.hexes)) {
-    mapaArray = mapa.hexes;
-  }
-  // caso: mapa.hexes é objeto chaveado { "q,r": hex, ... }
-  else if (mapa.hexes && typeof mapa.hexes === "object") {
-    mapaArray = Object.entries(mapa.hexes).map(([k, h]) => {
-      // tenta extrair q,r do próprio hex, se não existir usa a chave
-      if (h && (h.q === undefined || h.r === undefined)) {
-        const parts = k.split(/[,_]/).map(n => Number(n));
-        if (parts.length >= 2) {
-          h = Object.assign({ q: parts[0], r: parts[1] }, h);
-        }
-      }
-      return h;
-    });
-  }
-  // caso: mapa é um objeto chaveado direto (sem prop hexes)
-  else if (typeof mapa === "object") {
-    mapaArray = Object.values(mapa);
-  }
-
+  // 2) BIOMA: lookup direto no mapa.hexes[chave]
   if (tipo === "bioma") {
-    const hex = mapaArray.find(h => Number(h.q) === Number(destino.q) && Number(h.r) === Number(destino.r));
-    if (!hex) return { encontrado: false };
-    if (valor === null || hex.terreno === valor) {
-      return { encontrado: true, hex };
+    console.log("Entrou em bioma")
+    const hex = mapa.hexes && mapa.hexes[chave];
+    console.log("hex encontrado")
+    console.log(hex)
+    if (!hex){
+      console.log("hex não encontrado")
+      return { encontrado: false };
+    } 
+    // normaliza comparação (algumas strings têm maiúsculas)
+    if (valor === null || String(hex.terreno).toLowerCase() === String(valor).toLowerCase()) {
+      console.log("Terreno na variavel hex= ",hex.terreno)
+      console.log("Terreno na variavel valor= ",valor)
+      return { encontrado: true, hex: Object.assign({ q, r }, hex) };
     }
-    return { encontrado: false };
+    return { encontrado: false, hex: Object.assign({ q, r }, hex) };
   }
 
   return { encontrado: false };
@@ -666,6 +798,7 @@ function integrarMissaoAoMapa(missao) {
   console.log(missao)
 
   const campanha = campanhas[campanhaAtual];
+  
 
   // posição do grupo / jogador  
   //const origem = campanha.mapa.find(h => h.ehInicio) || campanha.mapa[0]; 
@@ -677,12 +810,19 @@ function integrarMissaoAoMapa(missao) {
 
   console.log("Bioma da missão= " + necessidade.valor)
 
-  const direcao = sortearDirecao();
-  const distancia = sortearDistancia();
+  //const direcao = sortearDirecao();
+  //const distancia = sortearDistancia();
 
-  const destino = moverNaDirecao(origem.q, origem.r, direcao, distancia);
+  //const destino = moverNaDirecao(origem.q, origem.r, direcao, distancia);
 
-  missao.destino = { ...destino, direcao, distancia };
+  const destinoObj = sortearDestinoPossivel(origem, campanhas[campanhaAtual].mapa);
+// destinoObj tem { q, r, direcao, distancia, tentativa }
+
+const direcao = destinoObj.direcao;
+const distancia = destinoObj.distancia;
+const destino = destinoObj.destino;
+
+missao.destino = { ...destino, direcao, distancia };
 
   const achado = encontrarNoMapa(
     campanha,
@@ -710,14 +850,18 @@ function integrarMissaoAoMapa(missao) {
   if (!achado.encontrado) {
     if (necessidade.tipo === "bioma") {
       // alterar o bioma no hex (pouco invasivo)
-      const hex = mapaArray.find(h => h.q === destino.q && h.r === destino.r);
+      /*const hex = mapaArray.find(h => h.q === destino.q && h.r === destino.r);
       if (hex) {
         hex.terreno = necessidade.valor || "Planície";
-      }
+      }*/
+     console.log("Hex dentro do NÃO ENCONTROU")
+     console.log(achado.hex)
+     missao = validarBiomaOuAplicarFallback(missao, achado.hex)
       missao.poiLigado = null;
     } else {
-      const poiNovo = criarPOIProcedural(campanha, necessidade.categoria, destino);
-      missao.poiLigado = poiNovo.id;
+      missao = validarPoiOuAplicarFallback(missao, achado.hex)
+      //const poiNovo = criarPOIProcedural(campanha, necessidade.categoria, destino);
+      //missao.poiLigado = poiNovo.id;
     }
   } 
   else {
@@ -731,7 +875,7 @@ function integrarMissaoAoMapa(missao) {
 
   setMissaoNoHex(missao.destino.q, missao.destino.r, missao);
   campanhas[campanhaAtual].missoesAtivas.push(missao);
-  atualizarListasMissoes();
+  atualizarListasMissoesModal();
   //criarMarcadorMissaoNoMapa(missao);
   salvarCampanhas();
 }
@@ -815,8 +959,6 @@ function removerMissaoDoHex(q, r, missaoId) {
   if (terrenos[k] && terrenos[k].missoes) {
     terrenos[k].missoes = terrenos[k].missoes.filter(m => m !== missaoId);
   }
-
-  salvarCampanhas();
   atualizarMarcadoresMissoes();
   return true;
 }
@@ -841,7 +983,8 @@ function atualizarMarcadoresMissoes() {
     if (!marker) return;
 
     const countEl = marker.querySelector('.count');
-
+    //console.log("Tamanho das missões no array= " + missoes.length)
+    //console.log(missoes)
     if (missoes.length > 0 ) {
       marker.style.display = "block";
       if (countEl) {
@@ -853,4 +996,323 @@ function atualizarMarcadoresMissoes() {
       if (countEl) countEl.style.display = "none";
     }
   });
+}
+
+
+function encontrarHexMaisProximoPorBioma(qOrig, rOrig, biomaDesejado, maxRadius = 12) {
+  console.log("Entrou em encontrarHexMaisProximoPorBioma")
+  const mapa = campanhas[campanhaAtual].mapa;
+  if (!mapa || !mapa.hexes) return null;
+  const biomaLower = String(biomaDesejado || "").toLowerCase();
+  const origemCube = offsetToCube(Number(qOrig), Number(rOrig));
+
+  let candidato = null;
+  let melhorDist = Infinity;
+
+  for (const [k, h] of Object.entries(mapa.hexes)) {
+    if (!h) continue;
+
+    // extrai q,r do hex (com compatibilidade caso não esteja no objeto)
+    let q = h.q, r = h.r;
+    if (q === undefined || r === undefined) {
+      const parts = k.split(/[,_]/).map(n => Number(n));
+      if (parts.length >= 2) { q = parts[0]; r = parts[1]; }
+    }
+    if (q === undefined || r === undefined) continue;
+
+    // compara bioma (normalizado)
+    const terreno = (h.terreno || "").toString().toLowerCase();
+    if (terreno !== biomaLower) continue;
+ 
+
+    const cube = offsetToCube(Number(q), Number(r));
+    const dist = cubeDistance(origemCube, cube);
+
+    if (dist < melhorDist && dist <= maxRadius) {
+      melhorDist = dist;
+      candidato = { q: Number(q), r: Number(r), dist };
+      if (dist === 0) break; // já no mesmo hex
+    }
+  }
+  console.log("Candidato")
+  console.log(candidato)
+  return candidato; // null se nenhum encontrado
+}
+
+function encontrarPoiMaisProximoPorBioma(qOrig, rOrig, poiDesejado, maxRadius = 12) {
+  console.log("Entrou em encontrarPoiMaisProximoPorBioma")
+  const mapa = campanhas[campanhaAtual].mapa;
+  if (!mapa || !mapa.hexes) return null;
+  const poiLower = String(poiDesejado || "").toLowerCase();
+  const origemCube = offsetToCube(Number(qOrig), Number(rOrig));
+
+  let candidato = null;
+  let melhorDist = Infinity;
+
+  for (const [k, h] of Object.entries(mapa.hexes)) {
+    if (!h) continue;
+
+    // extrai q,r do hex (com compatibilidade caso não esteja no objeto)
+    let q = h.q, r = h.r;
+    if (q === undefined || r === undefined) {
+      const parts = k.split(/[,_]/).map(n => Number(n));
+      if (parts.length >= 2) { q = parts[0]; r = parts[1]; }
+    }
+    if (q === undefined || r === undefined) continue;
+
+    // compara bioma (normalizado)
+    const poi = (h.poi || "").toString().toLowerCase();
+    if (poi !== poiLower) continue;
+ 
+
+    const cube = offsetToCube(Number(q), Number(r));
+    const dist = cubeDistance(origemCube, cube);
+
+    if (dist < melhorDist && dist <= maxRadius) {
+      melhorDist = dist;
+      candidato = { q: Number(q), r: Number(r), dist };
+      if (dist === 0) break; // já no mesmo hex
+    }
+  }
+  console.log("Candidato")
+  console.log(candidato)
+  return candidato; // null se nenhum encontrado
+}
+
+function validarBiomaOuAplicarFallback(missao, hexSorteado) {
+    const biomaEsperado = tipoNecessarioParaMissao(missao.descricao);
+    let biomaEncontrado = hexSorteado.terreno;
+
+    //if(biomaEncontrado === "Aquático") biomaEncontrado = "Marinho"
+
+    /*if(biomaEncontrado === "Planície") biomaEncontrado = "planicie"
+    if(biomaEncontrado === "Pântano") biomaEncontrado = "pantano"
+    if(biomaEncontrado === "Aquático") biomaEncontrado = "marinho"
+    if(biomaEncontrado === "Montanha") biomaEncontrado = "montanha"
+    if(biomaEncontrado === "Deserto") biomaEncontrado = "deserto"
+    if(biomaEncontrado === "Selva") biomaEncontrado = "selva"
+    if(biomaEncontrado === "Floresta") biomaEncontrado = "floresta"
+    if(biomaEncontrado === "Costeiro") biomaEncontrado = "costeiro"*/
+    
+    
+    console.log("VAriaveis dentro do validarBiomaOuAplicarFallback")
+    console.log(biomaEsperado.valor)
+    console.log(biomaEncontrado)
+
+
+    // Caso já esteja ok
+    if (biomaEsperado.valor === biomaEncontrado) {
+        missao.hexDestino = hexSorteado;
+        return missao;
+    }
+
+    // Tenta encontrar hex do tipo esperado perto
+    const hexProximo = encontrarHexMaisProximoPorBioma(missao.destino.q,missao.destino.r,biomaEsperado.valor);
+
+    if (hexProximo) {
+        // Ótimo, usa esse hex
+        console.log("entrou aqui no hexProximo")
+        missao.destino = hexProximo;
+        return missao;
+    }
+
+    // ------- Fallback -------
+    // Usa o hex sorteado mesmo
+    //missao.hexDestino = hexSorteado;
+
+    // Atualiza textos
+    atualizarDescricaoBioma(missao, biomaEsperado.valor, biomaEncontrado);
+
+    return missao;
+}
+
+
+function validarPoiOuAplicarFallback(missao, hexSorteado) {
+    console.log("missao.descricao= " + missao.descricao)
+    const poiEsperado = tipoNecessarioParaMissao(missao.descricao);
+    let poiEncontrado = "nada"
+    console.log("Hex dentro do validar poi")
+    console.log(hexSorteado)
+    if(hexSorteado.poi !== null)
+      poiEncontrado = hexSorteado.poi;
+
+    //if(biomaEncontrado === "Aquático") biomaEncontrado = "Marinho"
+
+    /*if(biomaEncontrado === "Planície") biomaEncontrado = "planicie"
+    if(biomaEncontrado === "Pântano") biomaEncontrado = "pantano"
+    if(biomaEncontrado === "Aquático") biomaEncontrado = "marinho"
+    if(biomaEncontrado === "Montanha") biomaEncontrado = "montanha"
+    if(biomaEncontrado === "Deserto") biomaEncontrado = "deserto"
+    if(biomaEncontrado === "Selva") biomaEncontrado = "selva"
+    if(biomaEncontrado === "Floresta") biomaEncontrado = "floresta"
+    if(biomaEncontrado === "Costeiro") biomaEncontrado = "costeiro"*/
+    
+    
+    console.log("VAriaveis dentro do validarBiomaOuAplicarFallback")
+    console.log(poiEsperado.categoria)
+    console.log(poiEncontrado)
+
+
+    // Caso já esteja ok
+    if (poiEsperado.categoria === poiEncontrado) {
+        missao.hexDestino = hexSorteado;
+        return missao;
+    }
+
+    // Tenta encontrar hex do tipo esperado perto
+    const poiProximo = encontrarPoiMaisProximoPorBioma(missao.destino.q,missao.destino.r,poiEsperado.categoria);
+
+    if (poiProximo) {
+        // Ótimo, usa esse hex
+        console.log("entrou aqui no hexProximo")
+        missao.destino = poiProximo;
+        return missao;
+    }
+
+    let poiEsperadoAux = ""
+    if(poiEsperado.categoria.toLowerCase() === "geográfico" ) poiEsperadoAux = "geografico"
+    else if(poiEsperado.categoria.toLowerCase() === "mágico" ) poiEsperadoAux = "magico"
+    else poiEsperadoAux = poiEsperado.categoria.toLowerCase()
+
+    let terrenoAux = tipoNecessarioFallbackPOI(hexSorteado.terreno)
+
+    console.log("vARIAVEIS PRA GERAR O POI SILENCIOSO")
+    console.log(terrenoAux)
+    console.log(poiEsperadoAux)
+
+    // ------- Fallback -------
+    const piObj = gerarPISilencioso(poiEsperadoAux,terrenoAux.valor)
+    console.log(piObj)
+
+    return missao;
+}
+
+function atualizarDescricaoBioma(missao, biomaAntigo, biomaNovo) {
+    // Atualiza o texto principal
+    console.log("antes de ajustar a descricao")
+    console.log(missao.descricao);
+    missao.descricao = missao.descricao.replaceAll(biomaAntigo, biomaNovo);
+
+    // Atualiza o objeto de destino (caso você use separado)
+    //if (missao.descricaoDestino) {
+        //missao.descricaoDestino = missao.descricaoDestino.replaceAll(biomaAntigo, biomaNovo);
+    //}
+
+    // Caso tenha campos estruturados
+    //missao.destino = biomaNovo;
+    console.log("depois de ajustar a descricao")
+    console.log(missao.descricao);
+    return missao;
+}
+
+function gerarDestinoValido(origem, mapa) {
+  let tentativas = 0;
+
+  while (tentativas < 20) {
+    tentativas++;
+    
+    const destinoObj = sortearDestinoPossivel(origem, mapa);
+    
+    const destino = destinoObj.destino
+
+    // Valida limites
+    if (
+      destino.q >= 0 && destino.r >= 0 &&
+      destino.q < mapa.cols && destino.r < mapa.rows
+    ) {
+      return destino; // <<< Achou destino válido!
+    }
+
+    console.log(`Destino fora dos limites, tentando novamente... (tentativa ${tentativas})`);
+  }
+
+  // Fallback definitivo (muito improvável)
+  console.warn("Não foi possível gerar destino válido, usando a origem mesmo.");
+  return { q: origem.q, r: origem.r };
+}
+
+
+function gerarDestinoValido(origem, mapa, options = {}) {
+  const maxTentativas = options.maxTentativas || 20;
+  let ultimaTentativa = null;
+
+  // limites fallback (se mapa não tiver cols/rows use globals)
+  const maxCols = (mapa && mapa.cols) ? mapa.cols : (typeof cols !== 'undefined' ? cols : 0);
+  const maxRows = (mapa && mapa.rows) ? mapa.rows : (typeof rows !== 'undefined' ? rows : 0);
+
+  for (let tentativa = 1; tentativa <= maxTentativas; tentativa++) {
+    const direcao = sortearDirecao();
+    const distancia = sortearDistancia();
+
+    const destino = moverNaDirecao(origem.q, origem.r, direcao, distancia);
+    ultimaTentativa = { destino, direcao, distancia, tentativa };
+
+    // Se mapa não tiver cols/rows definidos, assumimos que qualquer destino é aceitável
+    if (!maxCols || !maxRows) {
+      return ultimaTentativa;
+    }
+
+    // Validar limites
+    const dentro =
+      Number(ultimaTentativa.q) >= 0 &&
+      Number(ultimaTentativa.r) >= 0 &&
+      Number(ultimaTentativa.q) < Number(maxCols) &&
+      Number(ultimaTentativa.r) < Number(maxRows);
+
+    if (dentro) {
+      return ultimaTentativa; // encontrou destino válido
+    }
+
+    // senão tenta novamente
+    // (loop continua)
+  }
+
+  // fallback: não achou destino dentro do limite após tentativas
+  // devolve a última tentativa (com direcao/distancia) para que o fluxo continue
+  console.warn("gerarDestinoValido: não encontrou destino dentro dos limites após", maxTentativas, "tentativas. Retornando última tentativa.");
+  if (ultimaTentativa) return ultimaTentativa;
+
+  // último fallback extremo: retorna origem com nulls
+  return { destino, direcao: null, distancia: null, tentativa: 0 };
+}
+
+
+function sortearDestinoPossivel(origem, mapa) {
+  const maxCols = mapa.cols;
+  const maxRows = mapa.rows;
+
+  const direcoes = ["N","NE","SE","S","SW","NW"];
+
+  // Lista final de destinos válidos
+  const opcoes = [];
+
+  for (const direcao of direcoes) {
+    for (let distancia = 3; distancia <= 10; distancia++) {
+
+      const destino = moverNaDirecao(origem.q, origem.r, direcao, distancia);
+
+      const dentro =
+        destino.q >= 0 &&
+        destino.r >= 0 &&
+        destino.q < maxCols &&
+        destino.r < maxRows;
+
+      if (dentro) {
+        opcoes.push({
+          destino,
+          direcao,
+          distancia
+        });
+      }
+    }
+  }
+
+  // Não existe nenhuma opção válida → borda extrema
+  if (opcoes.length === 0) {
+    console.warn("sortearDestinoPossivel: nenhuma direção/distância válida a partir de", origem);
+    return null;
+  }
+
+  // Escolhe uma aleatória
+  return opcoes[Math.floor(Math.random() * opcoes.length)];
 }

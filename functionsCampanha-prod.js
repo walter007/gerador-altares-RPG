@@ -172,7 +172,7 @@ function carregarCampanha(nome) {
   }
 
   salvarCampanhas();
-  atualizarListasMissoes();
+  atualizarListasMissoesModal();
   atualizarListaRumores();
   mostrarCampanhas();
   //atualizarListaDungeons();

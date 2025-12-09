@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <button onclick="gerarM()">Gerar Missão</button>
+    <script>
+        // mission-gen-advanced.js
+// Sistema avançado de geração de missões - Fantasia
+// Pode rodar em Node ou navegador (ES6).
+
+/* ---------------- utilidades ---------------- */
+class RNG {
+  constructor(seed = null) {
+    if (seed == null) {
+      this._rand = Math.random;
+    } else {
+      // simple LCG for reproducible results
+      let s = typeof seed === 'number' ? seed : hashCode(seed);
+      this._state = s >>> 0;
+      this._rand = () => {
+        this._state = (1664525 * this._state + 1013904223) >>> 0;
+        return (this._state / 0x100000000);
+      };
+    }
+  }
+  float() { return this._rand(); }
+  int(max) { return Math.floor(this.float() * max); }
+  pick(arr) { return arr[this.int(arr.length)]; }
+  weightedPick(list) {
+    const total = list.reduce((s, e) => s + (e.weight ?? 1), 0);
+    let r = this.float() * total;
+    for (const e of list) {
+      r -= (e.weight ?? 1);
+      if (r <= 0) return e.item ?? e;
+    }
+  }
+}
+function hashCode(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i); h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
+  }
+  return h >>> 0;
+}
+function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+/* ---------------- banco base (extensível) ---------------- */
+const CORE = {
+  themes: [
+    { item: 'épico', weight: 3 },
+    { item: 'sombrio', weight: 2 },
+    { item: 'místico', weight: 3 },
+    { item: 'folclórico', weight: 2 },
+    { item: 'político', weight: 1 }
+  ],
+
+  storyLayers: [
+    // storyType, required slots
+    { key: 'investigacao', name: 'Investigação', slots: ['incidente','pistas','suspeitos','revelacao','confronto'] },
+    { key: 'busca', name: 'Busca', slots: ['artefato','localPrimario','guardiao','travesia','recompensa'] },
+    { key: 'intriga', name: 'Intriga', slots: ['cliente','alvo','segredos','manipulacao','resultadoPolitico'] },
+    { key: 'sobrevivencia', name: 'Sobrevivência', slots: ['eventoNatural','recursos','ameaça','opcoesEscape','consequencia'] },
+    { key: 'cerco', name: 'Defesa/Cerco', slots: ['local','forcasInimigas','suprimentos','pontoFraco','contramedida'] }
+  ],
+
+  hooks: [
+    "Um mensageiro ferido chega com papel queimado",
+    "Uma febre que não cede assola uma vila",
+    "Antigas runas brilham à noite na floresta",
+    "Uma caravana some entre a névoa",
+    "Lendas sobre um campeão esquecido voltam a circular"
+  ],
+
+  locales: [
+    { name: 'Floresta de Silvaran', tag: 'floresta' },
+    { name: 'Ruínas de Khar-Dûn', tag: 'ruinas' },
+    { name: 'Mina de Serraluz', tag: 'subterraneo' },
+    { name: 'Porto de Marbryn', tag: 'urbano' },
+    { name: 'Pico de Ael', tag: 'montanha' },
+    { name: 'Pântanos de Myr', tag: 'pantano' },
+  ],
+
+  antagonists: [
+    { name: 'cultistas da Névoa', type: 'cult' },
+    { name: 'lobos corrompidos', type: 'besta' },
+    { name: 'arnes de aço sem dono', type: 'autômato' },
+    { name: 'nobre com ambições secretas', type: 'humano' },
+    { name: 'um espírito ancestral', type: 'espirito' }
+  ],
+
+  complicationsByTag: {
+    floresta: ['neblina que confunde bússolas','raízes vivas que prendem pés','espécies territoriais atacam à noite'],
+    ruinas: ['armadilhas mecânicas','pilares prestes a ruir','magia residual distorce o tempo'],
+    subterraneo: ['gás tóxico','colapso recente bloqueia rotas','criaturas cegas que atacam por vibração'],
+    urbano: ['tensões entre guildas','tropas patrulham as ruas','boatos inflamam a população'],
+    montanha: ['avalanches súbitas','ventos cortantes','caminhos estreitos e vertiginosos'],
+    pantano: ['lodo que suga', 'neblina fétida', 'planta carnívora camuflada']
+  },
+
+  rewards: [
+    'artefato menor com encantamento', 'mapa de tesouro parcial', 'favor nobre', 'acesso a biblioteca proibida',
+    'ouro e joias', 'benção menor deum'
+  ],
+
+  templates: {
+    title: [
+      "As Sombras de {theme}",
+      "O Segredo de {locale}",
+      "A Busca por {artefato}",
+      "{theme}: A Jornada de {client}"
+    ],
+    intro: [
+      "{hook}. {leadSentence}",
+      "Rumores dizem que {rumor}. {hook}.",
+      "{client} busca aventureiros: {brief}."
+    ],
+    leadSentence: [
+      "Os heróis são contratados para {goal}.",
+      "A comunidade precisa que alguém {goal}.",
+      "Há pouco tempo, {incident}, e agora {goal}."
+    ],
+    twist: [
+      "Ao investigar, os heróis descobrem que {twist}.",
+      "O que parecia simples é, na verdade, {twist}.",
+      "Uma reviravolta revela que {twist}."
+    ],
+    conclusion: [
+      "Se falharem, {failConsequence}.",
+      "Ao vencerem, {successConsequence}.",
+      "A ação inevitavelmente levará a {longTermImpact}."
+    ]
+  }
+};
+
+/* ---------------- motor de coerência (regras) ---------------- */
+const RULES = [
+  // cada regra: teste(ctx) -> modifica ctx (pesos, escolha, validação)
+  {
+    name: 'local-complica-tipo',
+    test: ctx => ctx.locale,
+    apply: (ctx) => {
+      const tag = ctx.locale.tag;
+      const comps = CORE.complicationsByTag[tag] || [];
+      ctx.complication = ctx.rng.pick(comps);
+      // if antagonist type conflicts with locale, nudge selection
+      if (ctx.antagonist.type === 'autômato' && tag === 'pantano') {
+        // choose different antagonist
+        ctx.antagonist = ctx.rng.pick(CORE.antagonists.filter(a => a.type !== 'autômato'));
+      }
+    }
+  },
+  {
+    name: 'intriga-adequar-cliente',
+    test: ctx => ctx.story.key === 'intriga',
+    apply: ctx => {
+      if (!ctx.client) ctx.client = { name: 'um nobre influente', type: 'nobre' };
+      // increase chance of political antagonist
+      if (ctx.client.type === 'nobre') {
+        // try to pick a humanoid antagonist if current is odd
+        if (!['humano','cult'].includes(ctx.antagonist.type)) {
+          const pick = ctx.rng.pick(CORE.antagonists.filter(a => ['humano','cult'].includes(a.type)));
+          if (pick) ctx.antagonist = pick;
+        }
+      }
+    }
+  },
+  {
+    name: 'busca-artefato-requisito',
+    test: ctx => ctx.story.key === 'busca',
+    apply: ctx => {
+      if (!ctx.artifact) ctx.artifact = "o Coração de Lúmen";
+      // ruínas aumentam chance de armadilhas
+      if (ctx.locale.tag === 'ruinas') ctx.complication = ctx.complication || "armadilhas antigas ainda ativas";
+    }
+  }
+];
+
+/* ---------------- memória anti-repetição ---------------- */
+class ShortMemory {
+  constructor(size = 6) { this.size = size; this.queue = []; }
+  saw(key, val) {
+    return this.queue.some(e => e.key===key && e.val===val);
+  }
+  push(key, val) {
+    this.queue.push({key,val});
+    if (this.queue.length>this.size) this.queue.shift();
+  }
+}
+
+/* ---------------- motor principal ---------------- */
+class MissionGenerator {
+  constructor(options = {}) {
+    this.rng = new RNG(options.seed ?? null);
+    this.memory = new ShortMemory(options.memorySize || 8);
+    this.core = options.core || CORE;
+    this.rules = options.rules || RULES;
+  }
+
+  extendCore(partial) {
+    // shallow merge arrays by key
+    for (const k of Object.keys(partial)) {
+      if (Array.isArray(this.core[k])) this.core[k] = this.core[k].concat(partial[k]);
+      else if (typeof this.core[k] === 'object') this.core[k] = {...this.core[k], ...partial[k]};
+      else this.core[k] = partial[k];
+    }
+  }
+
+  generateOnce({forceStoryKey=null} = {}) {
+    const ctx = { rng: this.rng, core: this.core };
+    // choose theme & story layer
+    ctx.theme = this.rng.weightedPick(this.core.themes);
+    ctx.story = forceStoryKey
+      ? (this.core.storyLayers.find(s=>s.key===forceStoryKey) || this.rng.pick(this.core.storyLayers))
+      : this.rng.pick(this.core.storyLayers);
+
+    // pick common slots
+    ctx.hook = this.rng.pick(this.core.hooks);
+    ctx.locale = this.rng.pick(this.core.locales);
+
+    // ensure not repeating same hook+locale recently
+    if (this.memory.saw('hook-locale', ctx.hook + '|' + ctx.locale.name)) {
+      // try a few times to pick a different locale
+      for (let i=0;i<4;i++){
+        ctx.locale = this.rng.pick(this.core.locales);
+        if (!this.memory.saw('hook-locale', ctx.hook + '|' + ctx.locale.name)) break;
+      }
+    }
+
+    ctx.client = { name: this.rng.pick(['mercador aflito','líder da vila','ordem de magos','arqueólogo','uma criança perdida']), type: null };
+    // map some names to types
+    if (ctx.client.name.includes('mercador')) ctx.client.type='mercador';
+    if (ctx.client.name.includes('líder')) ctx.client.type='lider';
+    if (ctx.client.name.includes('ordem')) ctx.client.type='ordem';
+    if (ctx.client.name.includes('arqueólogo')) ctx.client.type='arqueologo';
+
+    ctx.antagonist = this.rng.pick(this.core.antagonists);
+    ctx.rewards = this.rng.pick(this.core.rewards);
+
+    // fill story-specific slots with heuristics
+    this.fillSlots(ctx);
+
+    // apply rules
+    for (const r of this.rules) {
+      if (r.test(ctx)) r.apply(ctx);
+    }
+
+    // avoid repeating identical missions
+    const missionFingerprint = `${ctx.story.key}|${ctx.hook}|${ctx.locale.name}|${ctx.antagonist.name}`;
+    if (this.memory.saw('mission', missionFingerprint)) {
+      // slight mutation: change antagonist or complication
+      ctx.antagonist = this.rng.pick(this.core.antagonists.filter(a=>a.name!==ctx.antagonist.name)) || ctx.antagonist;
+      ctx.complication = ctx.complication || this.rng.pick(this.core.complicationsByTag[ctx.locale.tag]||[]);
+    }
+
+    // store memory
+    this.memory.push('mission', missionFingerprint);
+    this.memory.push('hook-locale', ctx.hook + '|' + ctx.locale.name);
+    this.memory.push('antagonist', ctx.antagonist.name);
+
+    // build narrative text
+    const narrative = this.render(ctx);
+
+    return { ctx, narrative };
+  }
+
+  fillSlots(ctx) {
+    // basic slot fillers; expandable
+    const sKey = ctx.story.key;
+    if (sKey === 'investigacao') {
+      ctx.incident = this.rng.pick(['um furto bizarro','um cadáver que sumiu','uma praga de animais']);
+      ctx.clues = [this.rng.pick(['uma rune estranha','um fragmento de roupa','um testemunho contraditório'])];
+      ctx.suspects = [this.rng.pick(this.core.antagonists).name, this.rng.pick(['um vigia corrupto','um monge silente'])];
+      ctx.revelation = this.rng.pick(['um pacto com um espírito','um artefato que altera memórias','um nobre manipulando tudo']);
+    }
+    if (sKey === 'busca') {
+      ctx.artifact = this.rng.pick(['Cálice de Estrelas','Lâmina do Alvorecer','Coração de Lúmen']);
+      ctx.guardian = this.rng.pick(['um golem de pedra','um espírito guardião','uma matilha de bestas']);
+      ctx.traverse = this.rng.pick(['uma trilha traiçoeira','um labirinto submerso','ruínas que mudam de lugar']);
+    }
+    if (sKey === 'intriga') {
+      ctx.target = this.rng.pick(['uma assembleia de conselheiros','um candidato ao trono','um comerciante influente']);
+      ctx.secrets = this.rng.pick(['cartas comprometedoras','contrato mágico','alianças secretas']);
+      ctx.manipulation = this.rng.pick(['plantar evidências','subornar um guarda','usar magia para falsificar lembranças']);
+    }
+    if (sKey === 'sobrevivencia') {
+      ctx.naturalEvent = this.rng.pick(['tempestade de fogo','inverno súbito','corrida de criaturas']);
+      ctx.resources = this.rng.pick(['Água potável escassa','órgãos de magia','estoque de provisões']);
+    }
+    if (sKey === 'cerco') {
+      ctx.enemyForces = this.rng.pick(['bárbaros do norte','legião mercenária','criaturas invocadas']);
+      ctx.supplies = this.rng.pick(['muralha frágil','poços contaminados','arma de cerco inacabada']);
+    }
+
+    // general complication
+    if (!ctx.complication) {
+      const comps = this.core.complicationsByTag[ctx.locale.tag] || [];
+      ctx.complication = this.rng.pick(comps) || 'um problema inesperado';
+    }
+  }
+
+  render(ctx) {
+    // helper to fill templates
+    function tplChoice(templates, map) {
+      const t = ctx.rng.pick(templates);
+      return t.replace(/\{(\w+)\}/g, (_, k) => (map[k] ?? `{${k}}`));
+    }
+
+    const theme = ctx.theme;
+    const locale = ctx.locale.name;
+    const client = ctx.client.name;
+    const artifact = ctx.artifact || 'um objeto misterioso';
+    const hook = ctx.hook;
+    const goal = ctx.story.key === 'busca' ? `recuperar ${artifact}` : `resolver a situação em ${locale}`;
+
+    const title = tplChoice(this.core.templates.title, {theme, locale, artefato: artifact, client});
+    const intro = tplChoice(this.core.templates.intro, {hook, rumor: ctx.incident || '', client, brief: `${client} pede ajuda para ${goal}`, leadSentence: ''});
+    const lead = tplChoice(this.core.templates.leadSentence, {goal, incident: ctx.incident || ''});
+    const twist = tplChoice(this.core.templates.twist, {twist: ctx.revelation || ctx.antagonist.name + ' está envolvido'});
+    const conclusion = tplChoice(this.core.templates.conclusion, {
+      failConsequence: 'a influência maligna aumentará, corrompendo a região',
+      successConsequence: 'os heróis ganharão aliados e recursos valiosos',
+      longTermImpact: 'uma cadeia de eventos que mudará o reino'
+    });
+
+    // short structured mission
+    const blocks = [];
+    blocks.push(`# ${title}`);
+    blocks.push(`**Tema:** ${theme}`);
+    blocks.push(`**Gancho:** ${hook}`);
+    blocks.push(`**Introdução:** ${lead}`);
+    blocks.push(`**Cliente:** ${client}`);
+    blocks.push(`**Local:** ${locale} (${ctx.locale.tag})`);
+    blocks.push(`**Antagonista (principal):** ${ctx.antagonist.name}`);
+    // story-specific details
+    if (ctx.story.key === 'investigacao') {
+      blocks.push(`**Incidente:** ${ctx.incident}`);
+      blocks.push(`**Pistas:** ${ctx.clues.join(', ')}`);
+      blocks.push(`**Suspeitos:** ${ctx.suspects.join(', ')}`);
+      blocks.push(`**Revelação provável:** ${ctx.revelation}`);
+    } else if (ctx.story.key === 'busca') {
+      blocks.push(`**Artefato:** ${artifact}`);
+      blocks.push(`**Guardião:** ${ctx.guardian}`);
+      blocks.push(`**Travessia / Obstáculo chave:** ${ctx.traverse}`);
+    } else if (ctx.story.key === 'intriga') {
+      blocks.push(`**Alvo:** ${ctx.target}`);
+      blocks.push(`**Segredos:** ${ctx.secrets}`);
+      blocks.push(`**Tática sugerida:** ${ctx.manipulation}`);
+    } else if (ctx.story.key === 'sobrevivencia') {
+      blocks.push(`**Evento natural:** ${ctx.naturalEvent}`);
+      blocks.push(`**Recursos críticos:** ${ctx.resources}`);
+    } else if (ctx.story.key === 'cerco') {
+      blocks.push(`**Forças inimigas:** ${ctx.enemyForces}`);
+      blocks.push(`**Suprimentos:** ${ctx.supplies}`);
+    }
+
+    blocks.push(`**Complicação ambiente:** ${ctx.complication}`);
+    blocks.push(`**Reviravolta:** ${twist}`);
+    blocks.push(`**Conclusão:** ${conclusion}`);
+    blocks.push(`**Recompensa:** ${ctx.rewards}`);
+
+    return blocks.join('\n\n');
+  }
+
+  // convenience: generate N missions
+  generateBatch(n=5, opts={}) {
+    const out = [];
+    for (let i=0;i<n;i++) out.push(this.generateOnce(opts));
+    return out;
+  }
+}
+
+/* ---------------- export (Node / browser) ---------------- */
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { MissionGenerator, CORE, RULES };
+}
+    
+   function gerarM() {
+        const gen = new MissionGenerator({ seed: Date.now(), memorySize: 10 });
+        const mission = gen.generateOnce();
+
+        console.log(mission.narrative);
+        alert(mission.narrative);
+    }
+    
+    </script>
+</body>
+</html>

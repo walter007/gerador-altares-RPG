@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Gerador de Missões V2 - Fantasia</title>
+<style>
+  body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin: 18px; background:#0f1724; color:#e6eef8; }
+  .wrap{max-width:980px;margin:0 auto}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  h1{margin:0;font-size:20px}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  button{background:#2563eb;border:none;padding:8px 12px;border-radius:8px;color:white;cursor:pointer}
+  input, select {padding:6px;border-radius:6px;border:1px solid #334155;background:#071031;color:#e6eef8}
+  textarea{width:100%;height:260px;padding:12px;border-radius:8px;background:#071031;border:1px solid #233044;color:#e6eef8;resize:vertical}
+  .row{display:flex;gap:8px}
+  label{font-size:13px;color:#9fb0d6}
+  .meta{font-size:12px;color:#9fb0d6;margin-top:6px}
+  .small{font-size:13px;padding:6px 8px}
+  .topbar{display:flex;gap:8px;align-items:center}
+  .badge {background:#06233a;padding:6px 8px;border-radius:8px;font-size:13px}
+  .copyok{color:#22c55e}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Gerador de Missões V2 — Fantasia (Arquitetura Modular)</h1>
+      <div class="meta">Versão 2.0 — Reescrita profissional com facções, subplots e consequências</div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="row">
+      <label>Seed: <input id="seed" placeholder="opcional (texto ou número)"></label>
+      <label>Nível de tensão:
+        <select id="tension">
+          <option value="normal">Normal</option>
+          <option value="leve">Leve</option>
+          <option value="perigosa">Perigosa</option>
+          <option value="epica">Épica</option>
+        </select>
+      </label>
+      <label>Formato:
+        <select id="format">
+          <option value="full">Full (detalhado)</option>
+          <option value="compact">Compact</option>
+          <option value="json">JSON</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="row">
+      <button id="gen">Gerar Missão</button>
+      <button id="gen10">Gerar 10 (batch)</button>
+      <button id="copy">Copiar</button>
+      <button id="download">Baixar JSON</button>
+      <span id="copyStatus" class="meta"></span>
+    </div>
+  </div>
+
+  <textarea id="out" readonly placeholder="Saída aparecerá aqui..."></textarea>
+  <div class="meta">Dica: use packs (arrays em CORE) para expandir o conteúdo. Separe as classes em arquivos se quiser modularizar.</div>
+</div>
+
+<script>
+/* ------------------------- V2: Arquitetura Modular ------------------------- */
+
+/* ---------------- RNG (LCG com seed ou Math.random) ---------------- */
+class RNG {
+  constructor(seed = null) {
+    if (seed == null || seed === '') {
+      this._rand = Math.random;
+    } else {
+      // convert seed to 32-bit integer
+      const s = (typeof seed === 'number') ? seed : hashCode(String(seed));
+      this._state = s >>> 0;
+      this._rand = () => {
+        this._state = (1664525 * this._state + 1013904223) >>> 0;
+        return this._state / 0x100000000;
+      };
+    }
+  }
+  float() { return this._rand(); }
+  int(max) { return Math.floor(this.float() * max); }
+  pick(arr) { return arr[this.int(arr.length)]; }
+  weightedPick(list) {
+    const total = list.reduce((s, e) => s + (e.weight ?? 1), 0);
+    let r = this.float() * total;
+    for (const e of list) {
+      r -= (e.weight ?? 1);
+      if (r <= 0) return e.item ?? e;
+    }
+  }
+}
+function hashCode(str) {
+  // FNV-1a variant
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = (h + (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24)) >>> 0;
+  }
+  return h >>> 0;
+}
+
+/* ---------------- Core Data Packs (separados, fáceis de estender) -------------- */
+const CORE_V2 = {
+  meta: { world: 'Ethera', version: 'fantasy-v2' },
+
+  themes: [
+    { item: 'épico', weight: 3 }, { item: 'sombrio', weight: 2 }, { item: 'místico', weight: 3 },
+    { item: 'folclórico', weight: 2 }, { item: 'político', weight: 1 }
+  ],
+
+  storyTypes: [
+    { key:'investigacao', name:'Investigação', complexity:2 },
+    { key:'busca', name:'Busca', complexity:1 },
+    { key:'intriga', name:'Intriga', complexity:2 },
+    { key:'sobrevivencia', name:'Sobrevivência', complexity:2 },
+    { key:'cerco', name:'Cerco', complexity:3 },
+    { key:'diplomacia', name:'Diplomacia', complexity:2 }
+  ],
+
+  locales: [
+    { id:'silvaran', name:'Floresta de Silvaran', tag:'floresta' },
+    { id:'khardun', name:'Ruínas de Khar-Dûn', tag:'ruinas' },
+    { id:'serraluz', name:'Mina de Serraluz', tag:'subterraneo' },
+    { id:'marbryn', name:'Porto de Marbryn', tag:'urbano' },
+    { id:'ael', name:'Pico de Ael', tag:'montanha' },
+    { id:'myr', name:'Pântanos de Myr', tag:'pantano' }
+  ],
+
+  factions: [
+    { id:'guilda_magos', name:'Guilda dos Magos', attitude: 'ambivalente' },
+    { id:'coroa', name:'Casa Real de Elandor', attitude: 'dominante' },
+    { id:'mercadores', name:'Conclave Mercantil', attitude: 'pragmático' },
+    { id:'culto_nevoa', name:'Culto da Névoa', attitude: 'subversivo' },
+    { id:'ordem', name:'Ordem dos Vigias', attitude: 'conservador' }
+  ],
+
+  antagonists: [
+    { id:'cult_nevoa', name:'cultistas da Névoa', type:'cult', baseThreat:2, favFaction:'culto_nevoa' },
+    { id:'lobos', name:'lobos corrompidos', type:'besta', baseThreat:1 },
+    { id:'autômato', name:'arnes de aço sem dono', type:'autômato', baseThreat:2 },
+    { id:'nobre', name:'nobre com ambições secretas', type:'humano', baseThreat:2, favFaction:'coroa' },
+    { id:'espirito', name:'espírito ancestral', type:'espirito', baseThreat:3 }
+  ],
+
+  complicationsByTag: {
+    floresta: ['neblina que confunde bússolas','raízes vivas que prendem pés','espécies territoriais atacam à noite'],
+    ruinas: ['armadilhas mecânicas','pilares prestes a ruir','magia residual distorce o tempo'],
+    subterraneo: ['gás tóxico','colapso recente bloqueia rotas','criaturas cegas que atacam por vibração'],
+    urbano: ['tensões entre guildas','tropas patrulham as ruas','boatos inflamam a população'],
+    montanha: ['avalanches súbitas','ventos cortantes','caminhos estreitos e vertiginosos'],
+    pantano: ['lodo que suga','neblina fétida','planta carnívora camuflada']
+  },
+
+  clientProfiles: [
+    { archetype:'mercador', phrases:['Por favor, recupere minha carga — é tudo o que tenho.','Irei pagar bem, mas não posso esperar.'], motivation:['lucro','desespero'] },
+    { archetype:'lider', phrases:['Nossa vila não sobreviverá sem isso.','Ajudem-nos e contaremos com vocês.'], motivation:['seguranca','prestigio'] },
+    { archetype:'ordem', phrases:['Há equilíbrio a ser mantido.','Isso é maior que nós.'], motivation:['equilibrio','dever'] },
+    { archetype:'arqueologo', phrases:['São relíquias que não podem cair em mãos erradas.','A história não é para vender.'], motivation:['conhecimento','proteção'] },
+    { archetype:'crianca', phrases:['Eles levaram minha mãe!','Por favor, salvem-nos.'], motivation:['medo','vulnerabilidade'] }
+  ],
+
+  rewards: ['artefato com encanto menor','mapa de tesouro parcial','favor nobre','acesso a biblioteca proibida','ouro e joias','benção menor divina'],
+
+  templates: {
+    title: [
+      "As Sombras de {theme}",
+      "O Segredo de {locale}",
+      "A Busca por {artefact}",
+      "{theme}: A Jornada de {client}"
+    ],
+    intro: [
+      "{hook}. {clientLine}",
+      "Rumores dizem que {rumor}. {hook}.",
+      "{client} busca aventureiros: {brief}."
+    ],
+    leadSentence: [
+      "Os heróis precisam {goal}.",
+      "A comunidade chama por ajuda para {goal}."
+    ],
+    twist: [
+      "Ao investigar, descobrem que {twist}.",
+      "A verdade é mais complexa: {twist}.",
+    ],
+    conclusion: [
+      "Se falharem, {failConsequence}.",
+      "Se vencerem, {successConsequence}.",
+      "A longo prazo, {longTermImpact}."
+    ],
+    npcLine: [
+      "\"{line}\" — {who}"
+    ]
+  }
+};
+
+/* ---------------- Short Memory (anti-repetition) ---------------- */
+class ShortMemory {
+  constructor(size = 8) { this.size = size; this.queue = []; }
+  saw(key, val) { return this.queue.some(e => e.key===key && e.val===val); }
+  push(key, val) {
+    this.queue.push({key,val});
+    if (this.queue.length > this.size) this.queue.shift();
+  }
+}
+
+/* ---------------- NPC Generator ---------------- */
+class NPCGenerator {
+  constructor(rng, core) {
+    this.rng = rng; this.core = core;
+  }
+  genClient() {
+    const p = this.rng.pick(this.core.clientProfiles);
+    const name = this._fantasyName();
+    const phrase = this.rng.pick(p.phrases);
+    return { id: 'client_'+name.toLowerCase(), name, archetype: p.archetype, phrase, motivation: this.rng.pick(p.motivation) };
+  }
+  _fantasyName() {
+    const syl1 = ['El','An','Mar','Syl','Thal','Vor','Ri','Ka'];
+    const syl2 = ['dor','wen','mir','ian','on','eth','ar','is'];
+    return this.rng.pick(syl1) + this.rng.pick(syl2);
+  }
+}
+
+/* ---------------- Faction system (relations) ---------------- */
+class FactionSystem {
+  constructor(rng, core) {
+    this.rng = rng; this.core = core;
+    this.relations = this._initRelations();
+  }
+  _initRelations() {
+    const f = {};
+    for (const fac of this.core.factions) {
+      f[fac.id] = {};
+    }
+    // simple random relation assignment (ally, neutral, rival)
+    const ids = this.core.factions.map(x=>x.id);
+    for (const a of ids) {
+      for (const b of ids) {
+        if (a === b) { f[a][b] = 'self'; continue; }
+        if (f[a][b]) continue;
+        const roll = this.rng.float();
+        const rel = roll < 0.25 ? 'ally' : (roll < 0.75 ? 'neutral' : 'rival');
+        f[a][b] = rel;
+        // mirror with some chance to be symmetric, else slight variation
+        const mirror = this.rng.float() < 0.8 ? rel : (rel==='ally'?'neutral': (rel==='rival'?'neut':'ally') );
+        f[b][a] = mirror;
+      }
+    }
+    return f;
+  }
+  relation(aId, bId) { return this.relations[aId]?.[bId] ?? 'neutral'; }
+}
+
+/* ---------------- Narrative Thread (motivation, escalation...) ---------------- */
+class NarrativeThread {
+  constructor(rng, core, tension='normal') {
+    this.rng = rng; this.core = core; this.tension = tension;
+  }
+  generate(ctx) {
+    // ctx will carry storyType, antagonist, locale
+    const trigger = this._chooseTrigger();
+    const antagonistMot = this._antagonistMotivation(ctx.antagonist);
+    const escalation = this._escalation();
+    return { trigger, antagonistMot, escalation };
+  }
+  _chooseTrigger() {
+    const triggers = [
+      'um artefato foi removido do altar',
+      'um corpo desapareceu da cidade',
+      'uma febre estranha começou',
+      'um mensageiro foi atacado',
+      'runas antigas reacenderam'
+    ];
+    return this.rng.pick(triggers);
+  }
+  _antagonistMotivation(antagonist) {
+    const base = antagonist?.type ?? 'mystery';
+    const map = {
+      cult: ['invocar', 'proteger segredo', 'recrutar'],
+      besta: ['proteger território','alimentar-se'],
+      autômato: ['seguir programação','recuperar componentes'],
+      humano: ['ganância','poder','vingança'],
+      espirito: ['restaurar honra','vingança ancestral']
+    };
+    const opts = map[base] || ['desconhecido'];
+    return this.rng.pick(opts);
+  }
+  _escalation() {
+    // depends on tension
+    const map = {
+      leve: ['ligeramente agravante','sinais menores','pouca resistência'],
+      normal: ['ameaça crescente','obligações sociais envolvidas'],
+      perigosa: ['ameaça séria','perdas começam a acontecer'],
+      epica: ['ameaça catastrófica','ruptura de regiões']
+    };
+    return this.rng.pick(map[this.tension] || map.normal);
+  }
+}
+
+/* ---------------- Mission Generator V2 (pipeline limpo) ---------------- */
+class MissionGeneratorV2 {
+  constructor(options = {}) {
+    this.seed = options.seed ?? null;
+    this.rng = new RNG(this.seed);
+    this.core = options.core ?? CORE_V2;
+    this.memory = new ShortMemory(options.memorySize ?? 12);
+    this.factionSys = new FactionSystem(this.rng, this.core);
+    this.npcGen = new NPCGenerator(this.rng, this.core);
+    this.tension = options.tension ?? 'normal';
+    this.format = options.format ?? 'full';
+  }
+
+  generate({forceStory=null} = {}) {
+    // choose story types: 1 primary + optional 1 secondary
+    const primary = forceStory || this.rng.pick(this.core.storyTypes).key;
+    const secondaryRoll = this.rng.float();
+    const secondary = (secondaryRoll < 0.45) ? this.rng.pick(this.core.storyTypes).key : null;
+    // pick slots
+    const theme = this.rng.weightedPick(this.core.themes);
+    const storyType = this.core.storyTypes.find(s=>s.key===primary) || this.core.storyTypes[0];
+    const secondaryType = secondary ? (this.core.storyTypes.find(s=>s.key===secondary)) : null;
+    const locale = this.rng.pick(this.core.locales);
+    const antagonist = this.rng.pick(this.core.antagonists);
+    const faction = antagonist.favFaction ? this.core.factions.find(f=>f.id===antagonist.favFaction) : this.rng.pick(this.core.factions);
+    const client = this.npcGen.genClient();
+    const thread = new NarrativeThread(this.rng, this.core, this.tension).generate({antagonist, locale, storyType});
+    const complication = this._chooseComplication(locale.tag);
+    const tension = this.tension;
+    // create subquests
+    const subquests = this._generateSubquests({locale, antagonist, storyType});
+    // consequences
+    const consequences = this._makeConsequences({antagonist, faction, locale});
+    // generate NPC lines
+    const clientLine = client.phrase;
+    const antagonistLine = this._antagonistLine(antagonist);
+
+    // anti-repeat fingerprint
+    const fingerprint = `${storyType.key}|${locale.id}|${antagonist.id}|${client.archetype}|${theme}`;
+    if (this.memory.saw('mission', fingerprint)) {
+      // mutate: swap antagonist or locale
+      const altAnt = this.rng.pick(this.core.antagonists.filter(a=>a.id !== antagonist.id)) || antagonist;
+      antagonist = altAnt;
+    }
+    this.memory.push('mission', fingerprint);
+
+    // assemble ctx
+    const ctx = {
+      id: 'mission_' + Date.now(),
+      theme, storyType, secondaryType, locale, antagonist, faction,
+      client, thread, complication, tension, subquests, consequences,
+      clientLine, antagonistLine, rewards: this.rng.pick(this.core.rewards)
+    };
+
+    // render according to format
+    const out = this._render(ctx);
+    return { ctx, out };
+  }
+
+  _chooseComplication(tag) {
+    const list = this.core.complicationsByTag[tag] || ['algo estranho acontece'];
+    return this.rng.pick(list);
+  }
+
+  _generateSubquests({locale, antagonist, storyType}) {
+    const count = this.rng.int(3); // 0..2 subquests
+    const subs = [];
+    for (let i=0;i<count;i++){
+      const type = this.rng.pick(this.core.storyTypes);
+      const goal = type.key === 'busca' ? `recuperar ${this._smallObject()}` : (type.key === 'investigacao' ? 'seguir pistas' : 'ajudar um NPC');
+      const loc = this.rng.pick(this.core.locales);
+      const reward = this.rng.pick(this.core.rewards);
+      subs.push({ id: 'sub_'+i, title: `${type.name} — ${goal}`, locale: loc.name, reward });
+    }
+    return subs;
+  }
+
+  _smallObject() {
+    const objs = ['medalhão', 'estoque de pólvora', 'fragmento de rune', 'pedaço de mapa'];
+    return this.rng.pick(objs);
+  }
+
+  _makeConsequences({antagonist, faction, locale}) {
+    const immediate = `A ameaça imediata é ${antagonist.name} causando ${this._randEffect()}.`;
+    const mid = `Em 7 dias, ${this.rng.pick(['facções reagirão','a população sofrerá','um novo líder surgirá'])}.`;
+    const ignore = `Se ignorarem, ${this.rng.pick(['a corrupção se espalha','um aliado vira inimigo','um ritual será completado'])}.`;
+    return { immediate, mid, ignore };
+  }
+
+  _randEffect() {
+    return this.rng.pick(['pânico local', 'saques', 'mutações', 'colapso econômico']);
+  }
+
+  _antagonistLine(ant) {
+    const lines = [
+      `\"Vocês não compreendem o propósito\" — ${ant.name}`,
+      `\"O que vocês chamam de mal é salvação\" — ${ant.name}`,
+      `\"Interfiram e morrerão\" — ${ant.name}`
+    ];
+    return this.rng.pick(lines);
+  }
+
+  _render(ctx) {
+    if (this.format === 'json') return JSON.stringify(ctx, null, 2);
+    const t = this.rng; // for tpl picks
+    const titleTpl = this.rng.pick(this.core.templates.title);
+    const title = this._applyTpl(titleTpl, { theme: ctx.theme, locale: ctx.locale.name, artefact: (ctx.subquests[0]?.title ?? '') , client: ctx.client.name });
+
+    const lines = [];
+    if (this.format !== 'compact') lines.push(`# ${title}`);
+    lines.push(`**Tema:** ${ctx.theme}`);
+    lines.push(`**Tipo(s):** ${ctx.storyType.name}${ctx.secondaryType ? ' / ' + ctx.secondaryType.name : ''}`);
+    lines.push(`**Gancho:** ${ctx.thread.trigger}`);
+    if (ctx.clientLine) lines.push(`**Cliente:** ${ctx.client.name} — "${ctx.clientLine}"`);
+    lines.push(`**Local:** ${ctx.locale.name} (${ctx.locale.tag})`);
+    lines.push(`**Antagonista:** ${ctx.antagonist.name} (${ctx.antagonist.type})`);
+    lines.push(`**Facção relacionada:** ${ctx.faction.name}`);
+    lines.push(`**Complicação principal:** ${ctx.complication}`);
+    lines.push(`**Escalada de ameaça:** ${ctx.thread.escalation}`);
+    lines.push(`**Motivação do antagonista:** ${ctx.thread.antagonistMot}`);
+
+    // story-specific suggestions
+    const s = ctx.storyType.key;
+    if (s === 'investigacao') {
+      lines.push(`**Sugestões de investigação:** coletar pistas, interrogar suspeitos, testar artefatos`);
+    } else if (s === 'busca') {
+      lines.push(`**Obstáculos esperados:** guardiões, armadilhas, terreno traiçoeiro`);
+    } else if (s === 'intriga') {
+      lines.push(`**Pontos de intriga:** contatos influentes, provas forjadas, suborno`);
+    } else if (s === 'sobrevivencia') {
+      lines.push(`**Ameaças ambientais:** ${ctx.complication}`);
+    } else if (s === 'cerco') {
+      lines.push(`**Sugestões táticas:** fortalecer defesas, cortar suprimentos, negociar aliados`);
+    }
+
+    if (ctx.subquests.length) {
+      lines.push(`**Submissões:**`);
+      ctx.subquests.forEach(sq => lines.push(` - ${sq.title} (local: ${sq.locale}) — recompensa: ${sq.reward}`));
+    }
+
+    lines.push(`**Reviravolta possível:** ${this.rng.pick(this.core.templates.twist).replace('{twist}', this._twistHint(ctx))}`);
+    lines.push(`**Recompensa:** ${ctx.rewards}`);
+    lines.push(`**Consequências (imediata / 7 dias / ignorada):**`);
+    lines.push(` - ${ctx.consequences.immediate}`);
+    lines.push(` - ${ctx.consequences.mid}`);
+    lines.push(` - ${ctx.consequences.ignore}`);
+    lines.push(`**Linha do antagonista:** ${ctx.antagonistLine}`);
+    if (this.format === 'compact') return lines.join('\n');
+    return lines.join('\n\n');
+  }
+
+  _applyTpl(tpl, map) {
+    return tpl.replace(/\{(\w+)\}/g, (_, k) => (map[k] ?? `{${k}}`));
+  }
+
+  _twistHint(ctx) {
+    // small heuristic to propose a twist
+    const choices = [
+      `${ctx.antagonist.name} era um peão`,
+      `o cliente tem um motivo oculto`,
+      `um aliado é um traidor`,
+      `o artefato corrompe quem o usa`
+    ];
+    return this.rng.pick(choices);
+  }
+}
+
+/* ------------------------- UI wiring ------------------------- */
+const out = document.getElementById('out');
+const genBtn = document.getElementById('gen');
+const gen10Btn = document.getElementById('gen10');
+const copyBtn = document.getElementById('copy');
+const downloadBtn = document.getElementById('download');
+const seedField = document.getElementById('seed');
+const tensionField = document.getElementById('tension');
+const formatField = document.getElementById('format');
+const copyStatus = document.getElementById('copyStatus');
+
+function makeGen() {
+  const seed = seedField.value || null;
+  const tension = tensionField.value || 'normal';
+  const format = formatField.value || 'full';
+  return new MissionGeneratorV2({ seed, tension, format, core: CORE_V2 });
+}
+
+genBtn.addEventListener('click', () => {
+  const gen = makeGen();
+  const { ctx, out: text } = gen.generate();
+  out.value = text;
+});
+
+gen10Btn.addEventListener('click', () => {
+  const seed = seedField.value || null;
+  const arr = [];
+  for (let i=0;i<10;i++){
+    // vary seed slightly for variety if seed provided
+    const gen = new MissionGeneratorV2({ seed: seed ? (seed + '_' + i) : null, tension: tensionField.value, format: formatField.value, core: CORE_V2});
+    arr.push(gen.generate().out);
+  }
+  out.value = arr.join('\n\n---\n\n');
+});
+
+copyBtn.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(out.value);
+    copyStatus.textContent = 'Copiado!';
+    copyStatus.className = 'copyok';
+    setTimeout(()=>{ copyStatus.textContent=''; copyStatus.className='meta'; },1500);
+  } catch(e) {
+    copyStatus.textContent = 'Erro copiar';
+  }
+});
+
+downloadBtn.addEventListener('click', () => {
+  const gen = makeGen();
+  const { ctx } = gen.generate();
+  const blob = new Blob([JSON.stringify(ctx, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `${ctx.id}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+});
+
+/* initialize with a sample */
+(() => {
+  genBtn.click();
+})();
+</script>
+</body>
+</html>
